@@ -1,6 +1,6 @@
 # Navig8.tech 🧭
 > **Designing A Structured Career Roadmap Platform To Support IT Specialization Decisions And Job Readiness**  
-> *Final Project in UI/UX Design and Programming (USERDES / IT252) — Asia Pacific College*
+> *Final Project in UI/UX Design and Programming*
 
 **Navig8.tech** is an interactive, web-based career roadmap and learning path platform designed to help Information Technology (IT) and Computer Science students navigate specialization decisions with confidence. By providing structured course sequencing, cost transparency (free vs. paid), explicit job outcome linkages, and an integrated skill showcase, Navig8.tech solves the widespread issue of choice overload and disjointed learning paths.
 

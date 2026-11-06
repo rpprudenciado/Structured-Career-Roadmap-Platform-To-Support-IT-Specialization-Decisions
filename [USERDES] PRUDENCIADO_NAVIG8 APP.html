@@ -1,0 +1,3265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Navig8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --shadow-grey: #161925;
+      --alabaster: #EAEAEA;
+      --twilight: #233950;
+      --gold: #EFCD68;
+      --emerald: #03C988;
+      --ochre: #DE2100;
+
+      --bg: var(--shadow-grey);
+      --surface: var(--twilight);
+      --surface-soft: #1c2436;
+      --text: #F3F4F6;
+      --text-muted: #99A3B6;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+
+      --free-bg: #08312B;
+      --free-text: var(--emerald);
+      --paid-bg: #3A1409;
+      --paid-text: #F0806B;
+      --gold-bg: #3A331B;
+      --gold-text: var(--gold);
+    }
+
+    :root[data-theme="light"] {
+      --bg: var(--alabaster);
+      --surface: #D2DAEA;
+      --surface-soft: #DEE5F1;
+      --text: #1B2333;
+      --text-muted: #5B6576;
+      --border: #B8C4DC;
+      --border-strong: #9FB0CF;
+
+      --free-bg: #DEF7EE;
+      --free-text: #03966F;
+      --paid-bg: #FBE2DC;
+      --paid-text: var(--ochre);
+      --gold-bg: #FBF0D6;
+      --gold-text: #9A7A1E;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Karla', sans-serif;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      -webkit-font-smoothing: antialiased;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Sora', sans-serif;
+      margin: 0;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: .03em;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: var(--text-muted);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding-top: env(safe-area-inset-top, 0px);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+
+    .brand span {
+      color: var(--gold);
+    }
+
+    .brand .domain {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0;
+      margin-left: 2px;
+    }
+
+    nav.tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px;
+    }
+
+    nav.tabs button {
+      font-family: 'Karla', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    nav.tabs button.active {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .theme-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-soft);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .hamburger-btn {
+      display: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-soft);
+      color: var(--text);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    @media (max-width:640px) {
+      .hamburger-btn {
+        display: flex;
+      }
+
+      nav.tabs {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 0;
+        background: var(--bg);
+        padding: calc(env(safe-area-inset-top, 0px) + 70px) 20px 20px;
+        gap: 8px;
+        transform: translateY(-100%);
+        transition: transform .25s ease;
+        z-index: 20;
+      }
+
+      nav.tabs.open {
+        transform: translateY(0);
+      }
+
+      nav.tabs button {
+        width: 100%;
+        text-align: left;
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+
+      .edit-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 36px 20px 64px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fade .25s ease;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Terminal Design */
+    .win {
+      background: var(--surface-soft);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chrome {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chrome .cdot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex: none;
+    }
+
+    .chrome .path {
+      margin-left: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: .02em;
+    }
+
+    .bracket {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      pointer-events: none;
+    }
+
+    .bracket.tl {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid var(--gold);
+      border-left: 2px solid var(--gold);
+      border-radius: 5px 0 0 0;
+    }
+
+    .bracket.br {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid var(--gold);
+      border-right: 2px solid var(--gold);
+      border-radius: 0 0 5px 0;
+    }
+
+    .term-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.95;
+    }
+
+    .track-path {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: .02em;
+      margin-bottom: 5px;
+    }
+
+    @keyframes ping {
+      0% {
+        transform: scale(1);
+        opacity: .6;
+      }
+
+      75%,
+      100% {
+        transform: scale(2.4);
+        opacity: 0;
+      }
+    }
+
+    .tag-ready {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      background: var(--free-bg);
+      color: var(--free-text);
+      padding: 5px 11px 5px 9px;
+      border-radius: 999px;
+      margin-top: 16px;
+    }
+
+    .ping-dot {
+      position: relative;
+      width: 6px;
+      height: 6px;
+      flex: none;
+    }
+
+    .ping-core {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .ping-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--emerald);
+      animation: ping 1.8s cubic-bezier(0, 0, .2, 1) infinite;
+    }
+
+    /* Landing Page */
+    .hero {
+      text-align: center;
+      padding: 36px 20px 32px;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      line-height: 1.15;
+      max-width: 560px;
+      margin: 0 auto;
+      min-height: 41px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 18px auto 26px;
+      font-size: 15px;
+    }
+
+    .cta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      background: var(--gold);
+      color: #20180A;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .stat-card h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .stat-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .mini-preview {
+      margin-top: 16px;
+      cursor: pointer;
+    }
+
+    .mini-preview:hover {
+      border-color: var(--gold);
+    }
+
+    /* Tracks Page */
+    .segment {
+      display: inline-flex;
+      gap: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+
+    .segment button {
+      font-family: 'Karla', sans-serif;
+      font-size: 13px;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      padding: 7px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .segment button.active {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .track-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .track-card.selected {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold) inset;
+    }
+
+    .track-card .row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      margin-top: 1px;
+    }
+
+    .track-card.selected .checkbox {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #20180A;
+    }
+
+    .track-card .name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .track-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin: 6px 0 0;
+    }
+
+    .track-view-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .track-view-bar span {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Roadmap Page */
+    .roadmap-head {
+      margin-bottom: 22px;
+    }
+
+    .roadmap-head .eyebrow {
+      margin-bottom: 6px;
+    }
+
+    .roadmap-head h2 {
+      font-size: 22px;
+    }
+
+    .trail-row {
+      display: flex;
+      gap: 14px;
+    }
+
+    .trail-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 24px;
+      flex: none;
+    }
+
+    .node {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      flex: none;
+    }
+
+    .node.done {
+      background: var(--emerald);
+    }
+
+    .node.current {
+      border: 3px solid var(--gold);
+      background: var(--bg);
+    }
+
+    .node.locked {
+      border: 2px dashed var(--border-strong);
+      background: transparent;
+    }
+
+    .trail-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border-strong);
+      margin: 2px 0;
+    }
+
+    .step-card {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .step-card.locked {
+      opacity: .55;
+    }
+
+    .step-card h3 {
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .step-card h3 a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .step-card h3 a:hover {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    .step-provider {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 4px 9px;
+      border-radius: 999px;
+    }
+
+    .tag.free {
+      background: var(--free-bg);
+      color: var(--free-text);
+    }
+
+    .tag.paid {
+      background: var(--paid-bg);
+      color: var(--paid-text);
+    }
+
+    .tag.unlocks {
+      background: var(--gold-bg);
+      color: var(--gold-text);
+    }
+
+    .tag.public {
+      background: var(--free-bg);
+      color: var(--free-text);
+    }
+
+    .tag.private {
+      background: var(--paid-bg);
+      color: var(--paid-text);
+    }
+
+    .complete-btn {
+      margin-top: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: #20180A;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Profile Page */
+    .profile-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      color: var(--gold);
+      overflow: hidden;
+      flex: none;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .profile-stats div {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .profile-stats strong {
+      display: block;
+      font-family: 'Sora', sans-serif;
+      font-size: 20px;
+    }
+
+    .profile-stats span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .badge-group {
+      margin-bottom: 16px;
+    }
+
+    .badge-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .badge-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .badge-group-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .toggle-visibility-btn {
+      background: none;
+      border: 1px solid var(--border-strong);
+      color: var(--text-muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .toggle-visibility-btn:hover {
+      color: var(--text);
+      border-color: var(--gold);
+    }
+
+    .badge-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+      padding: 3px 0;
+    }
+
+    .badge-line.earned {
+      color: var(--emerald);
+    }
+
+    .badge-line.empty {
+      color: var(--text-muted);
+    }
+
+    .portfolio-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+    }
+
+    .portfolio-item span {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .empty-note {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .edit-form {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .edit-form .full {
+      grid-column: 1 / -1;
+    }
+
+    .edit-form label {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .edit-form input[type="text"],
+    .edit-form input[type="url"],
+    .edit-form input[type="date"],
+    .edit-form select,
+    .edit-form textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      padding: 9px 11px;
+      font-family: 'Karla', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .edit-form textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .check-row input {
+      width: 15px;
+      height: 15px;
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-family: 'Karla', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Karla', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--gold);
+    }
+
+    .scroll-top-btn {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+      right: 20px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #20180A;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .28);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+    }
+
+    .scroll-top-btn.visible {
+      display: flex;
+    }
+
+    .coming-soon {
+      background: var(--surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: 10px;
+      padding: 22px;
+      text-align: center;
+    }
+
+    /* FAQ Section */
+    .faq-wrap {
+      margin-top: 36px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 14px 4px;
+      font-family: 'Karla', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .faq-q .chev {
+      color: var(--text-muted);
+      transition: transform .2s ease;
+      flex: none;
+    }
+
+    .faq-item.open .faq-q .chev {
+      transform: rotate(45deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .2s ease;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 200px;
+    }
+
+    .faq-a p {
+      margin: 0 4px 14px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Articles Things */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .article-card {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .article-card:hover {
+      border-color: var(--gold);
+    }
+
+    .article-card .src {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+
+    .article-card .ttl {
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    /* Suggested tracks after roadmap */
+    .suggest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .suggest-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px;
+      cursor: pointer;
+    }
+
+    .suggest-card:hover {
+      border-color: var(--gold);
+    }
+
+    .suggest-card .ttl {
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .suggest-card .go {
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    /* Check-in toast */
+    .checkin-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 140%);
+      background: var(--surface-soft);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      z-index: 30;
+      max-width: 320px;
+      transition: transform .3s ease;
+      text-align: center;
+    }
+
+    .checkin-toast.show {
+      transform: translate(-50%, 0);
+    }
+
+    .checkin-toast p {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .checkin-toast .reacts {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .checkin-toast .reacts button {
+      font-size: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .checkin-toast .reacts button:hover {
+      border-color: var(--gold);
+    }
+
+    /* Switch-track Confirmation */
+    .confirm-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 25;
+      padding: 20px;
+    }
+
+    .confirm-backdrop.show {
+      display: flex;
+    }
+
+    .confirm-box {
+      background: var(--surface-soft);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 360px;
+      width: 100%;
+    }
+
+    .confirm-box h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .confirm-box p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 12px;
+    }
+
+    .confirm-box textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      padding: 9px 11px;
+      font-family: 'Karla', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      min-height: 60px;
+      margin-bottom: 14px;
+    }
+
+    .confirm-box .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Accounts Page */
+    .auth-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      background: none;
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .auth-btn:hover {
+      border-color: var(--gold);
+    }
+
+    .nav-auth {
+      display: none;
+    }
+
+    @media (max-width:640px) {
+      .auth-btn {
+        display: none;
+      }
+
+      nav.tabs .nav-auth {
+        display: block;
+        margin-top: 8px;
+        border-top: 1px solid var(--border);
+        border-radius: 0;
+      }
+    }
+
+    .auth-field {
+      margin-bottom: 12px;
+    }
+
+    .auth-field label {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .auth-field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      padding: 10px 11px;
+      font-family: 'Karla', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .auth-field input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .auth-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: -4px 0 12px;
+      line-height: 1.4;
+    }
+
+    .auth-error,
+    .auth-notice {
+      display: none;
+      border-radius: 7px;
+      padding: 9px 11px;
+      font-size: 13px;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .auth-error {
+      background: var(--paid-bg);
+      color: var(--paid-text);
+    }
+
+    .auth-notice {
+      background: var(--free-bg);
+      color: var(--free-text);
+    }
+
+    .field-error {
+      color: var(--paid-text);
+      font-size: 12px;
+      align-self: center;
+    }
+
+    .auth-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .auth-foot {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin: 18px 0 0;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      line-height: 1.4;
+    }
+
+    .recovery-code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 18px;
+      letter-spacing: .12em;
+      background: var(--surface);
+      border: 1px dashed var(--gold);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      color: var(--gold);
+      user-select: all;
+      margin: 12px 0;
+    }
+
+    .milestone-card {
+      border-color: var(--gold);
+    }
+
+    .export-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    #printSheet {
+      display: none;
+    }
+
+    @media print {
+
+      header,
+      main,
+      .scroll-top-btn,
+      .checkin-toast,
+      .confirm-backdrop {
+        display: none !important;
+      }
+
+      html,
+      body {
+        height: auto !important;
+        background: #fff !important;
+        color: #111 !important;
+      }
+
+      #printSheet {
+        display: block !important;
+      }
+    }
+
+    .tag.duration {
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      color: var(--text-muted);
+    }
+
+    .roadmap-progress {
+      margin: 0 0 18px;
+    }
+
+    .bar-track {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--emerald);
+      width: 0;
+      transition: width .4s ease;
+    }
+
+    .bar-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    #roadmapArticleWrap {
+      margin-bottom: 20px;
+    }
+
+    .milestone-card {
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+
+    .milestone-card h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+
+    .back-btn,
+    .drawer-back {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      background: none;
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover,
+    .drawer-back:hover {
+      border-color: var(--gold);
+    }
+
+    .drawer-back {
+      display: none;
+    }
+
+    @media (max-width:640px) {
+      nav.tabs .drawer-back {
+        display: block;
+        margin-bottom: 8px;
+        text-align: left;
+        border: none;
+        color: var(--gold);
+        font-size: 13px;
+      }
+
+      .back-btn {
+        padding: 7px 9px;
+      }
+    }
+
+    .back-btn {
+      display: none;
+    }
+
+    @media (max-width:900px) {
+      .back-btn.show {
+        display: inline-block;
+      }
+    }
+
+    .pw-wrap {
+      position: relative;
+    }
+
+    .pw-wrap input {
+      padding-right: 70px;
+    }
+
+    .pw-toggle {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gold);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 6px 8px;
+      border-radius: 5px;
+    }
+
+    .pw-toggle:hover {
+      background: var(--surface-soft);
+    }
+
+    .auth-field input.invalid {
+      border-color: var(--paid-text);
+    }
+
+    .auth-fe {
+      color: var(--paid-text);
+      font-size: 12.5px;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    .auth-fe:empty {
+      display: none;
+    }
+
+    .pw-rules {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 6px 0 14px;
+    }
+
+    .pw-rules span::before {
+      content: '○ ';
+    }
+
+    .pw-rules span.ok {
+      color: var(--free-text);
+    }
+
+    .pw-rules span.ok::before {
+      content: '✓ ';
+    }
+
+    .pw-rules span.bad {
+      color: var(--paid-text);
+    }
+
+    .pw-rules span.bad::before {
+      content: '✗ ';
+    }
+
+    .user-chip {
+      display: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--emerald);
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+
+    .user-chip.on {
+      display: inline-block;
+    }
+
+    .nav-user {
+      display: none;
+    }
+
+    @media (max-width:640px) {
+      .user-chip.on {
+        display: none;
+      }
+
+      nav.tabs .nav-user {
+        display: block;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        color: var(--emerald);
+        padding: 10px 16px 0;
+      }
+
+      nav.tabs .nav-user:empty {
+        display: none;
+      }
+    }
+
+    .auth-toast {
+      position: fixed;
+      top: 78px;
+      left: 50%;
+      transform: translate(-50%, -20px);
+      opacity: 0;
+      pointer-events: none;
+      background: var(--free-bg);
+      color: var(--free-text);
+      border: 1px solid var(--emerald);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14px;
+      z-index: 40;
+      max-width: 90vw;
+      text-align: center;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .auth-toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      75% {
+        transform: translateX(5px);
+      }
+    }
+
+    .shake {
+      animation: shake .3s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-inner">
+      <div class="brand" style="cursor:pointer;" onclick="goTo('home')">NAVIG<span>8</span><span
+          class="domain">.tech</span></div>
+      <button class="back-btn" id="backBtn" onclick="goBack()" aria-label="Go back">← Back</button>
+      <nav class="tabs" id="tabs">
+        <button class="drawer-back" type="button" onclick="document.getElementById('tabs').classList.remove('open')">←
+          Back</button>
+        <button data-screen="home" class="active">Home</button>
+        <button data-screen="tracks">Tracks</button>
+        <button data-screen="roadmap">Roadmap</button>
+        <button data-screen="blogs">Blogs</button>
+        <button data-screen="profile">Profile</button>
+        <div class="nav-user" id="navUser"></div>
+        <button class="nav-auth" id="navAuthBtn" onclick="onAuthBtn()">Log in</button>
+      </nav>
+      <span class="user-chip" id="userChip"></span>
+      <button class="auth-btn" id="authBtn" onclick="onAuthBtn()">Log in</button>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="screen active" id="screen-home">
+      <div class="win">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path">~/navig8</span>
+        </div>
+        <div class="hero">
+          <h1 id="heroTitle"></h1>
+          <div class="tag-ready">
+            <span class="ping-dot"><span class="ping-core"></span><span class="ping-ring"></span></span>
+            ready
+          </div>
+          <p>One structured path per specialization — every step is sequenced, clearly marked free or paid, and tells
+            you exactly what job it unlocks.</p>
+          <button class="cta" onclick="goTo('tracks')">Browse tracks</button>
+          <div style="margin-top:14px;"><button class="link-btn" onclick="goTo('quiz')">Not sure yet? Take the 1-minute
+              quiz →</button></div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <h3>Sequenced steps</h3>
+          <p>No more guessing what to learn first, next, and after that.</p>
+        </div>
+        <div class="stat-card">
+          <h3>Free vs paid, upfront</h3>
+          <p>Know the cost before you invest research time, with a free alternative when one exists.</p>
+        </div>
+        <div class="stat-card">
+          <h3>Job-linked progress</h3>
+          <p>Every completed step earns a badge and shows the role it qualifies you for.</p>
+        </div>
+      </div>
+      <div class="win mini-preview" onclick="goTo('tracks')">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path">~/roadmap</span>
+        </div>
+        <div class="term-line" style="padding:16px 18px;">
+          <div style="color:var(--text-muted);">$ roadmap init --track=security</div>
+          <div style="color:var(--text-muted);">&gt; loading modules...</div>
+          <div style="color:var(--emerald);">[done] networking-fundamentals</div>
+          <div style="color:var(--gold);">[now]&nbsp; security-plus-prep</div>
+          <div style="color:var(--text-muted);">[locked] cloud-security-basics</div>
+        </div>
+        <div style="padding:0 18px 16px;"><button class="link-btn">Pick your track →</button></div>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="eyebrow" style="margin-bottom:10px;">FAQ</div>
+        <div id="faqHome"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-blogs">
+      <div class="eyebrow" style="margin-bottom:2px;">Blogs &amp; Articles</div>
+      <p class="empty-note" style="margin:6px 0 14px;">Curated developer articles and career guides from around the web.
+      </p>
+      <div class="article-grid" id="blogsPageArticles"></div>
+    </section>
+
+    <section class="screen" id="screen-quiz">
+      <div class="eyebrow" style="margin-bottom:10px;">Not sure which track?</div>
+      <div id="quizBody"></div>
+    </section>
+
+    <section class="screen" id="screen-tracks">
+      <div class="eyebrow" style="margin-bottom:2px;">Track selection</div>
+      <p class="empty-note" style="margin:6px 0 14px;">Pick one track to start with — click a selected track again to
+        undo your selection.</p>
+      <div style="margin-bottom:14px;"><button class="link-btn" onclick="goTo('quiz')">Still deciding? Take the quiz
+          →</button></div>
+      <div class="segment" id="trackSegment">
+        <button data-mode="specialization" class="active">By specialization</button>
+        <button data-mode="skill">By skill</button>
+      </div>
+      <div class="win">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path" id="tracksPath">~/tracks</span>
+        </div>
+        <div class="track-grid" id="trackGrid"></div>
+      </div>
+      <div class="track-view-bar">
+        <span id="selectedCount">No track selected yet</span>
+        <button class="cta" id="viewRoadmapBtn" onclick="goToRoadmap()">View roadmap</button>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="eyebrow" style="margin-bottom:10px;">FAQ</div>
+        <div id="faqTracks"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-roadmap">
+      <div class="roadmap-head">
+        <div class="eyebrow">Track</div>
+        <h2 id="roadmapTitle">—</h2>
+        <p class="empty-note" id="roadmapNote" style="margin:8px 0 0;">Preview the full path below, then start when
+          you're ready.</p>
+        <button class="cta" id="startLearningBtn" style="margin-top:14px;" onclick="startLearning()">Start
+          learning</button>
+      </div>
+      <div class="win" id="roadmapTerm" style="margin-bottom:20px;">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path" id="roadmapTermPath">~/roadmap</span>
+        </div>
+        <div class="term-line" id="roadmapTermBody" style="padding:14px 18px;"></div>
+      </div>
+      <div class="roadmap-progress" id="roadmapProgress" style="display:none;"></div>
+      <div id="roadmapMilestone"></div>
+      <div id="roadmapArticleWrap" style="display:none;">
+        <div class="eyebrow" style="margin-bottom:6px;">Read before you start</div>
+        <div id="roadmapArticleBox"></div>
+      </div>
+      <div id="trail"></div>
+
+      <div id="suggestWrap" style="margin-top:8px;">
+        <div class="eyebrow" style="margin-bottom:4px;">Explore next</div>
+        <p class="empty-note">Related tracks, once you're ready for more.</p>
+        <div class="suggest-grid" id="suggestGrid"></div>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="eyebrow" style="margin-bottom:10px;">FAQ</div>
+        <div id="faqRoadmap"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-auth">
+      <div class="win" style="max-width:440px; margin:0 auto;">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path" id="authPath">~/auth/login</span>
+        </div>
+        <div style="padding:20px;">
+          <div class="segment" id="authSeg">
+            <button type="button" data-mode="login" class="active" onclick="setAuthMode('login')">Log in</button>
+            <button type="button" data-mode="signup" onclick="setAuthMode('signup')">Sign up</button>
+          </div>
+          <div class="auth-error" id="storageWarn" role="alert"></div>
+          <div class="auth-notice" id="authNotice" role="status"></div>
+          <div class="auth-error" id="authError" role="alert"></div>
+
+          <form id="loginForm" novalidate onsubmit="submitLogin(event); return false;">
+            <div class="auth-field">
+              <label for="l-email">Email</label>
+              <input type="email" id="l-email" autocomplete="email" maxlength="254">
+            </div>
+            <div class="auth-field">
+              <label for="l-password">Password</label>
+              <input type="password" id="l-password" autocomplete="current-password" maxlength="128">
+            </div>
+            <button class="cta" type="submit" id="loginSubmit" style="width:100%;">Log in</button>
+            <div class="auth-links">
+              <button type="button" class="link-btn" onclick="setAuthMode('forgot')">Forgot password?</button>
+              <button type="button" class="link-btn" onclick="setAuthMode('signup')">Create an account</button>
+            </div>
+          </form>
+
+          <form id="signupForm" novalidate style="display:none;" onsubmit="submitSignup(event); return false;">
+            <div class="auth-field">
+              <label for="s-name">Full name</label>
+              <input type="text" id="s-name" autocomplete="name" maxlength="80">
+            </div>
+            <div class="auth-field">
+              <label for="s-email">Email</label>
+              <input type="email" id="s-email" autocomplete="email" maxlength="254">
+            </div>
+            <div class="auth-field">
+              <label for="s-password">Password</label>
+              <input type="password" id="s-password" autocomplete="new-password" maxlength="128">
+            </div>
+            <div class="pw-rules" id="pwRules" aria-live="polite"><span data-r="len">8+ characters</span><span
+                data-r="letter">a letter</span><span data-r="num">a number</span></div>
+            <div class="auth-field">
+              <label for="s-password2">Confirm password</label>
+              <input type="password" id="s-password2" autocomplete="new-password" maxlength="128">
+            </div>
+            <button class="cta" type="submit" id="signupSubmit" style="width:100%;">Create account</button>
+            <div class="auth-links">
+              <button type="button" class="link-btn" onclick="setAuthMode('login')">I already have an account</button>
+            </div>
+          </form>
+
+          <form id="forgotForm" novalidate style="display:none;" onsubmit="submitForgot(event); return false;">
+            <p class="empty-note" style="margin:0 0 14px;">Enter your email and the recovery code you saved when you
+              created your account, then choose a new password.</p>
+            <div class="auth-field">
+              <label for="fp-email">Email</label>
+              <input type="email" id="fp-email" autocomplete="email" maxlength="254">
+            </div>
+            <div class="auth-field">
+              <label for="fp-code">Recovery code</label>
+              <input type="text" id="fp-code" autocomplete="off" maxlength="32" placeholder="XXXX-XXXX-XXXX-XXXX">
+            </div>
+            <div class="auth-field">
+              <label for="fp-password">New password</label>
+              <input type="password" id="fp-password" autocomplete="new-password" maxlength="128">
+              <div class="pw-rules" id="pwRulesF" aria-live="polite"><span data-r="len">8+ characters</span><span
+                  data-r="letter">a letter</span><span data-r="num">a number</span></div>
+            </div>
+            <div class="auth-field">
+              <label for="fp-password2">Confirm new password</label>
+              <input type="password" id="fp-password2" autocomplete="new-password" maxlength="128">
+            </div>
+            <button class="cta" type="submit" id="forgotSubmit" style="width:100%;">Reset password</button>
+            <div class="auth-links">
+              <button type="button" class="link-btn" onclick="setAuthMode('login')">Back to log in</button>
+            </div>
+          </form>
+
+          <div id="recoveryPanel" style="display:none;">
+            <h3 style="font-size:16px; margin-bottom:6px;">Save your recovery code</h3>
+            <p class="empty-note" style="margin:0;">This is the only way to reset your password. It is shown once and
+              can't be viewed again. Keep it somewhere safe.</p>
+            <div class="recovery-code" id="recoveryCode"></div>
+            <div style="display:flex; gap:14px; align-items:center; margin-bottom:14px;">
+              <button type="button" class="link-btn" onclick="copyRecoveryCode()" id="copyCodeBtn">Copy code</button>
+            </div>
+            <div class="check-row" style="margin-bottom:14px;">
+              <input type="checkbox" id="recoverySaved" onchange="byId('recoveryContinue').disabled = !this.checked">
+              <label for="recoverySaved" style="font-size:13px; color:var(--text-muted);">I have saved my recovery
+                code</label>
+            </div>
+            <button class="cta" type="button" id="recoveryContinue" disabled style="width:100%;"
+              onclick="continueFromRecovery()">Continue</button>
+          </div>
+
+          <p class="auth-foot">Prototype note: accounts are stored in this browser only. Passwords are hashed before
+            saving, but a real launch would use a server such as Supabase for sign-in.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-profile">
+      <div class="profile-head">
+        <div class="avatar" id="avatarBox">M</div>
+        <div style="flex:1;">
+          <h2 id="profileName" style="font-size:18px;">Marco Dela Torre</h2>
+          <div class="eyebrow" id="profileMeta">2nd Year · BSIT</div>
+          <span class="tag" id="visibilityTag" style="margin-top:6px; display:inline-block;"></span>
+        </div>
+        <button class="link-btn" onclick="toggleEditProfile()" id="editToggleBtn">Edit profile</button>
+      </div>
+
+      <div class="win" id="editFormWrap" style="display:none; margin-bottom:24px;">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path">~/profile/edit</span>
+        </div>
+        <div class="edit-form">
+          <div class="full">
+            <label>Photo URL (optional)</label>
+            <input type="text" id="f-photo" placeholder="https://...">
+          </div>
+          <div>
+            <label>Full name</label>
+            <input type="text" id="f-name" placeholder="Full name">
+          </div>
+          <div>
+            <label>School</label>
+            <input type="text" id="f-school" placeholder="School">
+          </div>
+          <div>
+            <label>Year level</label>
+            <select id="f-year">
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+            </select>
+          </div>
+          <div>
+            <label>Birthday</label>
+            <input type="date" id="f-birthday">
+          </div>
+          <div class="full">
+            <label>Short bio</label>
+            <textarea id="f-bio" placeholder="A line or two about you"></textarea>
+          </div>
+          <div class="full">
+            <label>Portfolio / contact link</label>
+            <input type="url" id="f-link" placeholder="https://...">
+          </div>
+          <div class="full check-row">
+            <input type="checkbox" id="f-showmeta">
+            <label style="margin:0; text-transform:none; font-size:13px; color:var(--text-muted);" for="f-showmeta">Show
+              my school &amp; year on my portfolio</label>
+          </div>
+          <div class="full check-row">
+            <input type="checkbox" id="f-public">
+            <label style="margin:0; text-transform:none; font-size:13px; color:var(--text-muted);" for="f-public">Make
+              my profile public (visible to others)</label>
+          </div>
+          <div class="full" style="display:flex; gap:10px;">
+            <button class="cta" onclick="saveProfile()">Save</button><span class="field-error" id="p-error"></span>
+            <button class="link-btn" onclick="toggleEditProfile()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-stats">
+        <div><strong id="statTracks">0</strong><span>Tracks</span></div>
+        <div><strong id="statBadges">0</strong><span>Badges</span></div>
+        <div><strong id="statSteps">0</strong><span>Steps done</span></div>
+      </div>
+
+      <div class="win" style="margin-bottom:20px;">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path">~/profile/badges</span>
+        </div>
+        <div id="badgeGrid" style="padding:14px 18px;"></div>
+      </div>
+
+      <div class="win" style="margin-bottom:20px;">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path">~/profile/milestones</span>
+        </div>
+        <div id="milestoneList" style="padding:14px 18px;"></div>
+      </div>
+
+      <div class="win">
+        <div class="chrome">
+          <div class="cdot" style="background:var(--emerald);"></div>
+          <div class="cdot" style="background:var(--gold);"></div>
+          <div class="cdot" style="background:var(--ochre);"></div>
+          <span class="path">~/profile/portfolio</span>
+        </div>
+        <div style="padding:14px 18px;">
+          <div class="term-line" id="portfolioMeta" style="color:var(--text-muted); display:none;"></div>
+          <div class="term-line" style="color:var(--text-muted); margin-bottom:6px;">$ ls ~/portfolio</div>
+          <div id="portfolioList"></div>
+          <div id="addCertForm"
+            style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
+            <div class="edit-form" style="padding:0;">
+              <div><label>Certificate title</label><input type="text" id="c-title" placeholder="e.g. Google IT Support">
+              </div>
+              <div><label>Issuer</label><input type="text" id="c-issuer" placeholder="e.g. Coursera"></div>
+              <div class="full"><label>Certificate file (optional · PNG, JPG or PDF, up to 700 KB)</label><input
+                  type="file" id="c-file" accept="image/png,image/jpeg,application/pdf"></div>
+              <div class="full"><label>Verification URL (optional)</label><input type="url" id="c-link"
+                  placeholder="Paste the Coursera / Cisco / credential link employers can open">
+              </div>
+              <div class="full" style="display:flex; gap:10px;">
+                <button class="cta" onclick="saveExternalCert()">Add</button><span class="field-error"
+                  id="c-error"></span>
+                <button class="link-btn" onclick="toggleAddCert()">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <button class="link-btn" style="margin-top:14px;" onclick="toggleAddCert()" id="addCertToggle">+ Add outside
+            certificate</button>
+        </div>
+      </div>
+
+      <div class="export-row">
+        <button class="link-btn" onclick="exportPdf()">Export as PDF</button>
+        <button class="link-btn" onclick="downloadPublicSummary()">Download shareable summary (HTML)</button>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="eyebrow" style="margin-bottom:10px;">FAQ</div>
+        <div id="faqProfile"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="confirm-backdrop" id="previewModal" onclick="if(event.target===this)closePreview()">
+    <div class="confirm-box" style="max-width:640px; width:92vw;">
+      <h3 id="previewTitle">Preview</h3>
+      <div id="previewBody" style="margin:10px 0; text-align:center;"></div>
+      <div class="row" id="previewActions"></div>
+    </div>
+  </div>
+  <div id="printSheet"></div>
+  <div class="auth-toast" id="authToast" role="status"></div>
+
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Back to top"
+    onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <div class="checkin-toast" id="checkinToast">
+    <p id="checkinText">How'd that go?</p>
+    <div class="reacts">
+      <button onclick="dismissCheckin()">👍</button>
+      <button onclick="dismissCheckin()">😐</button>
+      <button onclick="dismissCheckin()">💪</button>
+    </div>
+  </div>
+
+  <div class="confirm-backdrop" id="switchConfirm">
+    <div class="confirm-box">
+      <h3>Switch away from <span id="switchFromTrack"></span>?</h3>
+      <p>You haven't finished this track yet. Mind sharing why you're switching? (optional)</p>
+      <textarea id="switchReason" placeholder="e.g. realized it's not for me, exploring options..."></textarea>
+      <div class="row">
+        <button class="cta" onclick="confirmSwitch()">Switch anyway</button>
+        <button class="link-btn" onclick="cancelSwitch()">Stay on this track</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const root = document.documentElement;
+    try {
+      const saved = localStorage.getItem('crp-theme');
+      if (saved === 'light') root.setAttribute('data-theme', 'light');
+    } catch (e) { }
+    document.getElementById('themeBtn').onclick = () => {
+      const isLight = root.getAttribute('data-theme') === 'light';
+      if (isLight) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+      try { localStorage.setItem('crp-theme', isLight ? 'dark' : 'light'); } catch (e) { }
+    };
+
+    // Navigation
+    const tabs = document.querySelectorAll('#tabs button[data-screen]');
+    function typeHero() {
+      const el = document.getElementById('heroTitle');
+      const text = 'Start here.';
+      el.textContent = '';
+      let i = 0;
+      const iv = setInterval(() => {
+        el.textContent += text[i];
+        i++;
+        if (i >= text.length) clearInterval(iv);
+      }, 60);
+    }
+    const navStack = [];
+    function goBack() { const p = navStack.pop(); if (p) goTo(p, true); }
+    function goTo(name, noPush) {
+      if (name === 'profile' && !currentUser) { afterAuth = () => goTo('profile'); openAuth('login', 'Log in to see your profile and portfolio.'); return; }
+      const prevEl = document.querySelector('.screen.active');
+      const prevName = prevEl ? prevEl.id.replace('screen-', '') : null;
+      if (!noPush && prevName && prevName !== name && prevName !== 'auth') navStack.push(prevName);
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('backBtn').classList.toggle('show', navStack.length > 0 && name !== 'home');
+      document.getElementById('screen-' + name).classList.add('active');
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.screen === name));
+      document.getElementById('tabs').classList.remove('open');
+      window.scrollTo({ top: 0 });
+      if (name === 'home') typeHero();
+      if (name === 'blogs') renderBlogsPage();
+    }
+    tabs.forEach(t => t.onclick = () => t.dataset.screen === 'roadmap' ? goToRoadmap() : goTo(t.dataset.screen));
+
+    document.getElementById('hamburgerBtn').onclick = (e) => { e.stopPropagation(); document.getElementById('tabs').classList.toggle('open'); };
+    document.addEventListener('click', (e) => {
+      const tabsEl = document.getElementById('tabs');
+      const hb = document.getElementById('hamburgerBtn');
+      if (tabsEl.classList.contains('open') && !tabsEl.contains(e.target) && !hb.contains(e.target)) tabsEl.classList.remove('open');
+    });
+
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      scrollBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+
+    // Tracks
+    const specializations = [
+      { name: 'Cybersecurity', desc: 'Protecting systems, networks, and data from attacks — monitoring, incident response, and closing security gaps.' },
+      { name: 'Cloud Computing', desc: 'Designing and running infrastructure on platforms like AWS or Azure — scaling apps and managing cloud resources.' },
+      { name: 'Networking', desc: 'Keeping devices and systems connected — routing, switching, and network administration.' },
+      { name: 'Software & Web Development', desc: 'Building the apps and websites people actually use, frontend or backend.' },
+      { name: 'Data Science', desc: "Digging through data to find patterns and turn them into decisions." },
+      { name: 'Data Engineering', desc: "Building the pipelines that move and clean data so it's usable by everyone else." },
+      { name: 'Machine Learning & AI', desc: 'Training models that learn from data to make predictions or automate decisions.' },
+      { name: 'Database Administration', desc: 'Designing, securing, and maintaining the databases that store everything an app needs.' },
+      { name: 'DevOps', desc: 'Automating how software gets built, tested, and shipped, and keeping it running once live.' },
+      { name: 'Mobile App Development', desc: 'Building apps people use on their phones, iOS or Android.' },
+      { name: 'Game Development', desc: 'Building the logic, graphics, and systems behind games.' },
+      { name: 'UI/UX Design', desc: 'Designing how an app looks and feels to use, then testing it with real people.' },
+      { name: 'QA & Software Testing', desc: "Finding what's broken before users do — test plans, automation, and bug tracking." },
+      { name: 'IT Support & Systems Administration', desc: "Keeping an organization's computers, servers, and accounts running day to day." },
+    ];
+    const skills = ['Python', 'Networking Basics', 'Cloud Fundamentals', 'Web Development', 'SQL', 'Linux'];
+    const relatedTracksMap = {
+      'Cybersecurity': ['Networking', 'Cloud Computing'],
+      'Cloud Computing': ['DevOps', 'Cybersecurity'],
+      'Networking': ['Cybersecurity', 'IT Support & Systems Administration'],
+      'Software & Web Development': ['Mobile App Development', 'UI/UX Design'],
+      'Data Science': ['Machine Learning & AI', 'Data Engineering'],
+      'Data Engineering': ['Data Science', 'Cloud Computing'],
+      'Machine Learning & AI': ['Data Science', 'Data Engineering'],
+      'Database Administration': ['Data Engineering', 'Networking'],
+      'DevOps': ['Cloud Computing', 'Networking'],
+      'Mobile App Development': ['Software & Web Development', 'UI/UX Design'],
+      'Game Development': ['Software & Web Development', 'UI/UX Design'],
+      'UI/UX Design': ['Software & Web Development', 'Mobile App Development'],
+      'QA & Software Testing': ['Software & Web Development', 'DevOps'],
+      'IT Support & Systems Administration': ['Networking', 'Cybersecurity'],
+    };
+    const trackArticles = {
+      'Cybersecurity': { title: 'Cybersecurity Career Paths: 2026 Job Guide', source: 'Pluralsight', url: 'https://pluralsight.com/resources/blog/cybersecurity/cybersecurity-career-guide-2025' },
+      'Cloud Computing': { title: 'What is Cloud Computing?', source: 'AWS', url: 'https://aws.amazon.com/what-is-cloud-computing/' },
+      'Networking': { title: 'How to Become a Network Engineer: Your 2026 Guide', source: 'Coursera', url: 'https://www.coursera.org/articles/how-to-become-a-network-engineer' },
+      'Software & Web Development': { title: 'About Learn Web Development', source: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/docs/Learn_web_development/About' },
+      'Data Science': { title: 'How to Become a Data Scientist in 2026', source: 'DataCamp', url: 'https://www.datacamp.com/tutorial/how-to-become-a-data-scientist' },
+      'Data Engineering': { title: 'The Best Free Resources to Learn Data Engineering', source: 'DataCamp', url: 'https://www.datacamp.com/blog/top-free-data-engineering-resources' },
+      'Machine Learning & AI': { title: 'Free AI Learning Resources for Engineering Students', source: 'FACE Prep', url: 'https://faceprep.in/article/free-ai-learning-resources-for-indian-engineering-students-2026/' },
+      'Database Administration': { title: 'Become a PostgreSQL DBA', source: 'Hackr.io', url: 'https://hackr.io/tutorial/become-a-postgresql-dba' },
+      'DevOps': { title: 'How to Become a DevOps Engineer', source: 'Coursera', url: 'https://www.coursera.org/articles/how-to-become-a-devops-engineer' },
+      'Mobile App Development': { title: 'Build Your First Android App', source: 'Android Developers', url: 'https://developer.android.com/get-started/overview' },
+      'Game Development': { title: 'Free Course: Master the Unreal Engine', source: 'GameDev Academy', url: 'https://gamedevacademy.org/unreal-engine-complete-course/' },
+      'UI/UX Design': { title: 'Career Spotlight: UX Designer', source: 'Coursera', url: 'https://www.coursera.org/articles/ux-designer-video' },
+      'QA & Software Testing': { title: "Review: A Beginner's Guide to Manual QA Testing", source: 'Class Central', url: 'https://classcentral.com/report/?p=86810' },
+      'IT Support & Systems Administration': { title: '7 Steps to Start Your Linux SysAdmin Career', source: 'Linux Foundation', url: 'https://www.linuxfoundation.org/blog/7-steps-to-start-your-linux-sysadmin-career-2' },
+    };
+    const homeArticles = [
+      { title: 'Cybersecurity Career Paths: 2026 Job Guide', source: 'Pluralsight', url: 'https://pluralsight.com/resources/blog/cybersecurity/cybersecurity-career-guide-2025' },
+      { title: 'The Best Free Resources to Learn Data Engineering', source: 'DataCamp', url: 'https://www.datacamp.com/blog/top-free-data-engineering-resources' },
+      { title: 'Free AI Learning Resources for Engineering Students', source: 'FACE Prep', url: 'https://faceprep.in/article/free-ai-learning-resources-for-indian-engineering-students-2026/' },
+      { title: 'About Learn Web Development', source: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/docs/Learn_web_development/About' },
+    ];
+    const selectedTracks = new Set();
+    let trackMode = 'specialization';
+    function getDesc(name) {
+      const s = specializations.find(x => x.name === name);
+      return s ? s.desc : '';
+    }
+    function slugify(name) {
+      return name.toLowerCase().replace(/&/g, 'n').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+
+    function renderTracks() {
+      const grid = document.getElementById('trackGrid');
+      const pathEl = document.getElementById('tracksPath');
+      if (trackMode === 'specialization') {
+        pathEl.textContent = '~/tracks';
+        grid.innerHTML = specializations.map(s => `
+        <div class="track-card ${selectedTracks.has(s.name) ? 'selected' : ''}" onclick="toggleTrack('${s.name}')">
+          <div class="bracket tl"></div><div class="bracket br"></div>
+          <div class="track-path">~/tracks/${slugify(s.name)}</div>
+          <div class="row">
+            <div class="name">${s.name}</div>
+            <div class="checkbox">${selectedTracks.has(s.name) ? '✓' : ''}</div>
+          </div>
+          <p class="track-desc">${s.desc}</p>
+        </div>
+      `).join('');
+      } else {
+        pathEl.textContent = '~/skills';
+        grid.innerHTML = skills.map(name => `
+        <div class="track-card ${selectedTracks.has(name) ? 'selected' : ''}" onclick="toggleTrack('${name}')">
+          <div class="bracket tl"></div><div class="bracket br"></div>
+          <div class="track-path">~/skills/${slugify(name)}</div>
+          <div class="row">
+            <div class="name">${name}</div>
+            <div class="checkbox">${selectedTracks.has(name) ? '✓' : ''}</div>
+          </div>
+        </div>
+      `).join('');
+      }
+      document.getElementById('selectedCount').textContent = selectedTracks.size ? ('Active: ' + [...selectedTracks][0]) : 'No track selected yet';
+      const viewBtn = document.getElementById('viewRoadmapBtn');
+      viewBtn.disabled = selectedTracks.size === 0;
+      viewBtn.style.opacity = selectedTracks.size === 0 ? '.4' : '1';
+      viewBtn.style.cursor = selectedTracks.size === 0 ? 'not-allowed' : 'pointer';
+    }
+
+    // FAQ
+    const faqData = {
+      home: [
+        ['Is Navig8 free to use?', "Navig8 itself is free — but some of the courses it points to are paid by their providers, not by us. Wherever that's the case, we flag a free alternative when one exists."],
+        ["Do I have to pick a specialization right away?", "No — take the 1-minute quiz and the system will suggest a track that fits you, or just browse Tracks yourself anytime."],
+        ["What if I already know some of these skills?", "You can submit your outside certificate or badge, and it'll be added straight to your portfolio."],
+        ["How is this different from just following a YouTube playlist?", "You walk away with real proof, not just watch history — every completed step earns a certificate or badge you can put directly on your portfolio."],
+        ['Who is this platform actually for?', 'Anyone interested in a computer-related career — not just declared IT majors.'],
+      ],
+      tracks: [
+        ['Can I switch tracks later?', "Yes, anytime. If you're leaving an unfinished track, we'll just ask a quick, optional reason so we can improve the paths."],
+        ["What does \"still being researched\" mean?", 'All tracks now have real, researched course content. If a new track gets added later, it\'ll show "still researching" until it\'s ready.'],
+        ['By specialization vs. by skill — what\'s the difference?', 'Specialization groups courses by career role; Skill lets you build a path around one specific technology if that\'s what matters most right now.'],
+        ["What if I'm torn between two tracks?", "Start with whichever scored highest in your quiz, then explore the other after. Navig8 also checks in with a quick prompt whenever you finish a step."],
+        ['How were the courses in each track chosen?', 'We prioritized real, reputable providers — free first, paid only where no solid free option existed — then sequenced them from foundational to job-ready.'],
+      ],
+      roadmap: [
+        ['What happens when I mark a step complete?', "It's added to your profile immediately and feeds straight into your portfolio."],
+        ['Are the free steps actually free, or is there a catch?', "It's genuinely free, but the free tier may not be the full experience — some providers gate certification exams or advanced material behind a paid option."],
+        ['What about paid steps — are there alternatives?', 'We flag it and suggest a free alternative when one exists.'],
+        ['Can I skip a step if I already know it?', "Yes, especially if a step is paid and you'd rather skip to a free one, or you already know the material."],
+        ['Do I have to finish every step to qualify for the unlocked job?', 'Yes, definitely — each unlock is tied to actually completing that step.'],
+      ],
+      profile: [
+        ['Who can see my profile and portfolio?', 'Anyone, if you set your profile to public. Otherwise it stays private to you.'],
+        ['What happens to my progress if I switch tracks?', "It stays saved — switching doesn't erase it. You'll be asked whether to keep that track's progress visible or hide it."],
+        ['Can I add certifications I earned outside Navig8?', "Yes — add it, and it's yours to showcase, download, or share however you want."],
+        ['Is filling in my school or birthday required?', "Not required — unless you want Navig8's help building a matching portfolio or CV from it."],
+        ['How is this different from just listing things on a resume?', 'It naturally filters your portfolio to what actually matters — no employer wants a CV stuffed with everything.'],
+      ],
+    };
+    function renderFaq(containerId, key) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = faqData[key].map((pair, i) => `
+      <div class="faq-item" id="${containerId}-${i}">
+        <button class="faq-q" onclick="toggleFaq('${containerId}',${i})"><span>${pair[0]}</span><span class="chev">+</span></button>
+        <div class="faq-a"><p>${pair[1]}</p></div>
+      </div>
+    `).join('');
+    }
+    function toggleFaq(containerId, i) {
+      const parent = document.getElementById(containerId);
+      const targetItem = document.getElementById(containerId + '-' + i);
+      const isAlreadyOpen = targetItem.classList.contains('open');
+
+      const siblings = parent.querySelectorAll('.faq-item');
+      siblings.forEach(item => item.classList.remove('open'));
+
+      if (!isAlreadyOpen) {
+        targetItem.classList.add('open');
+      }
+    }
+
+    // Articles
+    function articleCard(a) {
+      return `<a class="article-card" href="${a.url}" target="_blank" rel="noopener"><div class="src">${a.source}</div><div class="ttl">${a.title}</div></a>`;
+    }
+    function renderBlogsPage() {
+      const allArticles = [...homeArticles, ...Object.values(trackArticles)];
+      const uniqueArticles = Array.from(new Set(allArticles.map(a => a.url))).map(url => allArticles.find(a => a.url === url));
+      document.getElementById('blogsPageArticles').innerHTML = uniqueArticles.map(articleCard).join('');
+    }
+
+    // Suggested Tracks
+    function renderTrackArticle() {
+      const w = document.getElementById('roadmapArticleWrap'), b = document.getElementById('roadmapArticleBox');
+      const a = currentTrack && trackArticles[currentTrack];
+      if (!a) { w.style.display = 'none'; return; }
+      w.style.display = 'block'; b.innerHTML = articleCard(a);
+    }
+    function renderSuggestions() {
+      const grid = document.getElementById('suggestGrid');
+      const wrap = document.getElementById('suggestWrap');
+      const related = relatedTracksMap[currentTrack] || [];
+      if (!related.length) { wrap.style.display = 'none'; return; }
+      wrap.style.display = 'block';
+      grid.innerHTML = related.map(name => `
+      <div class="suggest-card" onclick="goToRoadmap('${name}')">
+        <div class="ttl">${name}</div>
+        <div class="go">View roadmap →</div>
+      </div>
+    `).join('');
+    }
+
+    // Check-in 
+    function showCheckin() {
+      const msgs = ["Nice — how'd that step go?", "One more done. How was it?", "Progress! Quick reaction?"];
+      document.getElementById('checkinText').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+      const toast = document.getElementById('checkinToast');
+      toast.classList.add('show');
+      clearTimeout(window._checkinTimer);
+      window._checkinTimer = setTimeout(dismissCheckin, 4000);
+    }
+    function dismissCheckin() {
+      document.getElementById('checkinToast').classList.remove('show');
+    }
+
+    // Hidden Tracks
+    const hiddenTracks = new Set();
+
+    function toggleTrackVisibility(trackName) {
+      if (hiddenTracks.has(trackName)) {
+        hiddenTracks.delete(trackName);
+      } else {
+        hiddenTracks.add(trackName);
+      }
+      saveState();
+      renderProfile();
+    }
+
+    // Switch Track
+    let pendingSwitch = null;
+    function toggleTrack(name) {
+      const current = [...selectedTracks][0];
+
+      // Deselect if already selected
+      if (selectedTracks.has(name)) {
+        selectedTracks.clear();
+        renderTracks();
+        updateProfileStats();
+        return;
+      }
+
+      if (!current) {
+        selectedTracks.add(name);
+        renderTracks();
+        updateProfileStats();
+        return;
+      }
+
+      const currentSteps = progress[current] || [];
+      const unfinished = currentSteps.length && currentSteps.some(s => s.status !== 'done');
+      if (unfinished) {
+        pendingSwitch = name;
+        document.getElementById('switchFromTrack').textContent = current;
+        document.getElementById('switchReason').value = '';
+        document.getElementById('switchConfirm').classList.add('show');
+      } else {
+        selectedTracks.clear();
+        selectedTracks.add(name);
+        renderTracks();
+        updateProfileStats();
+      }
+    }
+    function confirmSwitch() {
+      if (pendingSwitch) {
+        selectedTracks.clear();
+        selectedTracks.add(pendingSwitch);
+        renderTracks();
+        updateProfileStats();
+      }
+      pendingSwitch = null;
+      document.getElementById('switchConfirm').classList.remove('show');
+    }
+    function cancelSwitch() {
+      pendingSwitch = null;
+      document.getElementById('switchConfirm').classList.remove('show');
+    }
+
+    // External Certificates
+    let externalCerts = [];
+    function toggleAddCert() {
+      const form = document.getElementById('addCertForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+    const CERT_TYPES = ['image/png', 'image/jpeg', 'application/pdf'];
+    function saveExternalCert() {
+      const title = document.getElementById('c-title').value.trim().slice(0, 120);
+      const issuer = document.getElementById('c-issuer').value.trim().slice(0, 80);
+      const link = document.getElementById('c-link').value.trim();
+      const f = document.getElementById('c-file').files[0];
+      const err = document.getElementById('c-error');
+      err.textContent = '';
+      if (!title) { err.textContent = 'Add a certificate title.'; return; }
+      let u = '';
+      if (link) { u = safeUrl(link); if (!u) { err.textContent = 'Use a full link starting with https://'; return; } }
+      if (f && (!CERT_TYPES.includes(f.type) || f.size > 700 * 1024)) { err.textContent = 'File must be a PNG, JPG or PDF up to 700 KB.'; return; }
+      const finish = (file) => {
+        externalCerts.push({ title, issuer, link: u, file });
+        saveState();
+        if (saveFailed) { externalCerts.pop(); err.textContent = 'This browser has no room to keep that file. Try a smaller one.'; return; }
+        ['c-title', 'c-issuer', 'c-link', 'c-file'].forEach(i => document.getElementById(i).value = '');
+        toggleAddCert();
+        renderProfile();
+        flash('Certificate added' + (file ? ' with its file.' : '.'));
+      };
+      if (!f) { finish(null); return; }
+      const r = new FileReader();
+      r.onload = () => finish({ name: f.name.slice(0, 80), type: f.type, data: String(r.result) });
+      r.onerror = () => { err.textContent = 'Could not read that file.'; };
+      r.readAsDataURL(f);
+    }
+
+    document.querySelectorAll('#trackSegment button').forEach(btn => {
+      btn.onclick = () => {
+        trackMode = btn.dataset.mode;
+        document.querySelectorAll('#trackSegment button').forEach(b => b.classList.toggle('active', b === btn));
+        renderTracks();
+      };
+    });
+
+    // Quiz
+    const quizQuestions = [
+      {
+        q: "Which task sounds most interesting to you?", options: [
+          { label: "Finding and closing security gaps in a system", track: "Cybersecurity" },
+          { label: "Setting up and scaling servers in the cloud", track: "Cloud Computing" },
+          { label: "Connecting devices and keeping networks running", track: "Networking" },
+          { label: "Building an app or website from scratch", track: "Software & Web Development" },
+        ]
+      },
+      {
+        q: "Pick the subject you'd want to go deeper on first.", options: [
+          { label: "Digging through data to find patterns and insights", track: "Data Science" },
+          { label: "Designing how an app looks and feels to use", track: "UI/UX Design" },
+          { label: "Automating how software gets built and shipped", track: "DevOps" },
+          { label: "Building apps people use on their phones", track: "Mobile App Development" },
+        ]
+      },
+      {
+        q: "What would feel like a win after a semester of learning this?", options: [
+          { label: "Passing a security certification exam", track: "Cybersecurity" },
+          { label: "Deploying a cloud project end to end", track: "Cloud Computing" },
+          { label: "Managing a small network setup", track: "Networking" },
+          { label: "Shipping a working app", track: "Software & Web Development" },
+        ]
+      },
+      {
+        q: "Which environment appeals to you more?", options: [
+          { label: "Working with numbers, models, and dashboards", track: "Data Science" },
+          { label: "Sketching wireframes and testing them with real users", track: "UI/UX Design" },
+          { label: "Keeping systems running smoothly behind the scenes", track: "DevOps" },
+          { label: "Polishing an app until it feels just right", track: "Mobile App Development" },
+        ]
+      },
+    ];
+    let quizIndex = 0;
+    let quizScores = {};
+
+    function renderQuiz() {
+      const body = document.getElementById('quizBody');
+      if (quizIndex < quizQuestions.length) {
+        const q = quizQuestions[quizIndex];
+        body.innerHTML = `
+        <div class="eyebrow">Question ${quizIndex + 1} of ${quizQuestions.length}</div>
+        <h2 style="margin:8px 0 18px; font-size:20px;">${q.q}</h2>
+        <div>${q.options.map(o => `<button class="quiz-option" onclick="answerQuiz('${o.track}')">${o.label}</button>`).join('')}</div>
+      `;
+      } else {
+        const ranked = Object.entries(quizScores).sort((a, b) => b[1] - a[1]).slice(0, 2).map(r => r[0]);
+        body.innerHTML = `
+        <div class="eyebrow">Suggested for you</div>
+        <p class="empty-note" style="margin:6px 0 18px;">Based on your answers, these two are worth a closer look.</p>
+        ${ranked.map(track => `
+          <div class="step-card" style="margin-bottom:14px;">
+            <h3>${track}</h3>
+            <p class="track-desc" style="margin-bottom:12px;">${getDesc(track)}</p>
+            <button class="cta" onclick="applyQuizResult('${track}')">See the roadmap</button>
+          </div>
+        `).join('')}
+        <button class="link-btn" onclick="retakeQuiz()">Retake quiz</button>
+      `;
+      }
+    }
+    function answerQuiz(track) {
+      quizScores[track] = (quizScores[track] || 0) + 1;
+      quizIndex++;
+      renderQuiz();
+    }
+    function retakeQuiz() {
+      quizIndex = 0; quizScores = {};
+      renderQuiz();
+    }
+    function applyQuizResult(track) {
+      goToRoadmap(track);
+      if (currentUser) startLearning();
+    }
+
+    // Roadmap
+    const roadmapTemplates = {
+      'Cybersecurity': [
+        { title: 'Networking Fundamentals', provider: 'Cisco Networking Academy', cost: 'free', unlocks: 'Junior Network Support', url: 'https://www.netacad.com/' },
+        { title: 'Security+ Prep', provider: 'Professor Messer · exam fee paid', cost: 'free', unlocks: 'SOC Analyst (entry)', url: 'https://www.professormesser.com/security-plus/sy0-701/sy0-701-video-training-course/' },
+        { title: 'Cloud Security Basics', provider: 'AWS Skill Builder', cost: 'free', unlocks: 'Cloud Security Associate', url: 'https://skillbuilder.aws/' },
+      ],
+      'Cloud Computing': [
+        { title: 'Cloud Practitioner Foundations', provider: 'AWS Skill Builder', cost: 'free', unlocks: 'Cloud Support Associate', url: 'https://aws.amazon.com/training/digital/' },
+        { title: 'Associate Cloud Architect Prep', provider: 'Google Cloud Skills Boost · exam fee paid', cost: 'free', unlocks: 'Junior Cloud Engineer', url: 'https://www.cloudskillsboost.google/' },
+        { title: 'Infrastructure as Code with Terraform', provider: 'HashiCorp Learn', cost: 'free', unlocks: 'Cloud / DevOps Engineer', url: 'https://developer.hashicorp.com/terraform/tutorials' },
+      ],
+      'Networking': [
+        { title: 'Networking Fundamentals', provider: 'Cisco Networking Academy', cost: 'free', unlocks: 'Junior Network Support', url: 'https://www.netacad.com/courses/networking/networking-basics' },
+        { title: 'CCNA Certification Prep', provider: 'Cisco Networking Academy · exam fee paid', cost: 'free', unlocks: 'Network Technician', url: 'https://www.netacad.com/courses/networking/ccna-introduction-networks' },
+        { title: 'Network Security Basics', provider: 'Cisco Networking Academy', cost: 'free', unlocks: 'Network Support Engineer', url: 'https://www.netacad.com/courses/cybersecurity/network-defense' },
+      ],
+      'Software & Web Development': [
+        { title: 'HTML, CSS & JavaScript Basics', provider: 'freeCodeCamp', cost: 'free', unlocks: 'Junior Web Developer', url: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/' },
+        { title: 'React Fundamentals', provider: 'Meta · via Coursera (audit free)', cost: 'free', unlocks: 'Frontend Developer', url: 'https://www.coursera.org/learn/react-basics' },
+        { title: 'Backend with Node.js', provider: 'The Odin Project', cost: 'free', unlocks: 'Full-Stack Developer', url: 'https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs' },
+      ],
+      'Data Science': [
+        { title: 'Python for Data Analysis', provider: 'Kaggle Learn', cost: 'free', unlocks: 'Data Analyst Intern', url: 'https://www.kaggle.com/learn/python' },
+        { title: 'Data Analysis with Pandas', provider: 'DataCamp · free trial, paid after', cost: 'paid', unlocks: 'Junior Data Analyst', url: 'https://www.datacamp.com/courses/data-manipulation-with-pandas' },
+        { title: 'Intro to Machine Learning', provider: 'Kaggle Learn', cost: 'free', unlocks: 'Junior Data Scientist', url: 'https://www.kaggle.com/learn/intro-to-machine-learning' },
+      ],
+      'Mobile App Development': [
+        { title: 'Kotlin Basics', provider: 'Android Basics · Google', cost: 'free', unlocks: 'Junior Android Developer', url: 'https://developer.android.com/courses/android-basics-kotlin/course' },
+        { title: 'Android App Development', provider: 'Google · via Coursera (audit free)', cost: 'free', unlocks: 'Mobile Developer', url: 'https://www.coursera.org/specializations/google-android-app-development' },
+        { title: 'Cross-Platform Apps with Flutter', provider: 'Flutter.dev docs', cost: 'free', unlocks: 'Mobile App Developer', url: 'https://docs.flutter.dev/get-started/codelabs' },
+      ],
+      'UI/UX Design': [
+        { title: 'UX Design Foundations', provider: 'Google UX Design · via Coursera (audit free)', cost: 'free', unlocks: 'Junior UX Researcher', url: 'https://www.coursera.org/professional-certificates/google-ux-design' },
+        { title: 'UI Design in Figma', provider: 'Figma Academy', cost: 'free', unlocks: 'Junior UI Designer', url: 'https://www.figma.com/resources/learn-design/' },
+        { title: 'Portfolio Case Studies', provider: 'Self-paced', cost: 'free', unlocks: 'Product Designer', url: 'https://www.uxdesign.cc/' },
+      ],
+      'DevOps': [
+        { title: 'Linux & Command Line Basics', provider: 'Linux Journey', cost: 'free', unlocks: 'Junior Systems / DevOps Support', url: 'https://linuxjourney.com/' },
+        { title: 'Docker & Containers', provider: 'Docker Docs / KodeKloud', cost: 'free', unlocks: 'DevOps Engineer (entry)', url: 'https://docs.docker.com/get-started/' },
+        { title: 'CI/CD with GitHub Actions', provider: 'GitHub Docs', cost: 'free', unlocks: 'DevOps Engineer', url: 'https://docs.github.com/en/actions' },
+      ],
+      'Data Engineering': [
+        { title: 'SQL & Python Fundamentals', provider: 'freeCodeCamp', cost: 'free', unlocks: 'Data Engineer Intern', url: 'https://www.freecodecamp.org/learn/relational-database/' },
+        { title: 'Data Engineering Zoomcamp', provider: 'DataTalks.Club', cost: 'free', unlocks: 'Junior Data Engineer', url: 'https://github.com/DataTalksClub/data-engineering-zoomcamp' },
+        { title: 'Data Engineering Professional Certificate', provider: 'IBM · via Coursera (audit free)', cost: 'free', unlocks: 'Data Engineer', url: 'https://www.coursera.org/professional-certificates/ibm-data-engineer' },
+      ],
+      'Machine Learning & AI': [
+        { title: 'Intro to Machine Learning', provider: 'Kaggle Learn', cost: 'free', unlocks: 'ML Intern', url: 'https://www.kaggle.com/learn/intro-to-machine-learning' },
+        { title: 'Intermediate Machine Learning', provider: 'Kaggle Learn', cost: 'free', unlocks: 'Junior ML Engineer', url: 'https://www.kaggle.com/learn/intermediate-machine-learning' },
+        { title: 'Intro to Deep Learning', provider: 'Kaggle Learn', cost: 'free', unlocks: 'AI / ML Engineer (entry)', url: 'https://www.kaggle.com/learn/intro-to-deep-learning' },
+      ],
+      'Database Administration': [
+        { title: 'SQL Fundamentals', provider: 'SQLZoo', cost: 'free', unlocks: 'Database Support Assistant', url: 'https://sqlzoo.net/' },
+        { title: 'PostgreSQL Official Tutorial', provider: 'PostgreSQL.org Docs', cost: 'free', unlocks: 'Junior Database Administrator', url: 'https://www.postgresql.org/docs/current/tutorial.html' },
+        { title: 'PostgreSQL Database Administration for Beginners', provider: 'Udemy', cost: 'paid', unlocks: 'Database Administrator', url: 'https://www.udemy.com/topic/postgresql/' },
+      ],
+      'Game Development': [
+        { title: 'Junior Programmer Pathway', provider: 'Unity Learn', cost: 'free', unlocks: 'Junior Game Developer', url: 'https://learn.unity.com/pathway/junior-programmer' },
+        { title: "Introduction to Game Development", provider: 'CS50 · Harvard (via edX/YouTube)', cost: 'free', unlocks: 'Game Design Assistant', url: 'https://cs50.harvard.edu/games/' },
+        { title: 'Unreal Engine Fundamentals', provider: 'Epic Games · Unreal Online Learning', cost: 'free', unlocks: 'Game Developer (entry)', url: 'https://dev.epicgames.com/community/learning' },
+      ],
+      'QA & Software Testing': [
+        { title: 'Quality Assurance Certification', provider: 'freeCodeCamp', cost: 'free', unlocks: 'QA Tester Intern', url: 'https://www.freecodecamp.org/learn/information-security/' },
+        { title: 'API Testing with Postman', provider: 'Postman Academy', cost: 'free', unlocks: 'Junior QA Engineer', url: 'https://academy.postman.com/' },
+        { title: 'Test Automation with Selenium', provider: 'Selenium Docs', cost: 'free', unlocks: 'QA Automation Engineer', url: 'https://www.selenium.dev/documentation/' },
+      ],
+      'IT Support & Systems Administration': [
+        { title: 'Google IT Support Professional Certificate', provider: 'Google · via Coursera (audit free)', cost: 'free', unlocks: 'IT Support Specialist (entry)', url: 'https://www.coursera.org/professional-certificates/google-it-support' },
+        { title: 'Windows Server Administration Fundamentals', provider: 'Microsoft Learn', cost: 'free', unlocks: 'Junior Systems Administrator', url: 'https://learn.microsoft.com/en-us/training/paths/m365-windows-server-fundamentals/' },
+        { title: 'CompTIA A+ Certification Prep', provider: 'Professor Messer · exam fee paid', cost: 'free', unlocks: 'Systems Administrator', url: 'https://www.professormesser.com/free-a-plus-training/220-1101/220-1101-video-training-course/' },
+      ],
+      // Skill roadmaps
+      'Python': [
+        { title: 'Python for Beginners', provider: 'Python.org', cost: 'free', unlocks: 'Junior Python Developer', url: 'https://www.python.org/about/gettingstarted/' },
+        { title: 'Automate the Boring Stuff with Python', provider: 'Al Sweigart', cost: 'free', unlocks: 'Automation Script Specialist', url: 'https://automatetheboringstuff.com/' },
+      ],
+      'Networking Basics': [
+        { title: 'Network Fundamentals', provider: 'Cisco Networking Academy', cost: 'free', unlocks: 'Network Specialist Assistant', url: 'https://www.netacad.com/courses/networking/networking-basics' },
+        { title: 'CompTIA Network+ Course', provider: 'Professor Messer', cost: 'free', unlocks: 'Junior Network Administrator', url: 'https://www.professormesser.com/network-plus/n10-008/n10-008-training-course/' },
+      ],
+      'Cloud Fundamentals': [
+        { title: 'AWS Cloud Practitioner Foundations', provider: 'AWS Skill Builder', cost: 'free', unlocks: 'Cloud Support Analyst', url: 'https://aws.amazon.com/training/digital/' },
+        { title: 'Azure Fundamentals (AZ-900)', provider: 'Microsoft Learn', cost: 'free', unlocks: 'Junior Cloud Specialist', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/' },
+      ],
+      'Web Development': [
+        { title: 'Responsive Web Design', provider: 'freeCodeCamp', cost: 'free', unlocks: 'Web Developer Intern', url: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/' },
+        { title: 'JavaScript Algorithms and Data Structures', provider: 'freeCodeCamp', cost: 'free', unlocks: 'Frontend Web Developer', url: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/' },
+      ],
+      'SQL': [
+        { title: 'SQL Tutorial', provider: 'W3Schools', cost: 'free', unlocks: 'Data Analyst Assistant', url: 'https://www.w3schools.com/sql/' },
+        { title: 'Relational Database Course', provider: 'freeCodeCamp', cost: 'free', unlocks: 'Database Support Associate', url: 'https://www.freecodecamp.org/learn/relational-database/' },
+      ],
+      'Linux': [
+        { title: 'Linux Operating System Basics', provider: 'Linux Journey', cost: 'free', unlocks: 'Linux Systems Support', url: 'https://linuxjourney.com/' },
+        { title: 'Command Line Essentials', provider: 'Codecademy', cost: 'free', unlocks: 'Junior Systems Operator', url: 'https://www.codecademy.com/learn/learn-the-command-line' },
+      ],
+    };
+    const progress = {};
+    const startedFlags = {};
+    const durations = {
+      'Networking Fundamentals': '20-30 hrs', 'Security+ Prep': '3-4 weeks at 5 hrs/week', 'Cloud Security Basics': '10-15 hrs',
+      'Cloud Practitioner Foundations': '15-20 hrs', 'Associate Cloud Architect Prep': '4-6 weeks at 5 hrs/week', 'Infrastructure as Code with Terraform': '10-15 hrs',
+      'CCNA Certification Prep': '2-3 months at 5 hrs/week', 'Network Security Basics': '10-15 hrs',
+      'HTML, CSS & JavaScript Basics': '30-40 hrs', 'React Fundamentals': '15-25 hrs', 'Backend with Node.js': '20-30 hrs',
+      'Python for Data Analysis': '15-20 hrs', 'Data Analysis with Pandas': '10-15 hrs', 'Intro to Machine Learning': '5-8 hrs',
+      'Kotlin Basics': '10-15 hrs', 'Android App Development': '30-40 hrs', 'Cross-Platform Apps with Flutter': '20-30 hrs',
+      'UX Design Foundations': '15-20 hrs', 'UI Design in Figma': '10-15 hrs', 'Portfolio Case Studies': '2-4 weeks at 5 hrs/week',
+      'Linux & Command Line Basics': '10-15 hrs', 'Docker & Containers': '8-12 hrs', 'CI/CD with GitHub Actions': '6-10 hrs',
+      'SQL & Python Fundamentals': '20-30 hrs', 'Data Engineering Zoomcamp': '9 weeks at 5-10 hrs/week', 'Data Engineering Professional Certificate': '3-4 months at 5 hrs/week',
+      'Intermediate Machine Learning': '4-6 hrs', 'Intro to Deep Learning': '4-6 hrs',
+      'SQL Fundamentals': '8-12 hrs', 'PostgreSQL Official Tutorial': '6-10 hrs', 'PostgreSQL Database Administration for Beginners': '10-15 hrs',
+      'Junior Programmer Pathway': '40-60 hrs', 'Unreal Engine Fundamentals': '15-25 hrs',
+      'Quality Assurance Certification': '15-20 hrs', 'API Testing with Postman': '5-8 hrs', 'Test Automation with Selenium': '15-20 hrs',
+      'Google IT Support Professional Certificate': '3-6 months at 5-10 hrs/week', 'Windows Server Administration Fundamentals': '10-15 hrs', 'CompTIA A+ Certification Prep': '6-8 weeks at 5 hrs/week',
+      'Python for Beginners': '10-15 hrs', 'Automate the Boring Stuff with Python': '20-30 hrs', 'Network Fundamentals': '20-30 hrs', 'CompTIA Network+ Course': '4-6 weeks at 5 hrs/week',
+      'AWS Cloud Practitioner Foundations': '15-20 hrs', 'Azure Fundamentals (AZ-900)': '10-15 hrs', 'Responsive Web Design': '~300 hrs (freeCodeCamp estimate), do it in parts',
+      'JavaScript Algorithms and Data Structures': '~300 hrs (freeCodeCamp estimate), do it in parts', 'SQL Tutorial': '5-8 hrs', 'Relational Database Course': '~300 hrs (freeCodeCamp estimate), do it in parts',
+      'Linux Operating System Basics': '10-15 hrs', 'Command Line Essentials': '4-6 hrs',
+    };
+    function getStepsForTrack(track) {
+      if (!progress[track] && roadmapTemplates[track]) {
+        progress[track] = roadmapTemplates[track].map((s, i) => ({
+          id: i + 1, ...s, duration: durations[s.title] || 'Self-paced',
+          status: (savedStatus[track] && savedStatus[track][i]) || (i === 0 ? 'current' : 'locked'),
+        }));
+      }
+      return progress[track] || [];
+    }
+
+    let currentTrack = null;
+    let steps = [];
+    let startedLearning = false;
+
+    function goToRoadmap(track) {
+      const t = track || [...selectedTracks][0];
+      if (!t) {
+        goTo('tracks');
+        return;
+      }
+      currentTrack = t;
+      selectedTracks.clear();
+      selectedTracks.add(currentTrack);
+      document.getElementById('roadmapTitle').textContent = currentTrack;
+      steps = getStepsForTrack(currentTrack);
+      startedLearning = !!startedFlags[currentTrack];
+      saveState();
+      renderTracks();
+      updateProfileStats();
+      renderRoadmap();
+      goTo('roadmap');
+    }
+
+    function renderRoadmap() {
+      const trail = document.getElementById('trail');
+      const startBtn = document.getElementById('startLearningBtn');
+      const note = document.getElementById('roadmapNote');
+      const termBody = document.getElementById('roadmapTermBody');
+      renderTrackArticle();
+      renderProgressUI();
+
+      if (!currentTrack) {
+        document.getElementById('roadmapTermPath').textContent = '~/roadmap';
+        document.getElementById('roadmapTitle').textContent = '—';
+        startBtn.style.display = 'none';
+        note.textContent = 'Pick a track first.';
+        trail.innerHTML = '';
+        termBody.innerHTML = '<div style="color:var(--text-muted);">$ roadmap init</div><div style="color:var(--text-muted);">&gt; no track selected</div>';
+        document.getElementById('suggestWrap').style.display = 'none';
+        return;
+      }
+      document.getElementById('roadmapTermPath').textContent = '~/roadmap/' + slugify(currentTrack);
+
+      if (!steps.length) {
+        startBtn.style.display = 'none';
+        note.textContent = "This track's roadmap is still being researched — check back soon.";
+        trail.innerHTML = '<div class="coming-soon">No steps published yet for this track.</div>';
+        termBody.innerHTML = `<div style="color:var(--text-muted);">$ roadmap init --track=${slugify(currentTrack)}</div><div style="color:var(--text-muted);">&gt; no modules found</div>`;
+        renderSuggestions();
+        return;
+      }
+
+      note.textContent = "Preview the full path below, then start when you're ready.";
+      startBtn.style.display = startedLearning ? 'none' : 'inline-block';
+
+      termBody.innerHTML = `
+      <div style="color:var(--text-muted);">$ roadmap init --track=${slugify(currentTrack)}</div>
+      <div style="color:var(--text-muted);">&gt; loading modules...</div>
+      ${steps.map(s => {
+        const slug = slugify(s.title);
+        const color = s.status === 'done' ? 'var(--emerald)' : (s.status === 'current' ? 'var(--gold)' : 'var(--text-muted)');
+        const label = s.status === 'done' ? '[done]' : (s.status === 'current' ? '[now] ' : '[locked]');
+        return `<div style="color:${color};">${label}${slug}</div>`;
+      }).join('')}
+    `;
+
+      trail.innerHTML = steps.map((s, i) => `
+      <div class="trail-row">
+        <div class="trail-marker">
+          <div class="node ${s.status}"></div>
+          ${i < steps.length - 1 ? '<div class="trail-line"></div>' : ''}
+        </div>
+        <div class="step-card ${s.status === 'locked' ? 'locked' : ''}">
+          <h3>
+            ${s.url ? `<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.title} ↗</a>` : s.title}
+          </h3>
+          <div class="step-provider">${s.provider}</div>
+          <div class="tag-row">
+            <span class="tag ${s.cost}">${s.cost}</span>
+            <span class="tag duration">Est. ${s.duration}</span>
+            ${s.status !== 'locked' ? `<span class="tag unlocks">Unlocks: ${s.unlocks}</span>` : '<span class="tag" style="background:transparent;border:1px solid var(--border-strong);color:var(--text-muted);">Locked</span>'}
+          </div>
+          ${s.status === 'current' && startedLearning ? `<button class="complete-btn" onclick="markComplete(${s.id})">Mark complete</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+      renderSuggestions();
+    }
+    function startLearning() {
+      if (!currentUser) {
+        const t = currentTrack;
+        afterAuth = () => { goToRoadmap(t); startLearning(); };
+        openAuth('signup', 'Create a free account to start learning and save your progress.');
+        return;
+      }
+      startedLearning = true;
+      startedFlags[currentTrack] = true;
+      saveState();
+      renderRoadmap();
+    }
+    function markComplete(id) {
+      const idx = steps.findIndex(s => s.id === id);
+      if (idx < 0 || !startedLearning || steps[idx].status !== 'current') return;
+      steps[idx].status = 'done';
+      (completedOn[currentTrack] = completedOn[currentTrack] || {})[id] = new Date().toISOString().slice(0, 10);
+      if (steps[idx + 1]) steps[idx + 1].status = 'current';
+      saveState();
+      renderRoadmap();
+      renderProfile();
+      showCheckin();
+    }
+
+    // Profile
+    const defaultProfile = { photo: '', name: '', school: '', year: '2nd Year', birthday: '', bio: '', link: '', showMeta: true, public: false };
+    let profileInfo = { ...defaultProfile };
+
+    function renderProfileHeader() {
+      document.getElementById('profileName').textContent = profileInfo.name || 'Unnamed';
+      const metaParts = [profileInfo.year, profileInfo.school].filter(Boolean);
+      document.getElementById('profileMeta').textContent = metaParts.join(' · ') || 'BSIT student';
+      const avatarBox = document.getElementById('avatarBox');
+      const initial = (profileInfo.name || 'N')[0].toUpperCase();
+      avatarBox.textContent = '';
+      const purl = safeUrl(profileInfo.photo);
+      if (purl) {
+        const img = document.createElement('img'); img.alt = ''; img.referrerPolicy = 'no-referrer';
+        img.onerror = () => { avatarBox.textContent = initial; };
+        img.src = purl; avatarBox.appendChild(img);
+      } else avatarBox.textContent = initial;
+      const vt = document.getElementById('visibilityTag');
+      vt.textContent = profileInfo.public ? 'public' : 'private';
+      vt.className = 'tag ' + (profileInfo.public ? 'public' : 'private');
+    }
+    function toggleEditProfile() {
+      const wrap = document.getElementById('editFormWrap');
+      const opening = wrap.style.display === 'none';
+      wrap.style.display = opening ? 'block' : 'none';
+      if (opening) {
+        document.getElementById('f-photo').value = profileInfo.photo;
+        document.getElementById('f-name').value = profileInfo.name;
+        document.getElementById('f-school').value = profileInfo.school;
+        document.getElementById('f-year').value = profileInfo.year;
+        document.getElementById('f-birthday').value = profileInfo.birthday;
+        document.getElementById('f-bio').value = profileInfo.bio;
+        document.getElementById('f-link').value = profileInfo.link;
+        document.getElementById('f-showmeta').checked = profileInfo.showMeta;
+        document.getElementById('f-public').checked = profileInfo.public;
+      }
+    }
+    function saveProfile() {
+      const perr = document.getElementById('p-error'); perr.textContent = '';
+      const ph = document.getElementById('f-photo').value.trim(), lk = document.getElementById('f-link').value.trim();
+      if ((ph && !safeUrl(ph)) || (lk && !safeUrl(lk))) { perr.textContent = 'Links must start with https://'; return; }
+      profileInfo = {
+        photo: document.getElementById('f-photo').value.trim(),
+        name: document.getElementById('f-name').value.trim().slice(0, 80) || 'Unnamed',
+        school: document.getElementById('f-school').value.trim(),
+        year: document.getElementById('f-year').value,
+        birthday: document.getElementById('f-birthday').value,
+        bio: document.getElementById('f-bio').value.trim(),
+        link: document.getElementById('f-link').value.trim(),
+        showMeta: document.getElementById('f-showmeta').checked,
+        public: document.getElementById('f-public').checked,
+      };
+      saveState();
+      renderProfileHeader();
+      renderProfile();
+      toggleEditProfile();
+    }
+
+    function updateProfileStats() {
+      const trackKeys = Object.keys(progress);
+      document.getElementById('statTracks').textContent = trackKeys.length || selectedTracks.size;
+    }
+
+    function renderProfile() {
+      const trackKeys = Object.keys(progress);
+      let totalBadges = 0;
+      let totalSteps = 0;
+      let badgeHtml = '';
+      let portfolioRows = [];
+
+      trackKeys.forEach(trackName => {
+        const trackSteps = progress[trackName] || [];
+        const isHidden = hiddenTracks.has(trackName);
+
+        // Always show the track section in the badges area to allow toggling
+        badgeHtml += `
+          <div class="badge-group">
+            <div class="badge-group-header">
+              <span class="badge-group-title">${trackName}</span>
+              <button class="toggle-visibility-btn" onclick="toggleTrackVisibility('${trackName}')">
+                ${isHidden ? 'Show in profile' : 'Hide from profile'}
+              </button>
+            </div>
+        `;
+
+        if (!isHidden) {
+          trackSteps.forEach(s => {
+            if (s.status === 'done') {
+              totalBadges++;
+              totalSteps++;
+              const dn = (completedOn[trackName] || {})[s.id]; portfolioRows.push(`<div class="portfolio-item"><span>${slugify(s.title)}${s.url ? ` <a href="${s.url}" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Course ↗</a>` : ''}</span><span>${s.provider}${dn ? ' · ' + dn : ''}</span></div>`);
+            }
+            badgeHtml += `<div class="badge-line ${s.status === 'done' ? 'earned' : 'empty'}">[${s.status === 'done' ? 'x' : ' '}] ${slugify(s.title)}.badge</div>`;
+          });
+        } else {
+          badgeHtml += `<div class="empty-note" style="font-style: italic;">Progress hidden from profile view.</div>`;
+        }
+
+        badgeHtml += `</div>`;
+      });
+
+      document.getElementById('statBadges').textContent = totalBadges;
+      document.getElementById('statSteps').textContent = totalSteps;
+      updateProfileStats();
+
+      renderMilestoneList();
+      document.getElementById('badgeGrid').innerHTML = badgeHtml || '<div class="empty-note">No active tracks found yet.</div>';
+
+      const metaEl = document.getElementById('portfolioMeta');
+      if (profileInfo.showMeta && (profileInfo.school || profileInfo.year)) {
+        metaEl.style.display = 'block';
+        metaEl.textContent = '# ' + [profileInfo.year, profileInfo.school].filter(Boolean).join(' · ');
+      } else {
+        metaEl.style.display = 'none';
+      }
+
+      const list = document.getElementById('portfolioList');
+      const allRows = portfolioRows.concat(externalCerts.map(certRowHtml));
+      list.innerHTML = allRows.length ? allRows.join('') : '<div class="empty-note">Complete a roadmap step on a visible track to start building your portfolio.</div>';
+    }
+
+    function byId(id) { return document.getElementById(id); }
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    function safeUrl(u) {
+      try { const x = new URL(String(u).trim()); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : ''; } catch (e) { return ''; }
+    }
+    function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } }
+
+    // Accounts
+    const USERS_KEY = 'navig8-users';
+    const SESSION_KEY = 'navig8-session';
+    const dataKey = email => 'navig8-data:' + email;
+    const enc = new TextEncoder();
+    function b64(buf) { let s = ''; new Uint8Array(buf).forEach(b => s += String.fromCharCode(b)); return btoa(s); }
+    function unb64(str) { const s = atob(str); const a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+    async function pbkdf2(secret, salt) {
+      const key = await crypto.subtle.importKey('raw', enc.encode(secret), 'PBKDF2', false, ['deriveBits']);
+      return b64(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 150000, hash: 'SHA-256' }, key, 256));
+    }
+    function same(a, b) { if (a.length !== b.length) return false; let r = 0; for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i); return r === 0; }
+
+    // storage with a visible fallback: if the browser blocks localStorage, data lives in memory for this tab only
+    let storageOk = true; const memStore = {}, memSession = {};
+    try { localStorage.setItem('navig8-probe', '1'); if (localStorage.getItem('navig8-probe') !== '1') throw 0; localStorage.removeItem('navig8-probe'); } catch (e) { storageOk = false; }
+    function sGet(k) { if (storageOk) { try { return localStorage.getItem(k); } catch (e) { storageOk = false; } } return k in memStore ? memStore[k] : null; }
+    let saveFailed = false;
+    function sSet(k, v) {
+      saveFailed = false;
+      if (storageOk) { try { localStorage.setItem(k, v); return; } catch (e) { if (e && (e.name === 'QuotaExceededError' || e.code === 22)) { saveFailed = true; return; } storageOk = false; } }
+      memStore[k] = v;
+    }
+    function ssGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return k in memSession ? memSession[k] : null; } }
+    function ssSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { memSession[k] = v; } }
+    function ssDel(k) { try { sessionStorage.removeItem(k); } catch (e) { delete memSession[k]; } }
+    function getUsers() { try { return JSON.parse(sGet(USERS_KEY)) || {}; } catch (e) { return {}; } }
+    function putUsers(u) { sSet(USERS_KEY, JSON.stringify(u)); }
+    function normEmail(e) { return String(e || '').trim().toLowerCase(); }
+    function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && e.length <= 254; }
+    function passwordProblem(p) {
+      if (p.length < 8) return 'Password must be at least 8 characters.';
+      if (!/[A-Za-z]/.test(p) || !/[0-9]/.test(p)) return 'Password needs at least one letter and one number.';
+      return '';
+    }
+    function makeRecoveryCode() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      const r = crypto.getRandomValues(new Uint8Array(16));
+      let s = ''; r.forEach((n, i) => { s += chars[n % chars.length]; if (i % 4 === 3 && i < 15) s += '-'; });
+      return s;
+    }
+    const normCode = c => String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    async function hashSecret(secret) { const salt = crypto.getRandomValues(new Uint8Array(16)); return { salt: b64(salt), hash: await pbkdf2(secret, salt) }; }
+    async function checkSecret(secret, rec) { return same(await pbkdf2(secret, unb64(rec.salt)), rec.hash); }
+
+    const fails = {};
+    function lockedFor(email) { const f = fails[email]; return f && f.until > Date.now() ? Math.ceil((f.until - Date.now()) / 1000) : 0; }
+    function noteFail(email) { const f = fails[email] || { n: 0, until: 0 }; f.n++; if (f.n >= 5) { f.until = Date.now() + 30000; f.n = 0; } fails[email] = f; }
+
+    let currentUser = null;
+    let afterAuth = null;
+    let authMode = 'login';
+    let pendingAfterRecovery = null;
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      ['login', 'signup', 'forgot'].forEach(m => byId(m + 'Form').style.display = m === mode ? 'block' : 'none');
+      byId('recoveryPanel').style.display = 'none';
+      byId('authSeg').style.display = mode === 'forgot' ? 'none' : 'flex';
+      document.querySelectorAll('#authSeg button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+      byId('authPath').textContent = '~/auth/' + mode;
+      authError(''); showAuthNotice(''); clearFieldErrors(); resetPwVisibility();
+      const sw = byId('storageWarn'); sw.textContent = storageOk ? '' : 'This browser is blocking saved data, so accounts only last until you close this tab. Open the file directly in Chrome or Edge to keep them.'; sw.style.display = storageOk ? 'none' : 'block';
+    }
+    function openAuth(mode, notice) { setAuthMode(mode || 'login'); if (notice) showAuthNotice(notice); goTo('auth'); }
+    function authError(msg) { const e = byId('authError'); e.textContent = msg; e.style.display = msg ? 'block' : 'none'; }
+    function showAuthNotice(msg) { const e = byId('authNotice'); e.textContent = msg; e.style.display = msg ? 'block' : 'none'; }
+    function needCrypto() { if (!(window.crypto && crypto.subtle)) { authError('This browser does not support secure sign-in. Try a current version of Chrome, Edge, Firefox or Safari.'); return true; } return false; }
+
+    // Inline field messages, password toggles, live rules
+    function feBox(el) {
+      const holder = el.closest('.auth-field'); let b = holder.querySelector('.auth-fe');
+      if (!b) { b = document.createElement('div'); b.className = 'auth-fe'; b.setAttribute('role', 'alert'); holder.appendChild(b); }
+      return b;
+    }
+    function fieldErr(id, msg) {
+      const el = byId(id); feBox(el).textContent = msg || '';
+      el.classList.toggle('invalid', !!msg); el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    }
+    function clearFieldErrors() { document.querySelectorAll('.auth-field input').forEach(i => fieldErr(i.id, '')); }
+    function firstInvalid() { const el = document.querySelector('.auth-field input.invalid'); if (el) el.focus(); }
+    function pwMissing(p) {
+      const m = []; if (p.length < 8) m.push('at least 8 characters'); if (!/[A-Za-z]/.test(p)) m.push('a letter'); if (!/[0-9]/.test(p)) m.push('a number'); return m;
+    }
+    function updateRules(inputId, boxId, force) {
+      const v = byId(inputId).value, box = byId(boxId), ok = { len: v.length >= 8, letter: /[A-Za-z]/.test(v), num: /[0-9]/.test(v) };
+      box.querySelectorAll('span').forEach(sp => { const r = sp.dataset.r; sp.className = ok[r] ? 'ok' : ((v || force) ? 'bad' : ''); });
+    }
+    function flash(msg) {
+      const t = byId('authToast'); t.textContent = msg; t.classList.add('show');
+      clearTimeout(window._flashT); window._flashT = setTimeout(() => t.classList.remove('show'), 3500);
+    }
+    function initPwToggles() {
+      document.querySelectorAll('.auth-field input[type=password]').forEach(inp => {
+        const wrap = document.createElement('div'); wrap.className = 'pw-wrap';
+        inp.parentNode.insertBefore(wrap, inp); wrap.appendChild(inp);
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'pw-toggle'; b.textContent = 'Show';
+        b.setAttribute('aria-label', 'Show password'); b.setAttribute('aria-pressed', 'false');
+        b.onclick = () => {
+          const show = inp.type === 'password'; inp.type = show ? 'text' : 'password';
+          b.textContent = show ? 'Hide' : 'Show'; b.setAttribute('aria-label', show ? 'Hide password' : 'Show password'); b.setAttribute('aria-pressed', String(show)); inp.focus();
+        };
+        wrap.appendChild(b);
+        inp.addEventListener('input', () => { if (inp.classList.contains('invalid')) fieldErr(inp.id, ''); });
+      });
+      byId('s-password').addEventListener('input', () => { updateRules('s-password', 'pwRules'); const c = byId('s-password2'); if (c.value) checkMatch('s-password', 's-password2'); });
+      byId('s-password2').addEventListener('input', () => checkMatch('s-password', 's-password2'));
+      byId('fp-password').addEventListener('input', () => { updateRules('fp-password', 'pwRulesF'); if (byId('fp-password2').value) checkMatch('fp-password', 'fp-password2'); });
+      byId('fp-password2').addEventListener('input', () => checkMatch('fp-password', 'fp-password2'));
+      ['l-email', 's-email', 's-name', 'fp-email', 'fp-code'].forEach(id => byId(id).addEventListener('input', () => fieldErr(id, '')));
+    }
+    function checkMatch(a, b) { fieldErr(b, byId(b).value && byId(a).value !== byId(b).value ? 'Passwords do not match yet.' : ''); }
+    function resetPwVisibility() {
+      document.querySelectorAll('.pw-wrap').forEach(w => { const i = w.querySelector('input'), b = w.querySelector('button'); i.type = 'password'; b.textContent = 'Show'; b.setAttribute('aria-pressed', 'false'); });
+    }
+    function shakeCard() { const c = document.querySelector('#screen-auth .win'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
+
+    async function submitLogin(ev) {
+      if (ev) ev.preventDefault(); authError(''); clearFieldErrors();
+      if (needCrypto()) return;
+      const email = normEmail(byId('l-email').value), pw = byId('l-password').value;
+      let bad = false;
+      if (!email) { fieldErr('l-email', 'Enter your email.'); bad = true; } else if (!validEmail(email)) { fieldErr('l-email', 'That email address does not look right.'); bad = true; }
+      if (!pw) { fieldErr('l-password', 'Enter your password.'); bad = true; }
+      if (bad) { shakeCard(); firstInvalid(); return; }
+      const wait = lockedFor(email);
+      if (wait) { authError('Too many wrong attempts. Try again in ' + wait + ' seconds, or reset your password.'); shakeCard(); return; }
+      byId('loginSubmit').disabled = true;
+      try {
+        const u = getUsers()[email];
+        const ok = u ? await checkSecret(pw, u.pw) : (await pbkdf2(pw, new Uint8Array(16)), false);
+        if (!ok) {
+          noteFail(email);
+          fieldErr('l-email', ''); byId('l-email').classList.add('invalid');
+          fieldErr('l-password', 'Wrong email or password. Use Show to check what you typed, or choose Forgot password.');
+          shakeCard(); byId('l-password').focus(); return;
+        }
+        delete fails[email];
+        byId('l-password').value = ''; resetPwVisibility();
+        startSession(email); flash('Welcome back, ' + (getUsers()[email].name || '').split(' ')[0] + '.'); finishAuth();
+      } catch (e) { authError('Something went wrong while logging in. Please try again.'); }
+      finally { byId('loginSubmit').disabled = false; }
+    }
+    async function submitSignup(ev) {
+      if (ev) ev.preventDefault(); authError(''); clearFieldErrors();
+      if (needCrypto()) return;
+      const name = byId('s-name').value.trim().slice(0, 80), email = normEmail(byId('s-email').value);
+      const pw = byId('s-password').value, pw2 = byId('s-password2').value;
+      let bad = false;
+      if (!name) { fieldErr('s-name', 'Enter your full name.'); bad = true; }
+      if (!email) { fieldErr('s-email', 'Enter your email.'); bad = true; } else if (!validEmail(email)) { fieldErr('s-email', 'That email address does not look right (example: name@school.edu).'); bad = true; }
+      const miss = pwMissing(pw);
+      updateRules('s-password', 'pwRules', true);
+      if (miss.length) { fieldErr('s-password', 'Password is missing: ' + miss.join(', ') + '.'); bad = true; }
+      if (!pw2) { fieldErr('s-password2', 'Type your password again to confirm it.'); bad = true; }
+      else if (pw !== pw2) { fieldErr('s-password2', 'Passwords do not match. Use Show to compare them.'); bad = true; }
+      if (!bad && getUsers()[email]) { fieldErr('s-email', 'An account with this email already exists. Log in instead.'); bad = true; }
+      if (bad) { shakeCard(); firstInvalid(); return; }
+      byId('signupSubmit').disabled = true;
+      try {
+        const code = makeRecoveryCode();
+        const users = getUsers();
+        users[email] = { name, pw: await hashSecret(pw), rec: await hashSecret(normCode(code)), created: Date.now() };
+        putUsers(users);
+        if (!getUsers()[email]) { authError('We could not save your account in this browser. Please try again, or open the file in Chrome or Edge.'); return; }
+        byId('s-password').value = byId('s-password2').value = ''; resetPwVisibility(); updateRules('s-password', 'pwRules');
+        startSession(email);
+        profileInfo.name = name; saveState();
+        showRecoveryPanel(code);
+        showAuthNotice('Account created and saved for ' + email + '. Save your recovery code below.');
+        flash('Account created. Welcome, ' + name.split(' ')[0] + '!');
+      } catch (e) { authError('Something went wrong while creating your account. Please try again.'); }
+      finally { byId('signupSubmit').disabled = false; }
+    }
+    async function submitForgot(ev) {
+      if (ev) ev.preventDefault(); authError(''); clearFieldErrors();
+      if (needCrypto()) return;
+      const email = normEmail(byId('fp-email').value), code = normCode(byId('fp-code').value);
+      const pw = byId('fp-password').value, pw2 = byId('fp-password2').value;
+      let bad = false;
+      if (!email) { fieldErr('fp-email', 'Enter your email.'); bad = true; } else if (!validEmail(email)) { fieldErr('fp-email', 'That email address does not look right.'); bad = true; }
+      if (!code) { fieldErr('fp-code', 'Enter the recovery code you saved when you signed up.'); bad = true; }
+      const miss = pwMissing(pw); updateRules('fp-password', 'pwRulesF', true);
+      if (miss.length) { fieldErr('fp-password', 'New password is missing: ' + miss.join(', ') + '.'); bad = true; }
+      if (!pw2) { fieldErr('fp-password2', 'Type the new password again to confirm it.'); bad = true; }
+      else if (pw !== pw2) { fieldErr('fp-password2', 'Passwords do not match. Use Show to compare them.'); bad = true; }
+      if (bad) { shakeCard(); firstInvalid(); return; }
+      const wait = lockedFor('rec:' + email);
+      if (wait) { authError('Too many wrong attempts. Try again in ' + wait + ' seconds.'); shakeCard(); return; }
+      byId('forgotSubmit').disabled = true;
+      try {
+        const users = getUsers(), u = users[email];
+        const ok = u ? await checkSecret(code, u.rec) : (await pbkdf2(code, new Uint8Array(16)), false);
+        if (!ok) { noteFail('rec:' + email); fieldErr('fp-code', 'That email and recovery code do not match. Check both for typos.'); shakeCard(); return; }
+        const newCode = makeRecoveryCode();
+        u.pw = await hashSecret(pw); u.rec = await hashSecret(normCode(newCode));
+        putUsers(users);
+        ['fp-code', 'fp-password', 'fp-password2'].forEach(i => byId(i).value = ''); resetPwVisibility(); updateRules('fp-password', 'pwRulesF');
+        pendingAfterRecovery = () => { setAuthMode('login'); showAuthNotice('Password updated. Log in with your new password.'); };
+        showRecoveryPanel(newCode, true);
+        flash('Password updated.');
+      } catch (e) { authError('Something went wrong. Please try again.'); }
+      finally { byId('forgotSubmit').disabled = false; }
+    }
+    function showRecoveryPanel(code, isReset) {
+      ['loginForm', 'signupForm', 'forgotForm'].forEach(i => byId(i).style.display = 'none');
+      byId('authSeg').style.display = 'none';
+      byId('recoveryPanel').style.display = 'block';
+      byId('recoveryCode').textContent = code;
+      byId('recoverySaved').checked = false; byId('recoveryContinue').disabled = true;
+      byId('copyCodeBtn').textContent = 'Copy code';
+      byId('authPath').textContent = '~/auth/recovery';
+      if (isReset) showAuthNotice('Your old recovery code no longer works. Save this new one.');
+    }
+    function copyRecoveryCode() {
+      const t = byId('recoveryCode').textContent;
+      const done = () => byId('copyCodeBtn').textContent = 'Copied';
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, () => { }); else done();
+    }
+    function continueFromRecovery() {
+      byId('recoveryCode').textContent = '';
+      showAuthNotice('');
+      if (pendingAfterRecovery) { const f = pendingAfterRecovery; pendingAfterRecovery = null; f(); } else finishAuth();
+    }
+
+    function startSession(email) {
+      resetState();
+      currentUser = email;
+      ssSet(SESSION_KEY, email);
+      loadState();
+      updateAuthUI();
+    }
+    function restoreSession() {
+      const email = ssGet(SESSION_KEY);
+      if (email && getUsers()[email]) { currentUser = email; loadState(); }
+      updateAuthUI(); renderAll();
+    }
+    function logout() {
+      saveState();
+      currentUser = null; afterAuth = null;
+      ssDel(SESSION_KEY);
+      resetState(); updateAuthUI(); renderAll(); goTo('home');
+    }
+    function updateAuthUI() {
+      const label = currentUser ? 'Log out' : 'Log in';
+      byId('authBtn').textContent = label; byId('navAuthBtn').textContent = label;
+      const u = currentUser && getUsers()[currentUser]; const first = u ? (u.name || '').split(' ')[0] : '';
+      byId('userChip').textContent = first ? '● ' + first : ''; byId('userChip').classList.toggle('on', !!first);
+      byId('navUser').textContent = first ? 'Signed in as ' + first : '';
+    }
+    function onAuthBtn() { if (currentUser) logout(); else openAuth('login'); }
+    function finishAuth() {
+      renderAll();
+      const f = afterAuth; afterAuth = null;
+      if (f) f(); else goTo('profile');
+    }
+
+    // Per user saved state
+    let savedStatus = {};
+    let completedOn = {};
+    function saveState() {
+      if (!currentUser) return;
+      try {
+        const st = { ...savedStatus };
+        Object.keys(progress).forEach(t => st[t] = progress[t].map(s => s.status));
+        savedStatus = st;
+        sSet(dataKey(currentUser), JSON.stringify({
+          profile: profileInfo, started: startedFlags, hidden: [...hiddenTracks], certs: externalCerts,
+          status: st, completedOn, selected: [...selectedTracks], track: currentTrack,
+        }));
+      } catch (e) { }
+    }
+    function loadState() {
+      let d = null; try { d = JSON.parse(sGet(dataKey(currentUser))); } catch (e) { }
+      if (!d) return;
+      profileInfo = { ...defaultProfile, ...(d.profile || {}) };
+      Object.assign(startedFlags, d.started || {});
+      (d.hidden || []).forEach(t => hiddenTracks.add(t));
+      externalCerts = Array.isArray(d.certs) ? d.certs : [];
+      savedStatus = d.status || {}; completedOn = d.completedOn || {};
+      Object.keys(savedStatus).forEach(t => getStepsForTrack(t));
+      (d.selected || []).forEach(t => selectedTracks.add(t));
+      if (d.track && roadmapTemplates[d.track]) { currentTrack = d.track; steps = getStepsForTrack(d.track); startedLearning = !!startedFlags[d.track]; }
+    }
+    function resetState() {
+      Object.keys(progress).forEach(k => delete progress[k]);
+      Object.keys(startedFlags).forEach(k => delete startedFlags[k]);
+      hiddenTracks.clear(); selectedTracks.clear();
+      externalCerts = []; savedStatus = {}; completedOn = {};
+      profileInfo = { ...defaultProfile };
+      currentTrack = null; steps = []; startedLearning = false;
+    }
+    function renderAll() {
+      renderProfileHeader(); renderTracks(); renderRoadmap(); renderProfile();
+    }
+
+    // Progress Bar
+    function renderProgressUI() {
+      const wrap = byId('roadmapProgress'), mile = byId('roadmapMilestone');
+      if (!currentTrack || !steps.length) { wrap.style.display = 'none'; mile.innerHTML = ''; return; }
+      const done = steps.filter(s => s.status === 'done').length, pct = Math.round(done / steps.length * 100);
+      wrap.style.display = 'block';
+      wrap.innerHTML = `<div class="bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-label">${done} of ${steps.length} steps done · ${pct}%</div>`;
+      mile.innerHTML = done === steps.length ? milestoneHtml(currentTrack) : '';
+    }
+    function milestoneHtml(track) {
+      const n = (progress[track] || []).length;
+      return `<div class="milestone-card"><h3>Track complete: ${esc(track)}</h3>
+        <p class="empty-note" style="margin:0 0 10px;">You finished all ${n} steps. Download a badge to share on LinkedIn or GitHub.</p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <button class="link-btn" onclick="previewBadge('${esc(track)}')">Preview badge</button>
+          <button class="link-btn" onclick="downloadBadgeSvg('${esc(track)}')">Download badge (SVG)</button>
+          <button class="link-btn" onclick="downloadBadgePng('${esc(track)}')">Download badge (PNG)</button></div></div>`;
+    }
+    function renderMilestoneList() {
+      const el = byId('milestoneList');
+      const done = Object.keys(progress).filter(t => !hiddenTracks.has(t) && progress[t].length && progress[t].every(s => s.status === 'done'));
+      el.innerHTML = done.length ? done.map(milestoneHtml).join('') : '<div class="empty-note">Finish every step of a track to unlock its badge.</div>';
+    }
+
+    // Portfolio Rows
+    function certRowHtml(c, i) {
+      const u = safeUrl(c.link);
+      const fileBtns = c.file && CERT_TYPES.includes(c.file.type) ? ` <button class="link-btn" style="font-size:12px;" onclick="previewCert(${i})">Preview file</button> <button class="link-btn" style="font-size:12px;" onclick="downloadCert(${i})">Download</button>` : '';
+      return `<div class="portfolio-item"><span>${esc(slugify(c.title))}${u ? ` <a href="${esc(u)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Verify ↗ (${esc(hostOf(u))})</a>` : ''}${fileBtns}</span><span>${esc(c.issuer || 'external')}</span></div>`;
+    }
+    function dataToBlob(c) {
+      const m = /^data:([^;]+);base64,(.*)$/.exec(c.file.data); if (!m || !CERT_TYPES.includes(c.file.type)) return null;
+      const bin = atob(m[2]), a = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) a[k] = bin.charCodeAt(k);
+      return new Blob([a], { type: c.file.type });
+    }
+    let previewUrl = null;
+    function openPreview(title, kind, url, actionsHtml) {
+      byId('previewTitle').textContent = title;
+      const body = byId('previewBody'); body.textContent = '';
+      const el = document.createElement(kind === 'pdf' ? 'iframe' : 'img'); el.src = url;
+      if (kind === 'pdf') { el.style.cssText = 'width:100%;height:60vh;border:1px solid var(--border);border-radius:8px;background:#fff;'; el.title = title; }
+      else { el.alt = title; el.style.cssText = 'max-width:100%;max-height:60vh;border-radius:8px;'; }
+      body.appendChild(el);
+      byId('previewActions').innerHTML = actionsHtml + '<button class="link-btn" onclick="closePreview()">Close</button>';
+      byId('previewModal').classList.add('show');
+    }
+    function closePreview() { byId('previewModal').classList.remove('show'); if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; } byId('previewBody').textContent = ''; }
+    function previewCert(i) {
+      const c = externalCerts[i]; if (!c || !c.file) return; const b = dataToBlob(c); if (!b) return;
+      if (previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = URL.createObjectURL(b);
+      openPreview(c.title, c.file.type === 'application/pdf' ? 'pdf' : 'img', previewUrl, `<button class="cta" onclick="downloadCert(${i})">Download</button>`);
+    }
+    function downloadCert(i) {
+      const c = externalCerts[i]; if (!c || !c.file) return; const b = dataToBlob(c); if (!b) return;
+      downloadBlob(b, String(c.file.name || 'certificate').replace(/[^\w.\- ]+/g, '_')); flash('Certificate file downloaded.');
+    }
+    function previewBadge(track) {
+      if (!badgeAllowed(track)) return;
+      if (previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = URL.createObjectURL(new Blob([buildBadgeSvg(track)], { type: 'image/svg+xml' }));
+      openPreview('Badge: ' + track, 'img', previewUrl, `<button class="cta" onclick="downloadBadgeSvg('${esc(track)}')">Download SVG</button><button class="cta" onclick="downloadBadgePng('${esc(track)}')">Download PNG</button>`);
+    }
+    function collectPortfolio() {
+      const tracks = Object.keys(progress).filter(t => !hiddenTracks.has(t)).map(t => ({
+        name: t,
+        steps: progress[t].filter(s => s.status === 'done').map(s => ({ title: s.title, provider: s.provider, url: safeUrl(s.url), date: (completedOn[t] || {})[s.id] || '' })),
+        total: progress[t].length,
+      })).filter(t => t.steps.length);
+      return { tracks, certs: externalCerts.filter(c => c.title) };
+    }
+    function buildSummaryBody() {
+      const p = profileInfo, d = collectPortfolio();
+      const meta = p.showMeta ? [p.year, p.school].filter(Boolean).join(' · ') : '';
+      const link = safeUrl(p.link);
+      let h = `<h1>${esc(p.name || 'Unnamed')}</h1>`;
+      if (meta) h += `<p class="m">${esc(meta)}</p>`;
+      if (p.bio) h += `<p>${esc(p.bio)}</p>`;
+      if (link) h += `<p><a href="${esc(link)}">${esc(link)}</a></p>`;
+      h += '<h2>Learning progress</h2>';
+      h += d.tracks.length ? d.tracks.map(t => `<h3>${esc(t.name)} <span class="m">(${t.steps.length} of ${t.total} steps${t.steps.length === t.total ? ', track complete' : ''})</span></h3><ul>${t.steps.map(s => `<li>${esc(s.title)} <span class="m">· ${esc(s.provider)}${s.date ? ' · ' + esc(s.date) : ''}</span>${s.url ? ` · <a href="${esc(s.url)}">Course</a>` : ''}</li>`).join('')}</ul>`).join('') : '<p class="m">No completed steps yet.</p>';
+      if (d.certs.length) {
+        h += '<h2>Outside certificates</h2><ul>' + d.certs.map(c => { const u = safeUrl(c.link); return `<li>${esc(c.title)} <span class="m">· ${esc(c.issuer || 'external')}</span>${u ? ` · <a href="${esc(u)}">Verify (${esc(hostOf(u))})</a>` : ' · <span class="m">no verification link</span>'}${c.file ? ' · <span class="m">certificate file on record</span>' : ''}</li>`; }).join('') + '</ul>';
+      }
+      h += `<p class="m">Generated by Navig8 on ${new Date().toISOString().slice(0, 10)}. Course steps are self-reported progress; use the verification links to check outside certificates.</p>`;
+      return h;
+    }
+    const SUMMARY_CSS = 'body{font-family:Arial,sans-serif;max-width:720px;margin:32px auto;padding:0 16px;color:#111;line-height:1.5}h1{margin:0 0 4px}h2{margin-top:28px;border-bottom:1px solid #ccc;padding-bottom:4px}h3{margin:16px 0 4px}.m{color:#555;font-weight:400;font-size:.9em}a{color:#0b5cad}';
+    function exportPdf() {
+      byId('printSheet').innerHTML = `<style>${SUMMARY_CSS}</style>` + buildSummaryBody();
+      window.print();
+    }
+    function downloadBlob(blob, name) {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }
+    function downloadPublicSummary() {
+      const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(profileInfo.name || 'Portfolio')} · Navig8</title><style>${SUMMARY_CSS}</style></head><body>${buildSummaryBody()}</body></html>`;
+      downloadBlob(new Blob([html], { type: 'text/html' }), 'navig8-portfolio.html');
+    }
+
+    // Badges
+    function wrapText(t, max) {
+      const words = String(t).split(/\s+/), lines = []; let cur = '';
+      words.forEach(w => { if ((cur + ' ' + w).trim().length > max && cur) { lines.push(cur); cur = w; } else cur = (cur + ' ' + w).trim(); });
+      if (cur) lines.push(cur); return lines.slice(0, 3);
+    }
+    function cleanProvider(p) { return String(p).split('·')[0].trim(); }
+    function buildBadgeSvg(track) {
+      const st = progress[track] || [];
+      const provs = [...new Set(st.map(s => cleanProvider(s.provider)))].slice(0, 3).join(', ');
+      const date = ((completedOn[track] || {})[st.length ? st[st.length - 1].id : 0]) || new Date().toISOString().slice(0, 10);
+      const lines = wrapText(track, 24);
+      const title = lines.map((l, i) => `<text x="300" y="${150 + i * 34}" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#EAEAEA">${esc(l)}</text>`).join('');
+      const y0 = 150 + lines.length * 34;
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="315" viewBox="0 0 600 315"><rect width="600" height="315" rx="18" fill="#161925"/><rect x="8" y="8" width="584" height="299" rx="12" fill="none" stroke="#EFCB68" stroke-width="2"/><text x="300" y="70" text-anchor="middle" font-family="monospace" font-size="14" letter-spacing="3" fill="#EFCB68">NAVIG8 · TRACK COMPLETE</text><circle cx="300" cy="100" r="12" fill="#03C988"/><path d="M294 100l4 4 8-9" stroke="#161925" stroke-width="3" fill="none"/>${title}<text x="300" y="${y0 + 10}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" fill="#B8C4DC">${st.length} of ${st.length} steps · ${esc(provs)}</text><text x="300" y="${y0 + 44}" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#EAEAEA">${esc(profileInfo.name || '')}</text><text x="300" y="${y0 + 66}" text-anchor="middle" font-family="monospace" font-size="12" fill="#8896B0">${esc(date)} · self-reported progress</text></svg>`;
+    }
+    function badgeAllowed(track) { const s = progress[track]; return s && s.length && s.every(x => x.status === 'done'); }
+    function downloadBadgeSvg(track) {
+      if (!badgeAllowed(track)) return;
+      downloadBlob(new Blob([buildBadgeSvg(track)], { type: 'image/svg+xml' }), 'navig8-' + slugify(track) + '-badge.svg');
+      flash('Badge downloaded (SVG).');
+    }
+    function downloadBadgePng(track) {
+      if (!badgeAllowed(track)) return;
+      const url = URL.createObjectURL(new Blob([buildBadgeSvg(track)], { type: 'image/svg+xml' }));
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas'); c.width = 1200; c.height = 630;
+        c.getContext('2d').drawImage(img, 0, 0, 1200, 630);
+        c.toBlob(b => { if (b) { downloadBlob(b, 'navig8-' + slugify(track) + '-badge.png'); flash('Badge downloaded (PNG).'); } URL.revokeObjectURL(url); });
+      };
+      img.onerror = () => URL.revokeObjectURL(url);
+      img.src = url;
+    }
+
+
+    initPwToggles();
+    renderQuiz();
+    typeHero();
+    renderFaq('faqHome', 'home');
+    renderFaq('faqTracks', 'tracks');
+    renderFaq('faqRoadmap', 'roadmap');
+    renderFaq('faqProfile', 'profile');
+    restoreSession();
+  </script>
+</body>
+
+</html>

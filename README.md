@@ -1,15 +1,30 @@
 # Navig8.tech 🧭
-> **Designing A Structured Career Roadmap Platform To Support IT Specialization Decisions And Job Readiness**  
-> *Final Project in UI/UX Design and Programming*
 
-**Navig8.tech** is an interactive, web-based career roadmap and learning path platform designed to help Information Technology (IT) and Computer Science students navigate specialization decisions with confidence. By providing structured course sequencing, cost transparency (free vs. paid), explicit job outcome linkages, and an integrated skill showcase, Navig8.tech solves the widespread issue of choice overload and disjointed learning paths.
+<div align="center">
+
+[![Live Demo](https://img.shields.io/badge/Demo-Live_Platform-D4AF37?style=for-the-badge&logo=googlechrome&logoColor=black)](https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JAVASCRIPT-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![UI/UX](https://img.shields.io/badge/UI%2FUX-4B4B4B?style=for-the-badge&logo=figma&logoColor=white)](#)
+[![Design Prototype](https://img.shields.io/badge/DESIGN_PROTOTYPE-B85C4B?style=for-the-badge)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+
+> **Designing A Structured Career Roadmap Platform To Support IT Specialization Decisions And Job Readiness**  
+> *Final Project in UI/UX Design and Programming (USERDES / IT252) — Asia Pacific College*
+
+</div>
 
 ---
 
 ## 📌 Problem Context & Market Need
 
-In both global and local contexts, IT students face significant hurdles transitioning from classroom theory to career readiness:
+**Navig8.tech** is an interactive, web-based career roadmap and learning path platform designed to help Information Technology (IT) and Computer Science students navigate specialization decisions with confidence. By providing structured course sequencing, cost transparency (free vs. paid), explicit job outcome linkages, and an integrated skill showcase, Navig8.tech solves the widespread issue of choice overload and disjointed learning paths.
 
+### 🌐 Live Platform
+🔗 **Experience the Live App:** [https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/](https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/)
+
+### Key Industry Insights:
 - **Degree-to-Job Disconnect:** A 2025 Cengage Group study revealed that only **30%** of college graduates secured jobs related to their degree, with nearly half reporting severe job-specific skill gaps. Locally, BSIT/BSCS graduates in the Philippines score high in programming confidence but rate themselves significantly lower in certification-based and industry-aligned skills (Austria, 2025).
 - **Choice Overload:** With tens of thousands of MOOCs available across fragmented platforms (YouTube, LinkedIn Learning, DataCamp, IBM SkillsBuild, Microsoft Learn), students experience decision paralysis and often abandon unsequenced learning paths (Chen et al., 2022).
 - **Lack of Transparency & Job Mapping:** Learners spend time on courses without knowing upfront whether certifications require paid fees or which entry-level job roles completed modules actually qualify them for.
@@ -118,14 +133,14 @@ Because Navig8.tech is packaged into a self-contained web architecture, running 
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/navig8-tech.git
-   cd navig8-tech
+   git clone https://github.com/rpprudenciado/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions.git
+   cd Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions
    ```
 
 2. **Open in Browser:**
-   Simply double-click `index.html` or open it using any modern web browser (Chrome, Edge, Firefox, Safari).
+   Simply double-click `index.html` (or `[USERDES] PRUDENCIADO_NAVIG8 APP.html`) in any modern web browser (Chrome, Edge, Firefox, Safari).
 
-   *Alternatively, launch with VS Code Live Server:*
+   *Alternatively, launch with VS Code Live Server / npx:*
    ```bash
    npx live-server .
    ```
@@ -133,8 +148,6 @@ Because Navig8.tech is packaged into a self-contained web architecture, running 
 ---
 
 ## 🔮 Limitations & Future Roadmap
-
-While the current version provides a complete client-side experience using local storage persistence, planned future iterations include:
 
 - [ ] **Backend Integration:** Migration to Supabase/Firebase for secure server-side authentication and cloud database persistence.
 - [ ] **AI-Assisted Career Guidance:** Implementing LLM APIs to generate dynamic, personalized project recommendations based on earned track badges.
@@ -154,5 +167,6 @@ While the current version provides a complete client-side experience using local
 ## 📝 Author & Acknowledgments
 
 - **Proponent:** Rhona-Mae P. Prudenciado (BSIT Student, Asia Pacific College)
-- **Course Instructor:** Clarice Portia Bajao
-- **Submitted For:** UI/UX Design and Programming (USERDES / IT252) Finals Requirement
+- **Course:** UI/UX Design and Programming (USERDES / IT252) Finals Requirement
+- **Institution:** Asia Pacific College
+- **License:** [MIT License](LICENSE)

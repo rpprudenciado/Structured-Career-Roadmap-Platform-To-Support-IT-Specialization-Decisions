@@ -1,3 +1,10 @@
+# Credentials & Environment Variables
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+
 # Operating System Files
 .DS_Store
 Thumbs.db

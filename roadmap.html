@@ -1,0 +1,760 @@
+﻿<!--
+PROGRAM NAME: roadmap.html
+DESCRIPTION: Interactive pathway roadmap and progress tracking built with Bootstrap 5
+AUTHOR: Prudenciado, Rhona-Mae
+DATE COMPILED: November 11, 2026
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navig8.tech | Sequenced Career Roadmap</title>
+
+  <!-- Google Fonts: Sora, Karla, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Navig8 Dark Mode Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Bootstrap Navbar and Nav Pills -->
+  <header class="sticky-top navig8-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" aria-label="Main Navigation">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          NAVIG<span class="accent-8">8</span><span class="domain-tag">.tech</span>
+        </a>
+
+        <!-- Mobile hamburger toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navig8MainMenu"
+          aria-controls="navig8MainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navig8MainMenu">
+          <ul class="nav nav-pills navig8-pills mx-auto my-3 my-lg-0 flex-column flex-lg-row gap-1">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tracks.html">Tracks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="roadmap.html">Roadmap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blogs.html">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html">Profile</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center justify-content-lg-end gap-2 pb-2 pb-lg-0">
+            <span id="navUserChip" class="badge rounded-pill badge-free d-none py-2 px-3"></span>
+            <a id="navAuthBtn" href="auth.html" class="btn btn-outline-navig8 w-100 w-lg-auto text-center">Sign Up / Log
+              In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container py-4 py-md-5 flex-grow-1">
+
+    <!-- Track Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+      <div>
+        <span class="eyebrow">Selected Pathway</span>
+        <h1 class="h2 fw-bold mb-1" id="roadmapTrackTitle">No Track Selected Yet</h1>
+        <p class="text-muted-custom small mb-0" id="roadmapTrackSubtitle">
+          Choose a career specialization or skill on the Tracks page to load its sequenced curriculum.
+        </p>
+      </div>
+      <div class="d-flex flex-wrap gap-2 align-self-start align-self-md-center">
+        <button type="button" id="roadmapClearTrackBtn" class="btn btn-outline-danger d-none"
+          onclick="roadmapClearTrack()">
+          Deselect Track
+        </button>
+        <a href="tracks.html" class="btn btn-outline-navig8">I want to switch</a>
+        <button type="button" id="startLearningBtn" class="btn btn-gold d-none" onclick="handleStartLearning()">
+          Start Learning &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Bootstrap Progress Bar -->
+    <div class="mb-4">
+      <div class="progress navig8-progress mb-2" role="progressbar" aria-label="Roadmap Completion Progress"
+        aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" id="roadmapProgressFill" style="width: 0%">
+        </div>
+      </div>
+      <span class="font-monospace small text-muted-custom" id="roadmapProgressLabel">0 OF 0 STEPS COMPLETED (0%)</span>
+    </div>
+
+    <!-- Terminal Log Window and Bootstrap Breadcrumb -->
+    <section class="card win-card mb-4">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+        <nav aria-label="breadcrumb" class="ms-2">
+          <ol class="breadcrumb terminal-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">~</a></li>
+            <li class="breadcrumb-item"><a href="tracks.html">roadmap</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="roadmapBreadcrumbSlug">unselected</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="card-body font-monospace small scroll-container py-3 px-4" id="roadmapTerminalLog">
+        <div class="text-muted-custom">$ roadmap status</div>
+        <div class="text-muted-custom">&gt; waiting for learner to select a pathway on Tracks</div>
+      </div>
+    </section>
+
+    <!-- Official Track Badge Showcase -->
+    <div id="roadmapBadgeShowcase"></div>
+
+    <!-- Roadmap Step Cards -->
+    <section id="roadmapStepsContainer" class="mb-5"></section>
+
+    <!-- Curated Career Guide Card -->
+    <section class="card win-card mb-5 d-none" id="roadmapArticleCard">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+        <span class="font-monospace small text-muted-custom ms-2">~/readings/track-guide</span>
+      </div>
+      <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+          <span class="eyebrow">Recommended Career Reading</span>
+          <h2 class="h6 fw-bold mb-1" id="roadmapArticleTitle">Career Guide</h2>
+          <p class="small text-muted-custom mb-0" id="roadmapArticleSource">Source: Industry Guide</p>
+        </div>
+        <a id="roadmapArticleUrl" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline-navig8">
+          Open Career Article ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- Bootstrap Accordion -->
+    <section aria-label="Roadmap Frequently Asked Questions">
+      <span class="eyebrow">Frequently Asked Questions</span>
+      <h2 class="h4 fw-bold mb-3">Questions about your roadmap</h2>
+
+      <div class="accordion navig8-accordion" id="roadmapFaqAccordion">
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="rFaq1">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#rFaqCollapse1" aria-expanded="false" aria-controls="rFaqCollapse1">
+              What happens when I mark a step complete?
+            </button>
+          </h3>
+          <div id="rFaqCollapse1" class="accordion-collapse collapse" aria-labelledby="rFaq1"
+            data-bs-parent="#roadmapFaqAccordion">
+            <div class="accordion-body">
+              It is saved to your profile immediately, unlocks the next course in the sequence, and feeds straight into
+              your verified portfolio.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="rFaq2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#rFaqCollapse2" aria-expanded="false" aria-controls="rFaqCollapse2">
+              How is the specialization badge earned?
+            </button>
+          </h3>
+          <div id="rFaqCollapse2" class="accordion-collapse collapse" aria-labelledby="rFaq2"
+            data-bs-parent="#roadmapFaqAccordion">
+            <div class="accordion-body">
+              Once you mark every step of a track complete (100%), Navig8 automatically generates a personalized vector
+              badge with your name, username, and completion date.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="rFaq3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#rFaqCollapse3" aria-expanded="false" aria-controls="rFaqCollapse3">
+              Are the free steps actually free, or is there a catch?
+            </button>
+          </h3>
+          <div id="rFaqCollapse3" class="accordion-collapse collapse" aria-labelledby="rFaq3"
+            data-bs-parent="#roadmapFaqAccordion">
+            <div class="accordion-body">
+              The learning materials are genuinely free, and whenever an external certification exam has an optional
+              voucher fee, we note it upfront in the provider line.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="rFaq4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#rFaqCollapse4" aria-expanded="false" aria-controls="rFaqCollapse4">
+              How are the roadmap stages structured?
+            </button>
+          </h3>
+          <div id="rFaqCollapse4" class="accordion-collapse collapse" aria-labelledby="rFaq4"
+            data-bs-parent="#roadmapFaqAccordion">
+            <div class="accordion-body">
+              Each roadmap is sequenced using industry competency progressions (guided by roadmap.sh): starting from
+              core prerequisites, advancing through hands-on tooling, and culminating in job-ready specialization.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-top border-secondary border-opacity-25 py-4 text-center mt-auto">
+    <div class="container small text-muted-custom">
+      <p class="mb-1 fw-bold text-light">Navig8.tech</p>
+      <p class="mb-0">Rhona-Mae P. Prudenciado | Asia Pacific College</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Roadmap and progress tracker script -->
+  <script>
+    const STATE_KEY = "navig8_webprog_v2";
+
+    /* Industry-Accurate Curricula Guided by roadmap.sh Progression */
+    const ROADMAP_DATA = {
+      "Cybersecurity": [
+        { title: "Operating Systems, Linux CLI & Virtualization Fundamentals", provider: "Cisco Networking Academy / Linux Foundation", cost: "free", duration: "15-20 hrs", unlocks: "IT Security Trainee", url: "https://www.netacad.com/courses/os-it/ndg-linux-unhatched" },
+        { title: "Computer Networking, TCP/IP Protocols & Packet Analysis (Wireshark)", provider: "Cisco Networking Academy", cost: "free", duration: "25-30 hrs", unlocks: "Network Operations Support", url: "https://www.netacad.com/courses/networking/networking-basics" },
+        { title: "Core Security Principles, IAM, Cryptography & CompTIA Security+ (SY0-701)", provider: "Professor Messer · optional exam voucher", cost: "free", duration: "4-5 weeks (5 hrs/wk)", unlocks: "Junior SOC Analyst", url: "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video-training-course/" },
+        { title: "SIEM Log Monitoring, Incident Response & Cloud Security Defense", provider: "AWS Skill Builder / CyberDefenders", cost: "free", duration: "20-25 hrs", unlocks: "Cybersecurity Specialist", url: "https://skillbuilder.aws/" }
+      ],
+      "Cloud Computing": [
+        { title: "Linux Server Administration, Bash Scripting & IP Networking", provider: "Linux Foundation (LFS101)", cost: "free", duration: "15-20 hrs", unlocks: "Cloud Operations Trainee", url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
+        { title: "Core Cloud Infrastructure: IAM, Compute (EC2/VMs), Storage & VPCs", provider: "AWS Skill Builder / Microsoft Learn", cost: "free", duration: "20-25 hrs", unlocks: "Cloud Support Associate", url: "https://skillbuilder.aws/" },
+        { title: "Containers (Docker), Serverless Compute & High-Availability Design", provider: "Google Cloud Skills Boost", cost: "free", duration: "3-4 weeks (5 hrs/wk)", unlocks: "Junior Cloud Engineer", url: "https://www.cloudskillsboost.google/" },
+        { title: "Infrastructure as Code (Terraform), CI/CD & Cloud Security Governance", provider: "HashiCorp Developer Learn", cost: "free", duration: "15-20 hrs", unlocks: "Associate Cloud Architect", url: "https://developer.hashicorp.com/terraform/tutorials" }
+      ],
+      "Networking": [
+        { title: "OSI & TCP/IP Models, Ethernet Cabling & IPv4/IPv6 Subnetting", provider: "Cisco Networking Academy", cost: "free", duration: "20-25 hrs", unlocks: "NOC Support Technician", url: "https://www.netacad.com/courses/networking/networking-basics" },
+        { title: "VLAN Switching, Spanning Tree & Dynamic Routing (OSPF / BGP)", provider: "Cisco CCNA Track · optional exam fee", cost: "free", duration: "6-8 weeks (5 hrs/wk)", unlocks: "Junior Network Administrator", url: "https://www.netacad.com/courses/networking/ccna-introduction-networks" },
+        { title: "Enterprise Wireless (WLAN), Core Services (DNS/DHCP/NAT) & WANs", provider: "Professor Messer Network+ (N10-009)", cost: "free", duration: "20-30 hrs", unlocks: "Network Engineer Associate", url: "https://www.professormesser.com/network-plus/n10-009/n10-009-video-training-course/" },
+        { title: "Network Firewalls, VPN Tunneling, ACLs & Python Network Automation", provider: "Cisco Networking Academy (Network Defense)", cost: "free", duration: "15-20 hrs", unlocks: "Enterprise Network Engineer", url: "https://www.netacad.com/courses/cybersecurity/network-defense" }
+      ],
+      "Software & Web Development": [
+        { title: "How the Web Works, Semantic HTML5, Modern CSS3 (Flexbox/Grid) & Git", provider: "freeCodeCamp / MDN Web Docs", cost: "free", duration: "30-35 hrs", unlocks: "Junior Frontend Trainee", url: "https://www.freecodecamp.org/learn/2022/responsive-web-design/" },
+        { title: "Modern JavaScript (ES6+), DOM Manipulation, Fetch API & Async Logic", provider: "The Odin Project / JavaScript.info", cost: "free", duration: "35-45 hrs", unlocks: "Frontend Web Developer", url: "https://www.theodinproject.com/paths/foundations/courses/foundations" },
+        { title: "Component-Driven Frontend Architecture with React & State Management", provider: "React.dev / Full Stack Open", cost: "free", duration: "25-30 hrs", unlocks: "React Frontend Engineer", url: "https://fullstackopen.com/en/" },
+        { title: "RESTful APIs with Node.js/Express, Relational SQL & Cloud Deployment", provider: "The Odin Project (Full Stack JavaScript)", cost: "free", duration: "30-40 hrs", unlocks: "Full-Stack Web Developer", url: "https://www.theodinproject.com/paths/full-stack-javascript" }
+      ],
+      "Data Science": [
+        { title: "Python for Data Science: NumPy Arrays, Pandas DataFrames & Cleaning", provider: "Kaggle Learn", cost: "free", duration: "15-20 hrs", unlocks: "Data Research Trainee", url: "https://www.kaggle.com/learn/pandas" },
+        { title: "Probability, Descriptive & Inferential Statistics, and Analytical SQL", provider: "Khan Academy / Mode SQL Tutorial", cost: "free", duration: "20-25 hrs", unlocks: "Junior Data Analyst", url: "https://mode.com/sql-tutorial/" },
+        { title: "Exploratory Data Analysis & Visualization (Matplotlib, Seaborn, BI)", provider: "DataCamp · free trial, paid after (free Kaggle alt)", cost: "paid", duration: "15-20 hrs", unlocks: "Business Intelligence Analyst", url: "https://www.datacamp.com/" },
+        { title: "Supervised & Unsupervised Machine Learning with Scikit-Learn", provider: "Kaggle Learn / Coursera Audit", cost: "free", duration: "20-25 hrs", unlocks: "Associate Data Scientist", url: "https://www.kaggle.com/learn/intro-to-machine-learning" }
+      ],
+      "Data Engineering": [
+        { title: "Advanced SQL Queries, Window Functions, Relational Modeling & Python", provider: "freeCodeCamp / Mode SQL", cost: "free", duration: "25-30 hrs", unlocks: "Data Operations Associate", url: "https://www.freecodecamp.org/learn/relational-database/" },
+        { title: "Cloud Data Warehousing (BigQuery/Snowflake) & Dimensional Modeling (dbt)", provider: "dbt Developer Hub / DataTalks.Club", cost: "free", duration: "20-25 hrs", unlocks: "Analytics Engineer", url: "https://courses.getdbt.com/" },
+        { title: "Distributed Batch & Streaming Pipelines with Apache Spark & Kafka", provider: "Data Engineering Zoomcamp", cost: "free", duration: "4-6 weeks (5 hrs/wk)", unlocks: "Junior Data Engineer", url: "https://github.com/DataTalksClub/data-engineering-zoomcamp" },
+        { title: "Workflow Orchestration with Apache Airflow, Docker & Data Lakehouses", provider: "IBM / Coursera (audit free)", cost: "free", duration: "25-30 hrs", unlocks: "Data Platform Engineer", url: "https://www.coursera.org/professional-certificates/ibm-data-engineer" }
+      ],
+      "Machine Learning & AI": [
+        { title: "Mathematical Foundations: Linear Algebra, Calculus & Probability in Python", provider: "3Blue1Brown / Kaggle Learn", cost: "free", duration: "15-20 hrs", unlocks: "AI Research Assistant", url: "https://www.kaggle.com/learn/python" },
+        { title: "Classical Machine Learning: Regression, Trees, SVMs & Feature Engineering", provider: "Google Machine Learning Crash Course", cost: "free", duration: "15-20 hrs", unlocks: "Junior ML Practitioner", url: "https://developers.google.com/machine-learning/crash-course" },
+        { title: "Deep Learning, Neural Networks, CNNs & Transformers with PyTorch", provider: "fast.ai Practical Deep Learning", cost: "free", duration: "30-40 hrs", unlocks: "Deep Learning Engineer (Entry)", url: "https://course.fast.ai/" },
+        { title: "LLM Engineering, Vector Databases (RAG) & Model Deployment (MLOps)", provider: "DeepLearning.AI Short Courses", cost: "free", duration: "15-20 hrs", unlocks: "AI / Machine Learning Engineer", url: "https://www.deeplearning.ai/short-courses/" }
+      ],
+      "Database Administration": [
+        { title: "Relational Database Theory, ER Modeling, Normalization & ANSI SQL", provider: "SQLBolt / PostgreSQL Tutorial", cost: "free", duration: "15-20 hrs", unlocks: "Database Support Associate", url: "https://www.postgresqltutorial.com/" },
+        { title: "RDBMS Architecture, Role-Based Access Control (RBAC) & ACID Transactions", provider: "PostgreSQL Official Documentation", cost: "free", duration: "15-20 hrs", unlocks: "Junior Database Administrator", url: "https://www.postgresql.org/docs/current/tutorial.html" },
+        { title: "Indexing Internals (B-Tree, Hash, GIN), Execution Plans & Query Tuning", provider: "Use The Index, Luke / CMU DB Systems", cost: "free", duration: "20-25 hrs", unlocks: "Database Performance Specialist", url: "https://use-the-index-luke.com/" },
+        { title: "Automated Backups, Point-in-Time Recovery (PITR), Replication & Failover", provider: "Udemy PostgreSQL DBA Track", cost: "paid", duration: "15-20 hrs", unlocks: "Production Database Administrator", url: "https://www.udemy.com/topic/postgresql/" }
+      ],
+      "DevOps": [
+        { title: "Linux System Internals, Bash Scripting, SSH & Networking Protocols", provider: "Linux Journey", cost: "free", duration: "15-20 hrs", unlocks: "Junior Systems Operator", url: "https://linuxjourney.com/" },
+        { title: "Containerization with Docker, Image Optimization & Docker Compose", provider: "Docker Official Get Started", cost: "free", duration: "12-15 hrs", unlocks: "Build & Release Associate", url: "https://docs.docker.com/get-started/" },
+        { title: "Automated CI/CD Pipelines with GitHub Actions & Artifact Registries", provider: "GitHub Skills / Docs", cost: "free", duration: "10-15 hrs", unlocks: "Junior DevOps Engineer", url: "https://skills.github.com/" },
+        { title: "Kubernetes Orchestration, Terraform IaC & Prometheus/Grafana Monitoring", provider: "Kubernetes.io Official Tutorials", cost: "free", duration: "25-30 hrs", unlocks: "DevOps / Site Reliability Engineer", url: "https://kubernetes.io/docs/tutorials/" }
+      ],
+      "Mobile App Development": [
+        { title: "Kotlin / Dart Programming Fundamentals & Object-Oriented Architecture", provider: "Android Developers / Dart.dev", cost: "free", duration: "15-20 hrs", unlocks: "Mobile Development Trainee", url: "https://developer.android.com/courses/android-basics-compose/course" },
+        { title: "Declarative Mobile UI Layouts, Navigation Graphs & State Management", provider: "Google Android Compose / Flutter Docs", cost: "free", duration: "25-30 hrs", unlocks: "Junior Mobile UI Developer", url: "https://docs.flutter.dev/get-started/codelabs" },
+        { title: "Asynchronous Networking (REST APIs), JSON Parsing & Local SQLite/Room", provider: "Google / Coursera (audit free)", cost: "free", duration: "20-25 hrs", unlocks: "Associate Mobile App Developer", url: "https://www.coursera.org/specializations/google-android-app-development" },
+        { title: "Native Device APIs, Unit/UI Testing, Performance & App Store Deployment", provider: "Android / Flutter Official Guides", cost: "free", duration: "15-20 hrs", unlocks: "Mobile Application Engineer", url: "https://developer.android.com/distribute" }
+      ],
+      "Game Development": [
+        { title: "2D/3D Game Math (Vectors & Matrices), C# / C++ Scripting & Game Loops", provider: "CS50 Intro to Game Dev (Harvard)", cost: "free", duration: "25-30 hrs", unlocks: "Gameplay Scripting Trainee", url: "https://cs50.harvard.edu/games/" },
+        { title: "Physics Engines, Collisions, Input Systems & Character Controllers", provider: "Unity Learn (Junior Programmer Pathway)", cost: "free", duration: "35-45 hrs", unlocks: "Junior Gameplay Programmer", url: "https://learn.unity.com/pathway/junior-programmer" },
+        { title: "Materials, Shaders, Lighting, Animation State Machines & Game Audio/UI", provider: "Unreal Engine Online Learning", cost: "free", duration: "20-25 hrs", unlocks: "Associate Game Developer", url: "https://dev.epicgames.com/community/learning" },
+        { title: "AI Pathfinding (NavMesh), Frame-Rate Profiling & Playable Build Release", provider: "Unity / Unreal Official Documentation", cost: "free", duration: "15-20 hrs", unlocks: "Game Systems Engineer", url: "https://learn.unity.com/" }
+      ],
+      "UI/UX Design": [
+        { title: "Human-Centered Design, User Research, Empathy Maps & User Personas", provider: "Google UX Design via Coursera (audit free)", cost: "free", duration: "15-20 hrs", unlocks: "UX Research Assistant", url: "https://www.coursera.org/professional-certificates/google-ux-design" },
+        { title: "Information Architecture, Sitemaps, User Flows & Low-Fidelity Wireframes", provider: "Laws of UX / NN/g Guides", cost: "free", duration: "12-15 hrs", unlocks: "Interaction & Wireframe Designer", url: "https://lawsofux.com/" },
+        { title: "Visual Design Systems, Typography, Color Contrast & Auto-Layout in Figma", provider: "Figma Official Learn Design", cost: "free", duration: "15-20 hrs", unlocks: "Junior UI/UX Designer", url: "https://help.figma.com/hc/en-us/sections/30880632542743" },
+        { title: "Interactive High-Fidelity Prototyping, WCAG Accessibility & Usability Testing", provider: "W3C WAI / Figma Prototyping Docs", cost: "free", duration: "15-20 hrs", unlocks: "Product UI/UX Designer", url: "https://www.w3.org/WAI/fundamentals/accessibility-intro/" }
+      ],
+      "QA & Software Testing": [
+        { title: "Testing Fundamentals (SDLC/STLC), Test Case Design & Boundary Analysis", provider: "ISTQB Foundation / Guru99", cost: "free", duration: "15-20 hrs", unlocks: "Manual QA Tester Intern", url: "https://www.guru99.com/software-testing.html" },
+        { title: "Web & Mobile Exploratory Testing, Browser DevTools & Bug Lifecycle (Jira)", provider: "Test Automation University (Applitools)", cost: "free", duration: "12-15 hrs", unlocks: "Junior Quality Assurance Analyst", url: "https://testautomationu.applitools.com/" },
+        { title: "REST API Testing, Status Codes, JSON Schema Validation & Postman Automation", provider: "Postman Academy", cost: "free", duration: "10-12 hrs", unlocks: "API Test Engineer", url: "https://academy.postman.com/" },
+        { title: "End-to-End UI Automation with Playwright / Selenium & CI Test Runners", provider: "Playwright.dev / TestAutomationU", cost: "free", duration: "20-25 hrs", unlocks: "QA Automation Engineer", url: "https://playwright.dev/docs/intro" }
+      ],
+      "IT Support & Systems Administration": [
+        { title: "Computer Architecture, BIOS/UEFI, OS Installation & Helpdesk Workflows", provider: "Google IT Support via Coursera (audit free)", cost: "free", duration: "25-30 hrs", unlocks: "IT Helpdesk Support Technician", url: "https://www.coursera.org/professional-certificates/google-it-support" },
+        { title: "Endpoint Networking, DNS, DHCP, VPNs & Hardware/OS Troubleshooting", provider: "Professor Messer CompTIA A+ (220-1101/1102)", cost: "free", duration: "30-40 hrs", unlocks: "Desktop Support Specialist", url: "https://www.professormesser.com/free-a-plus-training/220-1101/220-1101-video-training-course/" },
+        { title: "Windows Server Active Directory, Group Policy (GPO) & Linux Permissions", provider: "Microsoft Learn Windows Server Path", cost: "free", duration: "20-25 hrs", unlocks: "Junior Systems Administrator", url: "https://learn.microsoft.com/en-us/training/paths/m365-windows-server-fundamentals/" },
+        { title: "PowerShell / Bash Automation, Patch Management, Backups & M365 Identity", provider: "Microsoft Learn", cost: "free", duration: "15-20 hrs", unlocks: "Systems & Infrastructure Administrator", url: "https://learn.microsoft.com/en-us/training/paths/powershell-foundations/" }
+      ],
+      "Python": [
+        { title: "Python Syntax, Variables, Control Flow & Core Data Structures", provider: "Python.org / CS50P (Harvard)", cost: "free", duration: "15-20 hrs", unlocks: "Python Scripting Trainee", url: "https://cs50.harvard.edu/python/" },
+        { title: "Functions, Modules, File I/O, Exceptions & Object-Oriented Programming", provider: "Kaggle Learn / Real Python", cost: "free", duration: "15-20 hrs", unlocks: "Junior Python Developer", url: "https://www.kaggle.com/learn/python" },
+        { title: "Virtual Environments, External APIs (Requests) & Process Automation", provider: "Automate the Boring Stuff with Python", cost: "free", duration: "20-25 hrs", unlocks: "Python Automation Specialist", url: "https://automatetheboringstuff.com/" }
+      ],
+      "Networking Basics": [
+        { title: "Network Topologies, OSI & TCP/IP Layers, and Ethernet Frames", provider: "Cisco Networking Academy", cost: "free", duration: "12-15 hrs", unlocks: "Network Lab Trainee", url: "https://www.netacad.com/courses/networking/networking-basics" },
+        { title: "IPv4 & IPv6 Addressing, Subnetting Masks, CIDR & Default Gateways", provider: "Professor Messer Network+", cost: "free", duration: "12-15 hrs", unlocks: "NOC Support Assistant", url: "https://www.professormesser.com/network-plus/n10-009/n10-009-video-training-course/" },
+        { title: "Core Protocols (ARP, DNS, DHCP, NAT) & Packet Tracer Troubleshooting", provider: "Cisco Networking Academy", cost: "free", duration: "15-20 hrs", unlocks: "Junior Network Technician", url: "https://www.netacad.com/courses/packet-tracer" }
+      ],
+      "Cloud Fundamentals": [
+        { title: "Cloud Computing Models (IaaS, PaaS, SaaS) & Global Infrastructure", provider: "AWS Skill Builder", cost: "free", duration: "10-12 hrs", unlocks: "Cloud Associate Trainee", url: "https://aws.amazon.com/training/digital/" },
+        { title: "Core Cloud Services: Virtual Machines, Object Storage & Virtual Networks", provider: "Microsoft Learn (AZ-900)", cost: "free", duration: "12-15 hrs", unlocks: "Cloud Operations Support", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/" },
+        { title: "Shared Responsibility Security Model, Cloud Billing & Cost Management", provider: "AWS Cloud Practitioner Prep", cost: "free", duration: "10-15 hrs", unlocks: "Certified Cloud Practitioner Ready", url: "https://skillbuilder.aws/" }
+      ],
+      "Web Development": [
+        { title: "Semantic HTML5 Document Structure, Forms & Web Accessibility", provider: "MDN Web Docs / freeCodeCamp", cost: "free", duration: "15-20 hrs", unlocks: "Junior Web Markup Trainee", url: "https://developer.mozilla.org/en-US/docs/Learn_web_development" },
+        { title: "Responsive CSS3 Layouts (Flexbox, CSS Grid) & Bootstrap 5 Framework", provider: "freeCodeCamp / GetBootstrap Docs", cost: "free", duration: "20-25 hrs", unlocks: "Responsive UI Developer", url: "https://getbootstrap.com/docs/5.3/getting-started/introduction/" },
+        { title: "JavaScript DOM Manipulation, Event Listeners & Fetch API Integration", provider: "JavaScript.info", cost: "free", duration: "20-25 hrs", unlocks: "Frontend Web Developer", url: "https://javascript.info/" }
+      ],
+      "SQL": [
+        { title: "Relational Tables, SELECT Queries, Filtering (WHERE) & Sorting", provider: "SQLBolt", cost: "free", duration: "8-10 hrs", unlocks: "Junior Reporting Assistant", url: "https://sqlbolt.com/" },
+        { title: "Multi-Table INNER/LEFT JOINs, GROUP BY Aggregations & Having Clauses", provider: "Mode SQL Tutorial", cost: "free", duration: "12-15 hrs", unlocks: "SQL Data Analyst", url: "https://mode.com/sql-tutorial/" },
+        { title: "Subqueries, CTEs, Window Functions & Schema Creation (DDL/DML)", provider: "freeCodeCamp Relational DB", cost: "free", duration: "15-20 hrs", unlocks: "Database Query Specialist", url: "https://www.freecodecamp.org/learn/relational-database/" }
+      ],
+      "Linux": [
+        { title: "Linux Filesystem Hierarchy, Terminal Navigation & File Operations", provider: "Linux Journey", cost: "free", duration: "8-10 hrs", unlocks: "Linux Support Trainee", url: "https://linuxjourney.com/" },
+        { title: "Users, Groups, File Permissions (chmod/chown), Processes & Package Managers", provider: "Linux Foundation", cost: "free", duration: "12-15 hrs", unlocks: "Junior Linux Operator", url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
+        { title: "Shell Redirection, Pipes, grep/awk/sed & Automated Bash Scripting", provider: "OverTheWire / Codecademy", cost: "free", duration: "12-15 hrs", unlocks: "Linux Systems Associate", url: "https://linuxjourney.com/" }
+      ]
+    };
+
+    const TRACK_ARTICLES = {
+      "Cybersecurity": { title: "Cybersecurity Career Paths & Skills Guide", source: "Pluralsight", url: "https://pluralsight.com/resources/blog/cybersecurity/cybersecurity-career-guide-2025" },
+      "Cloud Computing": { title: "What is Cloud Computing? Essential Architecture Guide", source: "AWS", url: "https://aws.amazon.com/what-is-cloud-computing/" },
+      "Networking": { title: "How to Become a Network Engineer: Complete Guide", source: "Coursera", url: "https://www.coursera.org/articles/how-to-become-a-network-engineer" },
+      "Software & Web Development": { title: "Learn Web Development: Modern Standards & Architecture", source: "MDN Web Docs", url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/About" },
+      "Data Science": { title: "How to Become a Data Scientist: Skills & Roadmap", source: "DataCamp", url: "https://www.datacamp.com/tutorial/how-to-become-a-data-scientist" },
+      "Data Engineering": { title: "The Best Free Resources to Learn Data Engineering", source: "DataCamp", url: "https://www.datacamp.com/blog/top-free-data-engineering-resources" },
+      "Machine Learning & AI": { title: "Machine Learning Crash Course & Career Guide", source: "Google Developers", url: "https://developers.google.com/machine-learning/crash-course" },
+      "Database Administration": { title: "Become a PostgreSQL DBA: Query Tuning & Security", source: "Hackr.io", url: "https://hackr.io/tutorial/become-a-postgresql-dba" },
+      "DevOps": { title: "How to Become a DevOps Engineer", source: "Coursera", url: "https://www.coursera.org/articles/how-to-become-a-devops-engineer" },
+      "Mobile App Development": { title: "Build Your First Mobile Application", source: "Android Developers", url: "https://developer.android.com/get-started/overview" },
+      "Game Development": { title: "Getting Started with Game Engines & Development", source: "GameDev Academy", url: "https://gamedevacademy.org/unreal-engine-complete-course/" },
+      "UI/UX Design": { title: "Career Spotlight: What Does a UX Designer Do?", source: "Coursera", url: "https://www.coursera.org/articles/ux-designer-video" },
+      "QA & Software Testing": { title: "A Beginner's Guide to Quality Assurance & Testing", source: "Class Central", url: "https://classcentral.com/report/?p=86810" },
+      "IT Support & Systems Administration": { title: "7 Steps to Start Your Systems Administration Career", source: "Linux Foundation", url: "https://www.linuxfoundation.org/blog/7-steps-to-start-your-linux-sysadmin-career-2" }
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return Object.assign({
+          user: null,
+          registeredUsers: {},
+          selectedTrack: null,
+          startedTracks: {},
+          completedSteps: {},
+          completedDates: {},
+          externalCerts: []
+        }, parsed);
+      } catch (e) {
+        return {
+          user: null,
+          registeredUsers: {},
+          selectedTrack: null,
+          startedTracks: {},
+          completedSteps: {},
+          completedDates: {},
+          externalCerts: []
+        };
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
+
+    function slugify(str) {
+      return String(str || "").toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    }
+
+    function escapeHtml(str) {
+      return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function buildBadgeSvg(trackName, learnerName, username, dateStr, totalSteps) {
+      const displayUser = username ? " (@" + username + ")" : "";
+      return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="315" viewBox="0 0 600 315" class="img-fluid rounded-3 border border-secondary">' +
+        '<rect width="600" height="315" rx="16" fill="#161925"/>' +
+        '<rect x="10" y="10" width="580" height="295" rx="12" fill="#1c2436" stroke="#EFCD68" stroke-width="2"/>' +
+        '<text x="300" y="55" text-anchor="middle" font-family="monospace" font-size="13" letter-spacing="3" fill="#EFCD68">NAVIG8.TECH · VERIFIED TRACK BADGE</text>' +
+        '<circle cx="300" cy="95" r="16" fill="#03C988"/>' +
+        '<path d="M292 95 l5 5 l11 -11" stroke="#161925" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+        '<text x="300" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#F3F4F6">' + escapeHtml(trackName) + '</text>' +
+        '<text x="300" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#99A3B6">' + totalSteps + ' of ' + totalSteps + ' Sequenced Modules Completed (100%)</text>' +
+        '<line x1="150" y1="204" x2="450" y2="204" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>' +
+        '<text x="300" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#EFCD68">Awarded to: ' + escapeHtml(learnerName + displayUser) + '</text>' +
+        '<text x="300" y="266" text-anchor="middle" font-family="monospace" font-size="12" fill="#03C988">Issued on ' + escapeHtml(dateStr) + ' · Job-Ready Milestone</text>' +
+        '</svg>'
+      );
+    }
+
+    function downloadBadgePng(trackName) {
+      const state = loadState();
+      const steps = ROADMAP_DATA[trackName] || [];
+      const learnerName = (state.user && state.user.name) ? state.user.name : "Navig8 Learner";
+      const username = (state.user && state.user.username) ? state.user.username : "";
+      const dateStr = state.completedDates[trackName] || new Date().toISOString().slice(0, 10);
+      const svgMarkup = buildBadgeSvg(trackName, learnerName, username, dateStr, steps.length);
+
+      const url = URL.createObjectURL(new Blob([svgMarkup], { type: "image/svg+xml" }));
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1200;
+        canvas.height = 630;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, 1200, 630);
+        canvas.toBlob(function (blob) {
+          if (blob) {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "navig8-" + slugify(trackName) + "-badge.png";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+          }
+          URL.revokeObjectURL(url);
+        });
+      };
+      img.src = url;
+    }
+
+    let previewTrackFromUrl = null;
+
+    function handleStartLearning() {
+      const state = loadState();
+      const targetTrack = previewTrackFromUrl || state.selectedTrack;
+      if (!targetTrack) return;
+      state.selectedTrack = targetTrack;
+      previewTrackFromUrl = null;
+      if (!state.user) {
+        saveState(state);
+        window.location.href = "auth.html?redirect=roadmap";
+        return;
+      }
+      state.startedTracks[targetTrack] = true;
+      saveState(state);
+      window.history.replaceState({}, "", "roadmap.html?track=" + encodeURIComponent(targetTrack));
+      renderRoadmapPage();
+    }
+
+    function confirmSelectPreviewedTrack() {
+      const state = loadState();
+      const targetTrack = previewTrackFromUrl || state.selectedTrack;
+      if (!targetTrack) return;
+      state.selectedTrack = targetTrack;
+      previewTrackFromUrl = null;
+      saveState(state);
+      window.history.replaceState({}, "", "roadmap.html?track=" + encodeURIComponent(targetTrack));
+      renderRoadmapPage();
+    }
+
+    function markStepDone(stepIdx) {
+      const state = loadState();
+      const track = state.selectedTrack;
+      if (!track || !ROADMAP_DATA[track]) return;
+
+      if (!state.user) {
+        window.location.href = "auth.html?redirect=roadmap";
+        return;
+      }
+
+      state.startedTracks[track] = true;
+      const doneList = state.completedSteps[track] || [];
+      if (doneList.indexOf(stepIdx) === -1) {
+        doneList.push(stepIdx);
+      }
+      state.completedSteps[track] = doneList;
+
+      if (doneList.length === ROADMAP_DATA[track].length) {
+        state.completedDates[track] = new Date().toISOString().slice(0, 10);
+      }
+
+      saveState(state);
+      renderRoadmapPage();
+    }
+
+    function roadmapClearTrack() {
+      const state = loadState();
+      state.selectedTrack = null;
+      if (state.user) {
+        state.user.selectedTrack = null;
+        if (state.registeredUsers && state.user.username) {
+          const uKey = state.user.username.toLowerCase();
+          if (state.registeredUsers[uKey]) {
+            state.registeredUsers[uKey].selectedTrack = null;
+          }
+        }
+      }
+      previewTrackFromUrl = null;
+      saveState(state);
+      window.history.replaceState({}, "", "roadmap.html");
+      renderRoadmapPage();
+    }
+
+    function renderRoadmapPage() {
+      const state = loadState();
+      const isPreviewOnly = !!(previewTrackFromUrl && previewTrackFromUrl !== state.selectedTrack);
+      const track = previewTrackFromUrl || state.selectedTrack;
+
+      const titleEl = document.getElementById("roadmapTrackTitle");
+      const subEl = document.getElementById("roadmapTrackSubtitle");
+      const startBtn = document.getElementById("startLearningBtn");
+      const clearBtn = document.getElementById("roadmapClearTrackBtn");
+      const progressFill = document.getElementById("roadmapProgressFill");
+      const progressLabel = document.getElementById("roadmapProgressLabel");
+      const slugEl = document.getElementById("roadmapBreadcrumbSlug");
+      const termLog = document.getElementById("roadmapTerminalLog");
+      const badgeBox = document.getElementById("roadmapBadgeShowcase");
+      const stepsContainer = document.getElementById("roadmapStepsContainer");
+      const articleCard = document.getElementById("roadmapArticleCard");
+
+      if (!track || !ROADMAP_DATA[track]) {
+        titleEl.textContent = "No Track Selected Yet";
+        subEl.textContent = "Choose a career specialization or skill on the Tracks page to load its sequenced curriculum.";
+        startBtn.classList.add("d-none");
+        if (clearBtn) clearBtn.classList.add("d-none");
+        progressFill.style.width = "0%";
+        progressLabel.textContent = "0 OF 0 STEPS COMPLETED (0%)";
+        slugEl.textContent = "unselected";
+        termLog.innerHTML =
+          '<div class="text-muted-custom">$ roadmap status</div>' +
+          '<div class="text-muted-custom">&gt; waiting for learner to select a pathway on Tracks</div>';
+        badgeBox.innerHTML = "";
+        articleCard.classList.add("d-none");
+        stepsContainer.innerHTML =
+          '<div class="card win-card p-4 text-center">' +
+          '<p class="text-muted-custom mb-3">You have not selected a career track or skill yet.</p>' +
+          '<div><a href="tracks.html" class="btn btn-gold">Browse &amp; Select a Track &rarr;</a></div>' +
+          '</div>';
+        return;
+      }
+
+      if (clearBtn) {
+        if (state.selectedTrack && !isPreviewOnly) {
+          clearBtn.classList.remove("d-none");
+        } else {
+          clearBtn.classList.add("d-none");
+        }
+      }
+
+      const steps = ROADMAP_DATA[track];
+      const doneArr = state.completedSteps[track] || [];
+      const isStarted = !isPreviewOnly && !!state.startedTracks[track];
+      const pct = Math.round((doneArr.length / steps.length) * 100);
+
+      titleEl.textContent = isPreviewOnly ? track + " (Previewing)" : track;
+      subEl.textContent = isPreviewOnly
+        ? "You are browsing this track's curriculum without locking it in yet. Click Confirm & Select Track when ready."
+        : (isStarted
+          ? "Pathway active. Complete each unlocked step in sequence to earn your official specialization badge."
+          : "Preview the sequenced modules below, then click Start Learning to track your progress.");
+
+      if (isPreviewOnly) {
+        startBtn.textContent = "Confirm & Select Track \u2713";
+        startBtn.onclick = confirmSelectPreviewedTrack;
+        startBtn.classList.remove("d-none");
+      } else if (isStarted || doneArr.length > 0) {
+        startBtn.classList.add("d-none");
+      } else {
+        startBtn.textContent = "Start Learning \u2192";
+        startBtn.onclick = handleStartLearning;
+        startBtn.classList.remove("d-none");
+      }
+
+      progressFill.style.width = pct + "%";
+      progressLabel.textContent = doneArr.length + " OF " + steps.length + " STEPS COMPLETED (" + pct + "%)";
+      slugEl.textContent = slugify(track);
+
+      let logLines = '<div class="text-muted-custom">$ roadmap init --track=' + slugify(track) + '</div>';
+      let stepsHtml = "";
+      let activeAssigned = false;
+
+      steps.forEach(function (step, idx) {
+        const isDone = doneArr.indexOf(idx) !== -1;
+        let status = "locked";
+        if (isDone) {
+          status = "done";
+        } else if (!activeAssigned) {
+          status = "current";
+          activeAssigned = true;
+        }
+
+        const logColor = status === "done" ? "text-emerald" : (status === "current" ? "text-gold" : "text-muted-custom");
+        const logPrefix = status === "done" ? "[done]   " : (status === "current" ? "[now]    " : "[locked] ");
+        logLines += '<div class="' + logColor + '">' + logPrefix + slugify(step.title) + '</div>';
+
+        const nodeClass = status === "done" ? "node-done" : (status === "current" ? "node-current" : "node-locked");
+        const eyebrowHtml = status === "done"
+          ? '<span class="eyebrow text-emerald">Step ' + (idx + 1) + ' &middot; Completed &check;</span>'
+          : (status === "current"
+            ? '<span class="eyebrow text-gold">Step ' + (idx + 1) + ' &middot; ' + (isStarted ? 'Currently Enrolled' : 'Starting Module') + '</span>'
+            : '<span class="eyebrow">Step ' + (idx + 1) + ' &middot; Locked Prerequisite</span>');
+
+        const costBadge = step.cost === "free"
+          ? '<span class="badge rounded-pill badge-free">Free Course</span>'
+          : '<span class="badge rounded-pill badge-paid">Paid Course</span>';
+
+        const unlockBadge = status !== "locked"
+          ? '<span class="badge rounded-pill badge-gold">Unlocks: ' + escapeHtml(step.unlocks) + '</span>'
+          : '<span class="badge rounded-pill badge-outline">Locked: Complete Step ' + idx + ' first</span>';
+
+        let actionButtonHtml = "";
+        if (status === "current") {
+          if (isStarted) {
+            actionButtonHtml =
+              '<div class="mt-3">' +
+              '<button type="button" class="btn btn-gold btn-sm" onclick="markStepDone(' + idx + ')">Mark Step ' + (idx + 1) + ' Complete &check;</button>' +
+              '</div>';
+          } else {
+            actionButtonHtml =
+              '<div class="mt-3">' +
+              '<button type="button" class="btn btn-outline-navig8 btn-sm" onclick="handleStartLearning()">Start Learning to Track This Step &rarr;</button>' +
+              '</div>';
+          }
+        }
+
+        stepsHtml +=
+          '<div class="d-flex gap-3">' +
+          '<div class="d-flex flex-column align-items-center" style="width: 24px;">' +
+          '<div class="node-circle ' + nodeClass + '"></div>' +
+          (idx < steps.length - 1 ? '<div class="trail-line"></div>' : '') +
+          '</div>' +
+          '<article class="card track-card flex-grow-1 mb-3 p-3 ' + (status === "locked" ? "opacity-50" : "") + '" style="cursor: default;">' +
+          eyebrowHtml +
+          '<h2 class="h6 fw-bold mb-1">' +
+          '<a href="' + escapeHtml(step.url) + '" target="_blank" rel="noopener noreferrer" class="text-gold text-decoration-none">' + escapeHtml(step.title) + ' ↗</a>' +
+          '</h2>' +
+          '<p class="text-muted-custom small mb-3">Provided by: ' + escapeHtml(step.provider) + '</p>' +
+          '<div class="d-flex flex-wrap gap-2">' +
+          costBadge +
+          '<span class="badge rounded-pill badge-outline">Est. ' + escapeHtml(step.duration) + '</span>' +
+          unlockBadge +
+          '</div>' +
+          actionButtonHtml +
+          '</article>' +
+          '</div>';
+      });
+
+      termLog.innerHTML = logLines;
+      stepsContainer.innerHTML = stepsHtml;
+
+      if (doneArr.length === steps.length) {
+        const learnerName = (state.user && state.user.name) ? state.user.name : "Navig8 Learner";
+        const username = (state.user && state.user.username) ? state.user.username : "";
+        const dateStr = state.completedDates[track] || new Date().toISOString().slice(0, 10);
+        const svgMarkup = buildBadgeSvg(track, learnerName, username, dateStr, steps.length);
+
+        badgeBox.innerHTML =
+          '<div class="card win-card mb-4 border-warning">' +
+          '<div class="card-header d-flex align-items-center gap-2">' +
+          '<span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>' +
+          '<span class="font-monospace small text-gold ms-2">~/roadmap/' + slugify(track) + '/official-badge</span>' +
+          '</div>' +
+          '<div class="card-body p-4">' +
+          '<div class="row align-items-center g-4">' +
+          '<div class="col-12 col-lg-6 text-center">' + svgMarkup + '</div>' +
+          '<div class="col-12 col-lg-6">' +
+          '<span class="eyebrow text-emerald">100% Track Completed</span>' +
+          '<h2 class="h4 fw-bold text-gold mb-2">' + escapeHtml(track) + ' Specialist Badge</h2>' +
+          '<p class="text-muted-custom small mb-3">Automatically generated for <strong class="text-light">' + escapeHtml(learnerName) + '</strong> upon completing all ' + steps.length + ' sequenced modules in this pathway.</p>' +
+          '<div class="d-flex flex-wrap gap-2">' +
+          '<button type="button" class="btn btn-gold" onclick="downloadBadgePng(\'' + escapeHtml(track) + '\')">Download Badge (.PNG)</button>' +
+          '<a href="profile.html" class="btn btn-outline-navig8">View in My Profile &rarr;</a>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      } else {
+        badgeBox.innerHTML = "";
+      }
+
+      const article = TRACK_ARTICLES[track];
+      if (article) {
+        articleCard.classList.remove("d-none");
+        document.getElementById("roadmapArticleTitle").textContent = article.title;
+        document.getElementById("roadmapArticleSource").textContent = "Source: " + article.source + " · Recommended background reading for " + track;
+        document.getElementById("roadmapArticleUrl").href = article.url;
+      } else {
+        articleCard.classList.add("d-none");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const params = new URLSearchParams(window.location.search);
+      const trackFromUrl = params.get("track");
+      const previewFromUrl = params.get("preview");
+      const state = loadState();
+
+      if (trackFromUrl && ROADMAP_DATA[trackFromUrl]) {
+        state.selectedTrack = trackFromUrl;
+        saveState(state);
+      } else if (previewFromUrl && ROADMAP_DATA[previewFromUrl]) {
+        previewTrackFromUrl = previewFromUrl;
+      }
+
+      const chip = document.getElementById("navUserChip");
+      const authBtn = document.getElementById("navAuthBtn");
+      if (state.user && state.user.username) {
+        chip.textContent = "@" + state.user.username;
+        chip.classList.remove("d-none");
+        authBtn.textContent = "Log Out";
+        authBtn.href = "#";
+        authBtn.onclick = function (e) {
+          e.preventDefault();
+          state.user = null;
+          saveState(state);
+          window.location.reload();
+        };
+      }
+
+      renderRoadmapPage();
+    });
+  </script>
+</body>
+
+</html>

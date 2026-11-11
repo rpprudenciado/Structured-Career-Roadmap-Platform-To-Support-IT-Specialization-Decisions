@@ -1,172 +1,106 @@
-# Navig8.tech 🧭
+# Navig8.tech
 
 <div align="center">
 
 [![Live Demo](https://img.shields.io/badge/Demo-Live_Platform-D4AF37?style=for-the-badge&logo=googlechrome&logoColor=black)](https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/)
+[![Bootstrap 5](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JAVASCRIPT-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![UI/UX](https://img.shields.io/badge/UI%2FUX-4B4B4B?style=for-the-badge&logo=figma&logoColor=white)](#)
-[![Design Prototype](https://img.shields.io/badge/DESIGN_PROTOTYPE-B85C4B?style=for-the-badge)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-> **Designing A Structured Career Roadmap Platform To Support IT Specialization Decisions And Job Readiness**  
-> *Final Project in UI/UX Design and Programming (USERDES / IT252) — Asia Pacific College*
+> **Structured Career Roadmap Platform To Support IT Specialization Decisions And Job Readiness**  
+> *Asia Pacific College — Bachelor of Science in Information Technology (BSIT)*
 
 </div>
 
 ---
 
-## 📌 Problem Context & Market Need
+## Live Platform Deployment
 
-**Navig8.tech** is an interactive, web-based career roadmap and learning path platform designed to help Information Technology (IT) and Computer Science students navigate specialization decisions with confidence. By providing structured course sequencing, cost transparency (free vs. paid), explicit job outcome linkages, and an integrated skill showcase, Navig8.tech solves the widespread issue of choice overload and disjointed learning paths.
-
-### 🌐 Live Platform
-🔗 **Experience the Live App:** [https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/](https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/)
-
-### Key Industry Insights:
-- **Degree-to-Job Disconnect:** A 2025 Cengage Group study revealed that only **30%** of college graduates secured jobs related to their degree, with nearly half reporting severe job-specific skill gaps. Locally, BSIT/BSCS graduates in the Philippines score high in programming confidence but rate themselves significantly lower in certification-based and industry-aligned skills (Austria, 2025).
-- **Choice Overload:** With tens of thousands of MOOCs available across fragmented platforms (YouTube, LinkedIn Learning, DataCamp, IBM SkillsBuild, Microsoft Learn), students experience decision paralysis and often abandon unsequenced learning paths (Chen et al., 2022).
-- **Lack of Transparency & Job Mapping:** Learners spend time on courses without knowing upfront whether certifications require paid fees or which entry-level job roles completed modules actually qualify them for.
+The application is deployed live on GitHub Pages:  
+**Live URL:** [https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/](https://rpprudenciado.github.io/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions/)
 
 ---
 
-## 👤 Target User & Persona Overview
+## Overview & Problem Context
 
-The platform was built around the specific pain points of second- and third-year IT students who have basic technical foundations but remain undecided on a career specialization.
+Navig8.tech is an interactive, multi-page web platform designed to solve choice overload and decision paralysis experienced by college IT students when choosing a specialization. With thousands of scattered courses, tutorials, and certifications online, students struggle to identify what to learn first, whether a credential is free or paid, and what entry-level industry role it actually qualifies them for.
 
-### Persona Profile: Marco Juan Dela Torre (Age 20)
-* **Program & Year:** 2nd Year BSIT Student (Metro Manila, Philippines)
-* **Background:** Computer-savvy student receiving family allowance and partial scholarship. Interested in systems, networks, and security due to industry demand, but lacks clear guidance.
-* **Primary Frustrations:**
-  1. Overwhelmed by scattered recommendations (YouTube playlists, TikTok tips, Reddit threads).
-  2. Inability to verify if a course/cert is free or paid before investing time.
-  3. Completing tutorials without understanding if employers value them or what job titles they unlock.
-* **Key Needs:** Cost-transparent learning paths, clear step sequencing, tangible progress tracking, and verifiable portfolio building.
+Navig8.tech organizes learning into sequenced, step-by-step pathways across 14 career specializations and 6 foundational skills. Every milestone is marked free or paid, automatically tracks progress, awards earned verification badges, and integrates a portfolio locker where students can upload, preview, and manage external credentials.
 
 ---
 
-## 🎨 UI/UX Visual System & Design Philosophy
+## Multi-Page Architecture
 
-Navig8.tech features a modern, accessible interface tailored for modern dark and light viewing environments, strictly maintaining semantic color meanings across modes.
+The platform is structured into a modular, multi-page application powered by Bootstrap 5 and client-side JavaScript state persistence:
 
-### Color Palette & Token System
+1. **Home (`index.html`):**  
+   Terminal-style hero window, floating value cards, and a dynamic 1-minute career diagnostic quiz that recommends suitable pathways based on user answers.
+2. **Tracks (`tracks.html`):**  
+   Catalog of 14 specializations (Cybersecurity, Cloud Computing, Networking, Software Development, Data Science, DevOps, UI/UX, etc.) and 6 foundational skills (Python, SQL, Linux, etc.) with active track selection and preview options.
+3. **Roadmap (`roadmap.html`):**  
+   Interactive curriculum trail featuring sequenced modules, real-time Bootstrap progress bar calculations, breadcrumbs, and automated SVG specialization badge generation upon 100% completion.
+4. **Blogs (`blogs.html`):**  
+   Curated library of 14 industry guidance articles and career resources organized with Bootstrap grid utilities.
+5. **Profile & Portfolio (`profile.html`):**  
+   Student profile dashboard with collapsible edit form, active metrics, badge locker, and external certificate management (upload, modal preview, duplicate validation, and deletion).
+6. **Authentication (`auth.html`):**  
+   User sign up and login with unique username validation and persistent session storage.
+7. **Design System (`style.css`):**  
+   Shared dark-theme CSS variables, deep back-shadow floating cards, terminal brackets, and responsive scrollbar overrides.
 
-| Token Name | Hex Code / Value | Visual Role & Usage |
+---
+
+## Bootstrap 5 Component Matrix
+
+The application implements over 10 core Bootstrap 5 components:
+
+| Bootstrap Component | Files Implemented | Implementation Purpose |
 | :--- | :--- | :--- |
-| **Shadow Grey** | Base Dark Background | High-contrast container base for Dark Mode |
-| **Twilight Indigo** | Secondary Base / Accents | Structural borders, card backgrounds, and navigation elements |
-| **Alabaster Grey** | Soft Light Background | Warm, non-glare background alternative to pure white for Light Mode |
-| **Royal Gold** | Brand & Progress Highlight | Primary call-to-action buttons, active track indicators, key accents |
-| **Emerald** | Completed / Verified Tag | Indicates completed progress steps, free tier badges, verified skills |
-| **Red Ochre** | Attention / Lock Tag | Highlights locked prerequisites, paid exam alerts, switching warnings |
-
-### Typography & Structure
-- **Display & Section Titles:** `Sora`
-- **Body Text & Descriptions:** `Karla` (14px – 15px)
-- **Code & Technical Metadata:** `IBM Plex Mono` (Used for free/paid tags, progress metrics, step counts)
+| **Navbar & Hamburger** | All Pages | Sticky top navigation with mobile toggle (`.navbar-toggler`, `data-bs-toggle="collapse"`) |
+| **Nav-Pills** | `index.html`, `tracks.html`, `auth.html` | Tab navigation and switching between Specializations and Skills |
+| **Cards / Floating Windows** | All Pages | Deep back-shadow terminal cards with window control dots and brackets |
+| **Accordion** | `index.html`, `tracks.html`, `roadmap.html`, `profile.html` | Collapsible FAQs set to closed by default with auto-retract |
+| **Progress Bar** | `roadmap.html` | Dynamic real-time completion bar updated via JavaScript |
+| **Breadcrumbs** | `index.html`, `tracks.html`, `roadmap.html` | Terminal-style directory path navigation |
+| **Alerts** | `index.html`, `profile.html`, `auth.html` | Validation alerts and notification banners |
+| **Modals** | `index.html`, `tracks.html`, `profile.html` | Dialog windows for quiz results, certificate preview, and deletion confirmation |
+| **Badges & Status Pills** | All Pages | Color-coded status pills (READY, IN PROGRESS, COMPLETED) and free/paid tags |
+| **Collapse** | `profile.html` | Smooth toggle container for the inline Edit Profile form |
 
 ---
 
-## 🏗️ Information Architecture & User Flow
+## Getting Started Locally
 
+Running Navig8.tech locally requires no build tools or package managers.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/rpprudenciado/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions.git
+cd Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions
 ```
-1.0 Landing / Home Page (Global Header: Auth, Theme Toggle, Nav)
- ├── 2.0 Career Paths
- │    ├── 2.1 By Specialization (14 Tracks)
- │    ├── 2.2 By Skill (6 Skill-focused Tracks)
- │    └── 2.3 Interactive Quiz (Track Discovery Engine)
- ├── 3.0 Roadmap View (Progress Trail Canvas)
- │    ├── 3.1 Sequenced Course Steps & Time Estimates
- │    ├── 3.2 Curated Resource Links ([Free] / Exam Fee Notes)
- │    ├── 3.3 Job Outcome Link ([Unlocks: Entry-Level Role])
- │    └── 3.4 Track-Specific Career Articles & FAQs
- ├── 4.0 Learner Dashboard & Profile
- │    ├── 4.1 Track Metrics & Progress Bar
- │    ├── 4.2 Track Badges Gallery (Show/Hide Controls)
- │    └── 4.3 Outside Certificates Management
- └── 5.0 Career Portfolio
-      ├── 5.1 Verified Skills Breakdown
-      ├── 5.2 Completed Steps Portfolio
-      └── 5.3 PDF Export & Downloadable Summary
+
+### 2. Open in Browser
+Double-click `index.html` in any modern web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari).
+
+Alternatively, launch using VS Code Live Server or an HTTP server:
+```bash
+npx live-server .
 ```
 
 ---
 
-## 🚀 Key Features & Implementation Details
+## Academic Attribution & Integrity
 
-The prototype was constructed as a fully functional client-side single-page Web Application (`HTML5`, `CSS3`, `JavaScript ES6+`).
-
-1. **Rule-Based Track Recommendation Quiz:**  
-   Helps undecided students identify suitable specializations based on their interests, background, and time commitment.
-2. **Interactive Progress Trail Canvas:**  
-   Visualizes track progression through explicit step statuses: **Done**, **Current**, and **Locked**. Displays real-time progress percentages and total estimated completion hours.
-3. **14 Specialization & 6 Skill Tracks:**  
-   Includes curated tracks across Cybersecurity, Cloud Computing, Full-Stack Web Development, Networking, Data Analytics, and more. Features single-track focus with confirmation dialogs when switching paths.
-4. **Transparent Job & Cost Mapping:**  
-   Every step clearly highlights if the learning resource is **FREE**, notes external certification exam fees upfront, and explicitly states the specific entry-level job role unlocked upon step completion.
-5. **Dynamic Learner Profile & Shareable Portfolio:**  
-   Allows users to manage external certificates, toggle badge visibility, customize personal bio details, export progress reports to **PDF**, and download verified skill summaries.
-6. **Responsive UI & Accessibility:**  
-   Includes Dark/Light mode toggles, terminal-style hero visual elements, mobile hamburger drawer navigation, back-to-top controls, and standard local credential management with hashed browser persistence.
+- **Student Proponent:** Rhona-Mae P. Prudenciado
+- **Academic Standing:** 2nd Year College Student, Bachelor of Science in Information Technology (BSIT)
+- **Institution:** Asia Pacific College (APC)
+- **Course:** Web Programming (WEBPROG / IT252)
+- **Faculty Confidentiality:** In compliance with institutional privacy standards, faculty and instructor identities are kept strictly confidential.
 
 ---
 
-## 🧪 User Feedback & Design Iterations
+## License
 
-Following peer reviews and written critiques from target users, key revisions were integrated into the final build:
-
-| Peer Feedback Point | UX Solution Implemented |
-| :--- | :--- |
-| *Hero and pages felt too plain/static.* | Added a terminal-style browser window container, animated "Ready" status tags, polished card elevation, and visual motif accents. |
-| *Choosing multiple tracks at once was overwhelming.* | Restricted active tracking to one path at a time with a gentle confirmation modal upon switching, while listing "Related Tracks" on the roadmap. |
-| *Generic course lists across different specializations.* | Replaced generic placeholders with distinct, real-world course paths and certification links tailored specifically to each track. |
-| *Need for better mobile accessibility.* | Added a responsive hamburger menu drawer, responsive CSS flex/grid layouts, and a global back-to-top navigation button. |
-
----
-
-## 🛠️ Project Setup & Usage
-
-Because Navig8.tech is packaged into a self-contained web architecture, running the application locally requires no build steps or heavy dependencies.
-
-### Running Locally
-
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/rpprudenciado/Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions.git
-   cd Structured-Career-Roadmap-Platform-To-Support-IT-Specialization-Decisions
-   ```
-
-2. **Open in Browser:**
-   Simply double-click `index.html` (or `[USERDES] PRUDENCIADO_NAVIG8 APP.html`) in any modern web browser (Chrome, Edge, Firefox, Safari).
-
-   *Alternatively, launch with VS Code Live Server / npx:*
-   ```bash
-   npx live-server .
-   ```
-
----
-
-## 🔮 Limitations & Future Roadmap
-
-- [ ] **Backend Integration:** Migration to Supabase/Firebase for secure server-side authentication and cloud database persistence.
-- [ ] **AI-Assisted Career Guidance:** Implementing LLM APIs to generate dynamic, personalized project recommendations based on earned track badges.
-- [ ] **Employer Live Share Links:** Generating public, cloud-hosted portfolio URLs for seamless resume integration.
-
----
-
-## 📚 Key References
-
-- **Austria, V. B. (2025).** *Assessing the IT Skills Gap: A Comparative Analysis of Tertiary IT Education in the Philippines and Industry Expectations.* ResearchGate.
-- **Cengage Group. (2025).** *2025 Graduate Employability Report.* Business Wire.
-- **Chen, W., et al. (2022).** *Large scale analysis of open MOOC reviews to support learners' course selection.* arXiv:2201.06967.
-- **Etikan, I., Musa, S. A., & Alkassim, R. S. (2016).** *Comparison of Convenience Sampling and Purposive Sampling.* American Journal of Theoretical and Applied Statistics, 5(1), 1-4.
-
----
-
-## 📝 Author & Acknowledgments
-
-- **Proponent:** Rhona-Mae P. Prudenciado (BSIT Student, Asia Pacific College)
-- **Course:** UI/UX Design and Programming (USERDES / IT252) Finals Requirement
-- **Institution:** Asia Pacific College
-- **License:** [MIT License](LICENSE)
+This project is licensed under the [MIT License](LICENSE).

@@ -1,0 +1,986 @@
+﻿<!--
+PROGRAM NAME: tracks.html
+DESCRIPTION: Career tracks and foundational skills catalog built with Bootstrap 5
+AUTHOR: Prudenciado, Rhona-Mae
+DATE COMPILED: November 11, 2026
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navig8.tech | Career Tracks &amp; Skills</title>
+
+  <!-- Google Fonts: Sora, Karla, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Navig8 Dark Mode Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Bootstrap Navbar and Nav Pills -->
+  <header class="sticky-top navig8-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" aria-label="Main Navigation">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          NAVIG<span class="accent-8">8</span><span class="domain-tag">.tech</span>
+        </a>
+
+        <!-- Mobile hamburger toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navig8MainMenu"
+          aria-controls="navig8MainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navig8MainMenu">
+          <ul class="nav nav-pills navig8-pills mx-auto my-3 my-lg-0 flex-column flex-lg-row gap-1">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="tracks.html">Tracks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="roadmap.html">Roadmap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blogs.html">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html">Profile</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center justify-content-lg-end gap-2 pb-2 pb-lg-0">
+            <span id="navUserChip" class="badge rounded-pill badge-free d-none py-2 px-3"></span>
+            <a id="navAuthBtn" href="auth.html" class="btn btn-outline-navig8 w-100 w-lg-auto text-center">Sign Up / Log
+              In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container py-4 py-md-5 flex-grow-1">
+
+    <!-- Page Heading -->
+    <div class="mb-4">
+      <span class="eyebrow">Track Selection</span>
+      <h1 class="h2 fw-bold mb-1">Choose Your IT Pathway</h1>
+      <p class="text-muted-custom small mb-0">
+        Explore all 14 career specializations or 6 foundational skill paths below. Click any card to preview its roadmap
+        first or confirm selecting it as your active track.
+      </p>
+    </div>
+
+    <!-- Selection Status Card -->
+    <section class="card win-card mb-4">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span>
+        <span class="cdot gold"></span>
+        <span class="cdot red"></span>
+        <nav aria-label="breadcrumb" class="ms-2">
+          <ol class="breadcrumb terminal-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">~</a></li>
+            <li class="breadcrumb-item">tracks</li>
+            <li class="breadcrumb-item active" aria-current="page">selection-status</li>
+          </ol>
+        </nav>
+      </div>
+
+      <div
+        class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 p-3 p-md-4">
+        <div>
+          <span class="eyebrow">Current Selection Status</span>
+          <h2 class="h6 fw-bold text-muted-custom mb-1" id="currentTrackBannerTitle">
+            No track locked in yet &mdash; select any specialization or skill card below to begin
+          </h2>
+          <p class="small text-muted-custom mb-0" id="currentTrackBannerSub">
+            Click any card below to lock in your pathway, or use "I want to switch" anytime to change your active track.
+          </p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-danger d-none" id="clearSelectedTrackBtn"
+            onclick="clearSelectedTrack()">
+            Clear Selection
+          </button>
+          <button type="button" class="btn btn-outline-navig8" id="iWantToSwitchBtn" onclick="openSwitchPromptModal()">
+            I want to switch
+          </button>
+          <button type="button" class="btn btn-gold" id="viewSelectedRoadmapBtn" disabled
+            onclick="goToSelectedRoadmap()">
+            View Roadmap &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bootstrap Nav Pills: Specializations vs Skills -->
+    <div class="scroll-container mb-4">
+      <ul class="nav nav-pills navig8-pills d-inline-flex flex-nowrap" id="trackCategoryTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active text-nowrap" id="spec-tab" data-bs-toggle="pill" data-bs-target="#spec-pane"
+            type="button" role="tab" aria-controls="spec-pane" aria-selected="true">
+            By Specialization (14)
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link text-nowrap" id="skill-tab" data-bs-toggle="pill" data-bs-target="#skill-pane"
+            type="button" role="tab" aria-controls="skill-pane" aria-selected="false">
+            By Skill (6)
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Content Panes -->
+    <div class="tab-content mb-5" id="trackCategoryTabContent">
+
+      <!-- Specializations Grid -->
+      <div class="tab-pane fade show active" id="spec-pane" role="tabpanel" aria-labelledby="spec-tab" tabindex="0">
+        <h2 class="h5 fw-bold mb-3">14 Specialized Career Tracks</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+          <!-- 1. Cybersecurity -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Cybersecurity">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/cybersecurity</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Cybersecurity</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Protecting systems, networks, and data from attacks - OS hardening, packet analysis, CompTIA
+                  Security+, and SIEM defense.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 2. Cloud Computing -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Cloud Computing">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/cloud-computing</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Cloud Computing</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Designing and running infrastructure on AWS, Azure, and Google Cloud - virtual networks, containers,
+                  and Terraform IaC.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 3. Networking -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Networking">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/networking</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Networking</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Keeping enterprise devices connected - OSI/TCP-IP subnetting, VLAN switching, OSPF/BGP routing, and
+                  network defense.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 4. Software & Web Development -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Software &amp; Web Development">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/software-web-dev</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Software &amp; Web Development</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Building full-stack web applications from semantic HTML/CSS and modern ES6+ JavaScript to React and
+                  Node.js APIs.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 5. Data Science -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Data Science">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/data-science</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Data Science</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Digging through datasets with Python (Pandas/NumPy), statistical hypothesis testing, visualization,
+                  and Scikit-Learn models.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 6. Data Engineering -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Data Engineering">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/data-engineering</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Data Engineering</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Architecting data warehouses, dbt transformations, Apache Spark/Kafka streaming pipelines, and Airflow
+                  orchestration.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 7. Machine Learning & AI -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Machine Learning &amp; AI">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/ml-and-ai</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Machine Learning &amp; AI</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Training classical ML models, deep neural networks in PyTorch, and production LLM / RAG pipelines.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 8. Database Administration -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Database Administration">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/database-admin</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Database Administration</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Designing normalized schemas, securing database engines, tuning B-Tree indexes, and managing
+                  high-availability backups.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 9. DevOps -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="DevOps">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/devops</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">DevOps</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Automating software builds and deployments with Linux, Docker containers, CI/CD pipelines, and
+                  Kubernetes orchestration.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 10. Mobile App Development -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Mobile App Development">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/mobile-app-dev</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Mobile App Development</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Building native Android (Kotlin/Compose) and cross-platform Flutter applications with REST APIs and
+                  local storage.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 11. Game Development -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Game Development">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/game-development</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Game Development</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Programming interactive 2D and 3D games - game math, C#/C++ scripting, physics engines, shaders, and
+                  AI pathfinding.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 12. UI/UX Design -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="UI/UX Design">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/ui-ux-design</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">UI/UX Design</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Conducting user research, structuring information architecture, building Figma design systems, and
+                  running usability tests.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 13. QA & Software Testing -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="QA &amp; Software Testing">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/qa-testing</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">QA &amp; Software Testing</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Authoring test plans, performing exploratory bug triage, automating Postman API checks, and writing
+                  Playwright/Selenium suites.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- 14. IT Support & Systems Administration -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3"
+              data-track="IT Support &amp; Systems Administration">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/tracks/it-support-sysadmin</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">IT Support &amp; Systems Administration</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Managing endpoints, Active Directory, Windows/Linux servers, DNS/DHCP troubleshooting, and PowerShell
+                  administration.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select track &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Foundational Skills Grid -->
+      <div class="tab-pane fade" id="skill-pane" role="tabpanel" aria-labelledby="skill-tab" tabindex="0">
+        <h2 class="h5 fw-bold mb-3">6 Foundational Skill Roadmaps</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+          <!-- Skill 1: Python -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Python">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/skills/python</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Python</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Core syntax, data structures, object-oriented programming, virtual environments, and task automation
+                  scripts.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select skill &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Skill 2: Networking Basics -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Networking Basics">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/skills/networking-basics</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Networking Basics</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  OSI &amp; TCP/IP layers, IPv4/IPv6 addressing, subnet masks, DNS/DHCP, and packet tracer lab
+                  fundamentals.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select skill &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Skill 3: Cloud Fundamentals -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Cloud Fundamentals">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/skills/cloud-fundamentals</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Cloud Fundamentals</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  IaaS/PaaS/SaaS concepts, global cloud regions, shared responsibility model, and AWS CLF-C02 / Azure
+                  AZ-900 prep.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select skill &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Skill 4: Web Development -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Web Development">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/skills/web-development</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Web Development</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Semantic HTML5, responsive CSS Flexbox/Grid, Bootstrap components, and interactive DOM JavaScript.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select skill &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Skill 5: SQL -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="SQL">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/skills/sql</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">SQL</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  SELECT queries, multi-table JOINs, GROUP BY aggregations, subqueries, and relational schema design.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select skill &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Skill 6: Linux -->
+          <div class="col">
+            <article class="card track-card h-100 position-relative p-3" data-track="Linux">
+              <div class="bracket-tl"></div>
+              <div class="bracket-br"></div>
+              <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="font-monospace small text-muted-custom">~/skills/linux</span>
+                  <span class="check-indicator"></span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">Linux</h3>
+                <p class="card-text text-muted-custom small flex-grow-1 mb-3">
+                  Filesystem hierarchy, chmod/chown permissions, package managers, systemd services, and Bash scripting.
+                </p>
+                <span class="font-monospace small text-gold mt-auto track-action-label">Select skill &amp; open roadmap
+                  &rarr;</span>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bootstrap Accordion -->
+    <section aria-label="Tracks Frequently Asked Questions">
+      <span class="eyebrow">Frequently Asked Questions</span>
+      <h2 class="h4 fw-bold mb-3">Questions about choosing a track</h2>
+
+      <div class="accordion navig8-accordion" id="tracksFaqAccordion">
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="tFaq1">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#tFaqCollapse1" aria-expanded="false" aria-controls="tFaqCollapse1">
+              Can I switch tracks later?
+            </button>
+          </h3>
+          <div id="tFaqCollapse1" class="accordion-collapse collapse" aria-labelledby="tFaq1"
+            data-bs-parent="#tracksFaqAccordion">
+            <div class="accordion-body">
+              Yes, anytime. Click "I want to switch" or pick another card; your completed steps on any previous track
+              remain safely stored in your profile.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="tFaq2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#tFaqCollapse2" aria-expanded="false" aria-controls="tFaqCollapse2">
+              By specialization vs. by skill: what is the difference?
+            </button>
+          </h3>
+          <div id="tFaqCollapse2" class="accordion-collapse collapse" aria-labelledby="tFaq2"
+            data-bs-parent="#tracksFaqAccordion">
+            <div class="accordion-body">
+              Specialization groups courses by career role; Skill lets you build a focused path around one foundational
+              technology.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="tFaq3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#tFaqCollapse3" aria-expanded="false" aria-controls="tFaqCollapse3">
+              What if I am torn between two tracks?
+            </button>
+          </h3>
+          <div id="tFaqCollapse3" class="accordion-collapse collapse" aria-labelledby="tFaq3"
+            data-bs-parent="#tracksFaqAccordion">
+            <div class="accordion-body">
+              Start with whichever scored highest in your 1-minute career quiz, then explore the other after.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="tFaq4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#tFaqCollapse4" aria-expanded="false" aria-controls="tFaqCollapse4">
+              How were the courses in each track chosen?
+            </button>
+          </h3>
+          <div id="tFaqCollapse4" class="accordion-collapse collapse" aria-labelledby="tFaq4"
+            data-bs-parent="#tracksFaqAccordion">
+            <div class="accordion-body">
+              We structured each track using industry progression standards (guided by roadmap.sh) and paired each stage
+              with reputable providers, prioritizing free options first and paid only where no solid free option
+              existed.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bootstrap Modal: Confirm Track Selection -->
+  <div class="modal fade navig8-modal" id="confirmTrackSelectModal" tabindex="-1"
+    aria-labelledby="confirmTrackSelectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5 fw-bold" id="confirmTrackSelectModalLabel">
+            Confirm Track Selection
+          </h2>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted-custom mb-3" id="confirmTrackPromptText">
+            Would you like to lock in this track as your active pathway, or browse its curriculum first before deciding?
+          </p>
+          <div class="card track-card p-3 mb-2" style="cursor: default;">
+            <span class="font-monospace small text-muted-custom d-block mb-1"
+              id="confirmTrackSlug">~/tracks/pathway</span>
+            <h3 class="h6 fw-bold text-gold mb-1" id="confirmTrackTitle">Pathway Name</h3>
+            <p class="small text-muted-custom mb-0" id="confirmTrackDesc"></p>
+          </div>
+        </div>
+        <div class="modal-footer d-flex flex-wrap justify-content-between gap-2">
+          <button type="button" class="btn btn-outline-navig8" data-bs-dismiss="modal">Keep Browsing</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-outline-navig8" id="browseTrackOnlyBtn">View Roadmap</button>
+            <button type="button" class="btn btn-gold" id="confirmLockTrackBtn">Confirm &amp; Select Track
+              &check;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Modal: Switch Track -->
+  <div class="modal fade navig8-modal" id="switchTrackModal" tabindex="-1" aria-labelledby="switchTrackModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5 fw-bold" id="switchTrackModalLabel">
+            Switch Active Pathway?
+          </h2>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted-custom mb-3" id="switchTrackModalDesc">
+            Your completed steps in your current track will remain safely saved in your profile when you switch.
+          </p>
+          <div class="mb-3">
+            <label for="newTrackSelect" class="form-label font-monospace small text-uppercase text-muted-custom">Choose
+              pathway to switch to</label>
+            <select id="newTrackSelect" class="form-select form-select-navig8">
+              <option value="">-- Clear selection (No active track) --</option>
+              <optgroup label="14 Career Specializations">
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Networking">Networking</option>
+                <option value="Software & Web Development">Software &amp; Web Development</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Data Engineering">Data Engineering</option>
+                <option value="Machine Learning & AI">Machine Learning &amp; AI</option>
+                <option value="Database Administration">Database Administration</option>
+                <option value="DevOps">DevOps</option>
+                <option value="Mobile App Development">Mobile App Development</option>
+                <option value="Game Development">Game Development</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="QA & Software Testing">QA &amp; Software Testing</option>
+                <option value="IT Support & Systems Administration">IT Support &amp; Systems Administration</option>
+              </optgroup>
+              <optgroup label="6 Foundational Skills">
+                <option value="Python">Python</option>
+                <option value="Networking Basics">Networking Basics</option>
+                <option value="Cloud Fundamentals">Cloud Fundamentals</option>
+                <option value="Web Development">Web Development</option>
+                <option value="SQL">SQL</option>
+                <option value="Linux">Linux</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label for="switchReason" class="form-label font-monospace small text-uppercase text-muted-custom">Optional
+              note for switching</label>
+            <textarea id="switchReason" class="form-control form-control-navig8" rows="2"
+              placeholder="Write your reason for switching pathways (optional)"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-navig8" data-bs-dismiss="modal">Stay on Current Track</button>
+          <button type="button" class="btn btn-gold" onclick="confirmSwitchFromModal()">Confirm Switch &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top border-secondary border-opacity-25 py-4 text-center mt-auto">
+    <div class="container small text-muted-custom">
+      <p class="mb-1 fw-bold text-light">Navig8.tech</p>
+      <p class="mb-0">Rhona-Mae P. Prudenciado | Asia Pacific College</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Track selection script -->
+  <script>
+    const STATE_KEY = "navig8_webprog_v2";
+    let switchModalInstance = null;
+    let confirmSelectModalInstance = null;
+    let pendingTrackName = null;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
+
+    function clearSelectedTrack() {
+      const state = loadState();
+      state.selectedTrack = null;
+      if (state.user) {
+        state.user.selectedTrack = null;
+        if (state.registeredUsers && state.user.username) {
+          const uKey = state.user.username.toLowerCase();
+          if (state.registeredUsers[uKey]) {
+            state.registeredUsers[uKey].selectedTrack = null;
+          }
+        }
+      }
+      saveState(state);
+      updateTracksPageUI();
+    }
+
+    function updateTracksPageUI() {
+      const state = loadState();
+      const selected = (state.user && state.user.selectedTrack !== undefined) ? state.user.selectedTrack : (state.selectedTrack || null);
+
+      const bannerTitle = document.getElementById("currentTrackBannerTitle");
+      const bannerSub = document.getElementById("currentTrackBannerSub");
+      const viewBtn = document.getElementById("viewSelectedRoadmapBtn");
+      const clearBtn = document.getElementById("clearSelectedTrackBtn");
+
+      if (selected) {
+        bannerTitle.textContent = "Selected Pathway: " + selected;
+        bannerTitle.className = "h6 fw-bold text-gold mb-1";
+        bannerSub.textContent = "Click View Roadmap to continue your sequenced curriculum, or click 'I want to switch' to change tracks.";
+        viewBtn.disabled = false;
+        if (clearBtn) clearBtn.classList.remove("d-none");
+      } else {
+        bannerTitle.textContent = "No track locked in yet \u2014 click any specialization or skill card below to preview or select it";
+        bannerTitle.className = "h6 fw-bold text-muted-custom mb-1";
+        bannerSub.textContent = "Clicking a card asks for your confirmation first so you can freely browse before locking in a track.";
+        viewBtn.disabled = true;
+        if (clearBtn) clearBtn.classList.add("d-none");
+      }
+
+      document.querySelectorAll(".track-card[data-track]").forEach(function (card) {
+        const trackName = card.getAttribute("data-track");
+        const isSelected = (trackName === selected);
+        card.classList.toggle("selected-track", isSelected);
+        const check = card.querySelector(".check-indicator");
+        if (check) check.textContent = isSelected ? "\u2713" : "";
+        const actionLabel = card.querySelector(".track-action-label");
+        if (actionLabel) {
+          actionLabel.textContent = isSelected
+            ? "Selected \u00B7 Click to open roadmap \u2192"
+            : "Click to browse or select track \u2192";
+        }
+      });
+    }
+
+    function goToSelectedRoadmap() {
+      const state = loadState();
+      if (state.selectedTrack) {
+        window.location.href = "roadmap.html?track=" + encodeURIComponent(state.selectedTrack);
+      }
+    }
+
+    function openConfirmTrackModal(trackName, slugText, descText) {
+      pendingTrackName = trackName;
+      const state = loadState();
+      const current = state.selectedTrack || null;
+
+      const modalLabel = document.getElementById("confirmTrackSelectModalLabel");
+      const promptText = document.getElementById("confirmTrackPromptText");
+      const slugEl = document.getElementById("confirmTrackSlug");
+      const titleEl = document.getElementById("confirmTrackTitle");
+      const descEl = document.getElementById("confirmTrackDesc");
+      const confirmBtn = document.getElementById("confirmLockTrackBtn");
+      const browseBtn = document.getElementById("browseTrackOnlyBtn");
+
+      slugEl.textContent = slugText || "~/tracks/" + trackName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      titleEl.textContent = trackName;
+      descEl.textContent = descText || "";
+
+      if (current === trackName) {
+        modalLabel.textContent = trackName + " (Currently Selected)";
+        promptText.textContent = "This pathway is already locked in as your active track. Would you like to open your active roadmap?";
+        confirmBtn.textContent = "Open Active Roadmap \u2192";
+        browseBtn.classList.add("d-none");
+      } else if (current) {
+        modalLabel.textContent = "Select " + trackName + "?";
+        promptText.innerHTML = 'You currently have <strong class="text-gold">' + current + '</strong> locked in. Would you like to browse <strong>' + trackName + '</strong> first without switching, or confirm selecting it as your new active track?';
+        confirmBtn.textContent = "Confirm & Select Track \u2713";
+        browseBtn.classList.remove("d-none");
+      } else {
+        modalLabel.textContent = "Select " + trackName + "?";
+        promptText.textContent = "Would you like to lock in " + trackName + " as your active pathway, or browse its roadmap first without selecting it?";
+        confirmBtn.textContent = "Confirm & Select Track \u2713";
+        browseBtn.classList.remove("d-none");
+      }
+
+      confirmBtn.onclick = function () {
+        const st = loadState();
+        st.selectedTrack = pendingTrackName;
+        if (st.user) {
+          st.user.selectedTrack = pendingTrackName;
+          if (st.registeredUsers && st.user.username) {
+            const uKey = st.user.username.toLowerCase();
+            if (st.registeredUsers[uKey]) {
+              st.registeredUsers[uKey].selectedTrack = pendingTrackName;
+            }
+          }
+        }
+        saveState(st);
+        if (confirmSelectModalInstance) confirmSelectModalInstance.hide();
+        window.location.href = "roadmap.html?track=" + encodeURIComponent(pendingTrackName);
+      };
+
+      browseBtn.onclick = function () {
+        if (confirmSelectModalInstance) confirmSelectModalInstance.hide();
+        window.location.href = "roadmap.html?preview=" + encodeURIComponent(pendingTrackName);
+      };
+
+      if (!confirmSelectModalInstance) {
+        confirmSelectModalInstance = new bootstrap.Modal(document.getElementById("confirmTrackSelectModal"));
+      }
+      confirmSelectModalInstance.show();
+    }
+
+    function openSwitchPromptModal(preselectTrack) {
+      const state = loadState();
+      const current = state.selectedTrack;
+      const labelEl = document.getElementById("switchTrackModalLabel");
+      const selectEl = document.getElementById("newTrackSelect");
+
+      if (current) {
+        labelEl.innerHTML = 'Switch away from <span class="text-gold">' + current + '</span>?';
+      } else {
+        labelEl.textContent = "Select or Switch Your Pathway";
+      }
+
+      if (preselectTrack) {
+        selectEl.value = preselectTrack;
+      } else {
+        selectEl.value = current || "";
+      }
+
+      if (!switchModalInstance) {
+        switchModalInstance = new bootstrap.Modal(document.getElementById("switchTrackModal"));
+      }
+      switchModalInstance.show();
+    }
+
+    function confirmSwitchFromModal() {
+      const selectEl = document.getElementById("newTrackSelect");
+      const chosen = selectEl.value;
+      const state = loadState();
+
+      if (chosen) {
+        state.selectedTrack = chosen;
+        saveState(state);
+        if (switchModalInstance) switchModalInstance.hide();
+        window.location.href = "roadmap.html?track=" + encodeURIComponent(chosen);
+      } else {
+        state.selectedTrack = null;
+        saveState(state);
+        if (switchModalInstance) switchModalInstance.hide();
+        updateTracksPageUI();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const state = loadState();
+      const chip = document.getElementById("navUserChip");
+      const authBtn = document.getElementById("navAuthBtn");
+
+      if (state.user && state.user.username) {
+        chip.textContent = "@" + state.user.username;
+        chip.classList.remove("d-none");
+        authBtn.textContent = "Log Out";
+        authBtn.href = "#";
+        authBtn.onclick = function (e) {
+          e.preventDefault();
+          state.user = null;
+          saveState(state);
+          window.location.reload();
+        };
+      }
+
+      document.querySelectorAll(".track-card[data-track]").forEach(function (card) {
+        card.addEventListener("click", function () {
+          const trackName = card.getAttribute("data-track");
+          const slugNode = card.querySelector(".font-monospace.small.text-muted-custom");
+          const descNode = card.querySelector(".card-text");
+          const slugText = slugNode ? slugNode.textContent.trim() : "";
+          const descText = descNode ? descNode.textContent.replace(/\s+/g, " ").trim() : "";
+          openConfirmTrackModal(trackName, slugText, descText);
+        });
+      });
+
+      updateTracksPageUI();
+    });
+  </script>
+</body>
+
+</html>

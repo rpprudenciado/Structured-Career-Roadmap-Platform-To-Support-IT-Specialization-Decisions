@@ -1,0 +1,381 @@
+﻿<!--
+PROGRAM NAME: auth.html
+DESCRIPTION: User sign up and login page built with Bootstrap 5
+AUTHOR: Prudenciado, Rhona-Mae
+DATE COMPILED: November 11, 2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navig8.tech | Sign Up &amp; Log In</title>
+
+  <!-- Google Fonts: Sora, Karla, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Navig8 Dark Mode Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Bootstrap Navbar and Nav Pills -->
+  <header class="sticky-top navig8-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" aria-label="Main Navigation">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          NAVIG<span class="accent-8">8</span><span class="domain-tag">.tech</span>
+        </a>
+
+        <!-- Mobile hamburger toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navig8MainMenu"
+          aria-controls="navig8MainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navig8MainMenu">
+          <ul class="nav nav-pills navig8-pills mx-auto my-3 my-lg-0 flex-column flex-lg-row gap-1">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tracks.html">Tracks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="roadmap.html">Roadmap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blogs.html">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html">Profile</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center justify-content-lg-end gap-2 pb-2 pb-lg-0">
+            <span id="navUserChip" class="badge rounded-pill badge-free d-none py-2 px-3"></span>
+            <a id="navAuthBtn" href="auth.html" class="btn btn-gold w-100 w-lg-auto text-center">Sign Up / Log In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container py-4 py-md-5 flex-grow-1 d-flex align-items-center">
+    <div class="row justify-content-center w-100 m-0">
+      <div class="col-12 col-md-8 col-lg-6 p-0">
+
+        <section class="card win-card">
+          <div class="bracket-tl"></div>
+          <div class="bracket-br"></div>
+
+          <div class="card-header d-flex align-items-center gap-2">
+            <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+            <nav aria-label="breadcrumb" class="ms-2">
+              <ol class="breadcrumb terminal-breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">~</a></li>
+                <li class="breadcrumb-item">auth</li>
+                <li class="breadcrumb-item active" aria-current="page">onboarding</li>
+              </ol>
+            </nav>
+          </div>
+
+          <div class="card-body p-4">
+
+            <!-- Bootstrap Nav Pills: Sign Up vs Log In -->
+            <ul class="nav nav-pills navig8-pills d-inline-flex mb-4" id="authTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="signup-tab" data-bs-toggle="pill" data-bs-target="#signup-pane"
+                  type="button" role="tab" aria-controls="signup-pane" aria-selected="true">
+                  Sign Up
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-pane" type="button"
+                  role="tab" aria-controls="login-pane" aria-selected="false">
+                  Log In
+                </button>
+              </li>
+            </ul>
+
+            <!-- Bootstrap Alert -->
+            <div id="authFeedbackAlert" class="alert navig8-alert small d-none mb-3" role="alert"></div>
+
+            <div class="tab-content" id="authTabContent">
+
+              <!-- Sign Up Form -->
+              <div class="tab-pane fade show active" id="signup-pane" role="tabpanel" aria-labelledby="signup-tab"
+                tabindex="0">
+                <span class="eyebrow">Create Learner Profile</span>
+                <h1 class="h4 fw-bold mb-1">Create your Navig8 account</h1>
+                <p class="small text-muted-custom mb-4">
+                  Required only when you are ready to start tracking roadmap steps, earn badges, and upload external
+                  certificates.
+                </p>
+
+                <form id="signupForm" class="row g-3">
+                  <div class="col-12">
+                    <label for="regName" class="form-label font-monospace small text-uppercase text-muted-custom">Full
+                      Name</label>
+                    <input type="text" id="regName" name="name" class="form-control form-control-navig8"
+                      placeholder="Enter your full name" required>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="regUsername"
+                      class="form-label font-monospace small text-uppercase text-muted-custom">Unique Username</label>
+                    <input type="text" id="regUsername" name="username" class="form-control form-control-navig8"
+                      placeholder="Choose a unique username" pattern="^[a-zA-Z0-9_.\-]{3,24}$"
+                      title="3 to 24 characters using letters, numbers, underscores, dots, or hyphens" required>
+                    <div class="small text-muted-custom mt-1">Used to log in. Each learner must have a unique username.
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="regEmail" class="form-label font-monospace small text-uppercase text-muted-custom">Email
+                      Address</label>
+                    <input type="email" id="regEmail" name="email" class="form-control form-control-navig8"
+                      placeholder="Enter your email address" required>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="regSchool"
+                      class="form-label font-monospace small text-uppercase text-muted-custom">School / Organization
+                      (Optional)</label>
+                    <input type="text" id="regSchool" name="school" class="form-control form-control-navig8"
+                      placeholder="Enter your school or organization">
+                  </div>
+
+                  <div class="col-12">
+                    <label for="regPass" class="form-label font-monospace small text-uppercase text-muted-custom">Create
+                      Password (8+ characters)</label>
+                    <input type="password" id="regPass" class="form-control form-control-navig8" minlength="8"
+                      placeholder="Enter at least 8 characters" required>
+                  </div>
+
+                  <div class="col-12 pt-2">
+                    <button type="submit" class="btn btn-gold w-100">Create Account &amp; Continue &rarr;</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Log In Form -->
+              <div class="tab-pane fade" id="login-pane" role="tabpanel" aria-labelledby="login-tab" tabindex="0">
+                <span class="eyebrow">Returning Learner</span>
+                <h2 class="h4 fw-bold mb-1">Sign in to Navig8</h2>
+                <p class="small text-muted-custom mb-4">
+                  Enter your registered username and password to continue your active career roadmap.
+                </p>
+
+                <form id="loginForm" class="row g-3">
+                  <div class="col-12">
+                    <label for="loginUsername"
+                      class="form-label font-monospace small text-uppercase text-muted-custom">Username</label>
+                    <input type="text" id="loginUsername" name="username" class="form-control form-control-navig8"
+                      placeholder="Enter your username" required>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="loginPass"
+                      class="form-label font-monospace small text-uppercase text-muted-custom">Password</label>
+                    <input type="password" id="loginPass" class="form-control form-control-navig8"
+                      placeholder="Enter your password" required>
+                  </div>
+
+                  <div class="col-12 pt-2">
+                    <button type="submit" class="btn btn-gold w-100">Log In &amp; Open Roadmap &rarr;</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-top border-secondary border-opacity-25 py-4 text-center mt-auto">
+    <div class="container small text-muted-custom">
+      <p class="mb-1 fw-bold text-light">Navig8.tech</p>
+      <p class="mb-0">Rhona-Mae P. Prudenciado | Asia Pacific College</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Authentication script -->
+  <script>
+    const STATE_KEY = "navig8_webprog_v2";
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        parsed.registeredUsers = parsed.registeredUsers || {};
+        parsed.startedTracks = parsed.startedTracks || {};
+        parsed.completedSteps = parsed.completedSteps || {};
+        parsed.completedDates = parsed.completedDates || {};
+        parsed.externalCerts = parsed.externalCerts || [];
+        return parsed;
+      } catch (e) {
+        return {
+          user: null,
+          registeredUsers: {},
+          selectedTrack: null,
+          startedTracks: {},
+          completedSteps: {},
+          completedDates: {},
+          externalCerts: []
+        };
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
+
+    function showFeedback(htmlMessage) {
+      const box = document.getElementById("authFeedbackAlert");
+      box.innerHTML = htmlMessage;
+      box.classList.remove("d-none");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const state = loadState();
+      const chip = document.getElementById("navUserChip");
+      const authBtn = document.getElementById("navAuthBtn");
+
+      if (state.user && state.user.username) {
+        chip.textContent = "@" + state.user.username;
+        chip.classList.remove("d-none");
+        authBtn.textContent = "Log Out";
+        authBtn.href = "#";
+        authBtn.onclick = function (e) {
+          e.preventDefault();
+          const current = loadState();
+          current.user = null;
+          saveState(current);
+          window.location.reload();
+        };
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const redirectParam = params.get("redirect");
+
+      // Sign up submission and username validation
+      document.getElementById("signupForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const st = loadState();
+
+        const fullName = document.getElementById("regName").value.trim();
+        const rawUsername = document.getElementById("regUsername").value.trim().replace(/^@+/, "");
+        const usernameKey = rawUsername.toLowerCase();
+        const email = document.getElementById("regEmail").value.trim();
+        const school = document.getElementById("regSchool").value.trim();
+        const password = document.getElementById("regPass").value;
+
+        if (!fullName || !rawUsername || !email || !password) {
+          showFeedback("Please complete all required fields to create your account.");
+          return;
+        }
+
+        if (st.registeredUsers[usernameKey]) {
+          showFeedback(
+            'The username <strong class="text-gold">@' +
+            rawUsername +
+            '</strong> is already taken. Please choose a different unique username.'
+          );
+          return;
+        }
+
+        const newUser = {
+          name: fullName,
+          username: rawUsername,
+          email: email,
+          school: school || "",
+          background: "",
+          password: password,
+          selectedTrack: null,
+          isPublic: true
+        };
+
+        st.registeredUsers[usernameKey] = newUser;
+        st.user = newUser;
+        st.selectedTrack = null; // Start with no active track
+
+        saveState(st);
+
+        if (redirectParam === "roadmap") {
+          window.location.href = "roadmap.html";
+        } else {
+          window.location.href = "tracks.html";
+        }
+      });
+
+      // Log in submission
+      document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const st = loadState();
+
+        const rawUsername = document.getElementById("loginUsername").value.trim().replace(/^@+/, "");
+        const usernameKey = rawUsername.toLowerCase();
+        const password = document.getElementById("loginPass").value;
+
+        if (!rawUsername || !password) {
+          showFeedback("Please enter both your username and password.");
+          return;
+        }
+
+        const existingUser = st.registeredUsers[usernameKey];
+        if (!existingUser) {
+          showFeedback(
+            'No account found with username <strong class="text-gold">@' +
+            rawUsername +
+            '</strong>. Please create an account under Sign Up first.'
+          );
+          return;
+        }
+
+        if (existingUser.password && existingUser.password !== password) {
+          showFeedback(
+            'Incorrect password for <strong class="text-gold">@' +
+            rawUsername +
+            '</strong>. Please try again.'
+          );
+          return;
+        }
+
+        st.user = existingUser;
+        st.selectedTrack = existingUser.selectedTrack || null;
+        if (st.selectedTrack) {
+          st.startedTracks[st.selectedTrack] = true;
+        }
+        saveState(st);
+
+        if (redirectParam === "roadmap" || st.selectedTrack) {
+          window.location.href = "roadmap.html";
+        } else {
+          window.location.href = "tracks.html";
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

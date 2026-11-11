@@ -1,0 +1,350 @@
+﻿<!--
+PROGRAM NAME: blogs.html
+DESCRIPTION: Tech career articles and industry guides built with Bootstrap 5
+AUTHOR: Prudenciado, Rhona-Mae
+DATE COMPILED: November 11, 2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navig8.tech | Developer &amp; Career Articles</title>
+
+  <!-- Google Fonts: Sora, Karla, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Navig8 Dark Mode Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Bootstrap Navbar and Nav Pills -->
+  <header class="sticky-top navig8-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" aria-label="Main Navigation">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          NAVIG<span class="accent-8">8</span><span class="domain-tag">.tech</span>
+        </a>
+
+        <!-- Mobile hamburger toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navig8MainMenu"
+          aria-controls="navig8MainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navig8MainMenu">
+          <ul class="nav nav-pills navig8-pills mx-auto my-3 my-lg-0 flex-column flex-lg-row gap-1">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tracks.html">Tracks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="roadmap.html">Roadmap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="blogs.html">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html">Profile</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center justify-content-lg-end gap-2 pb-2 pb-lg-0">
+            <span id="navUserChip" class="badge rounded-pill badge-free d-none py-2 px-3"></span>
+            <a id="navAuthBtn" href="auth.html" class="btn btn-outline-navig8 w-100 w-lg-auto text-center">Sign Up / Log
+              In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container py-4 py-md-5 flex-grow-1">
+
+    <!-- Header Card -->
+    <section class="card win-card mb-4">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+        <nav aria-label="breadcrumb" class="ms-2">
+          <ol class="breadcrumb terminal-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">~</a></li>
+            <li class="breadcrumb-item">blogs</li>
+            <li class="breadcrumb-item active" aria-current="page">career-guides</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="card-body p-4">
+        <span class="eyebrow">Curated Industry Knowledge</span>
+        <h1 class="h2 fw-bold mb-1">Developer &amp; Career Articles</h1>
+        <p class="text-muted-custom small mb-0">
+          Verified career guides and technical introductions across all 14 IT specializations.
+        </p>
+      </div>
+    </section>
+
+    <!-- Bootstrap Cards Grid -->
+    <section class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+      <!-- 1 -->
+      <div class="col">
+        <a href="https://pluralsight.com/resources/blog/cybersecurity/cybersecurity-career-guide-2025" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Pluralsight</span>
+              <span class="badge rounded-pill badge-gold">Cybersecurity</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Cybersecurity Career Paths: 2026 Job Guide</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 2 -->
+      <div class="col">
+        <a href="https://aws.amazon.com/what-is-cloud-computing/" target="_blank" rel="noopener noreferrer"
+          class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">AWS</span>
+              <span class="badge rounded-pill badge-gold">Cloud Computing</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">What is Cloud Computing? Essential Fundamentals</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 3 -->
+      <div class="col">
+        <a href="https://www.coursera.org/articles/how-to-become-a-network-engineer" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Coursera</span>
+              <span class="badge rounded-pill badge-gold">Networking</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">How to Become a Network Engineer: Your 2026 Guide</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4 -->
+      <div class="col">
+        <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/About" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">MDN Web Docs</span>
+              <span class="badge rounded-pill badge-gold">Web Development</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">About Learn Web Development: Modern Standards</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 5 -->
+      <div class="col">
+        <a href="https://www.datacamp.com/tutorial/how-to-become-a-data-scientist" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">DataCamp</span>
+              <span class="badge rounded-pill badge-gold">Data Science</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">How to Become a Data Scientist in 2026</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 6 -->
+      <div class="col">
+        <a href="https://www.datacamp.com/blog/top-free-data-engineering-resources" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">DataCamp</span>
+              <span class="badge rounded-pill badge-gold">Data Engineering</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">The Best Free Resources to Learn Data Engineering</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 7 -->
+      <div class="col">
+        <a href="https://faceprep.in/article/free-ai-learning-resources-for-indian-engineering-students-2026/"
+          target="_blank" rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">FACE Prep</span>
+              <span class="badge rounded-pill badge-gold">ML &amp; AI</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Free AI Learning Resources for Engineering Students</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 8 -->
+      <div class="col">
+        <a href="https://hackr.io/tutorial/become-a-postgresql-dba" target="_blank" rel="noopener noreferrer"
+          class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Hackr.io</span>
+              <span class="badge rounded-pill badge-gold">Database Admin</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Become a PostgreSQL DBA: Query Tuning &amp; Security</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 9 -->
+      <div class="col">
+        <a href="https://www.coursera.org/articles/how-to-become-a-devops-engineer" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Coursera</span>
+              <span class="badge rounded-pill badge-gold">DevOps</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">How to Become a DevOps Engineer</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 10 -->
+      <div class="col">
+        <a href="https://developer.android.com/get-started/overview" target="_blank" rel="noopener noreferrer"
+          class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Android Developers</span>
+              <span class="badge rounded-pill badge-gold">Mobile Dev</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Build Your First Android App</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 11 -->
+      <div class="col">
+        <a href="https://gamedevacademy.org/unreal-engine-complete-course/" target="_blank" rel="noopener noreferrer"
+          class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">GameDev Academy</span>
+              <span class="badge rounded-pill badge-gold">Game Dev</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Free Course: Master the Unreal Engine</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 12 -->
+      <div class="col">
+        <a href="https://www.coursera.org/articles/ux-designer-video" target="_blank" rel="noopener noreferrer"
+          class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Coursera</span>
+              <span class="badge rounded-pill badge-gold">UI/UX Design</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Career Spotlight: UX Designer</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 13 -->
+      <div class="col">
+        <a href="https://classcentral.com/report/?p=86810" target="_blank" rel="noopener noreferrer"
+          class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Class Central</span>
+              <span class="badge rounded-pill badge-gold">QA &amp; Testing</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">Review: A Beginner's Guide to Manual QA Testing</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 14 -->
+      <div class="col">
+        <a href="https://www.linuxfoundation.org/blog/7-steps-to-start-your-linux-sysadmin-career-2" target="_blank"
+          rel="noopener noreferrer" class="card track-card h-100 text-decoration-none p-3">
+          <div class="card-body d-flex flex-column p-1">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="font-monospace small text-muted-custom">Linux Foundation</span>
+              <span class="badge rounded-pill badge-gold">Systems Admin</span>
+            </div>
+            <h2 class="h6 fw-bold mb-2">7 Steps to Start Your Linux SysAdmin Career</h2>
+            <span class="font-monospace small text-gold mt-auto">Read article ↗</span>
+          </div>
+        </a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-top border-secondary border-opacity-25 py-4 text-center mt-auto">
+    <div class="container small text-muted-custom">
+      <p class="mb-1 fw-bold text-light">Navig8.tech</p>
+      <p class="mb-0">Rhona-Mae P. Prudenciado | Asia Pacific College</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const STATE_KEY = "navig8_webprog_v2";
+    document.addEventListener("DOMContentLoaded", function () {
+      try {
+        const state = JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
+        const chip = document.getElementById("navUserChip");
+        const authBtn = document.getElementById("navAuthBtn");
+        if (state.user && state.user.username) {
+          chip.textContent = "@" + state.user.username;
+          chip.classList.remove("d-none");
+          authBtn.textContent = "Log Out";
+          authBtn.href = "#";
+          authBtn.onclick = function (e) {
+            e.preventDefault();
+            state.user = null;
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+            window.location.reload();
+          };
+        }
+      } catch (e) { }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,811 @@
+﻿<!--
+PROGRAM NAME: profile.html
+DESCRIPTION: Student profile, certificate portfolio, and badge locker built with Bootstrap 5
+AUTHOR: Prudenciado, Rhona-Mae
+DATE COMPILED: November 11, 2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navig8.tech | Learner Profile &amp; Portfolio</title>
+
+  <!-- Google Fonts: Sora, Karla, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Navig8 Dark Mode Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Bootstrap Navbar and Nav Pills -->
+  <header class="sticky-top navig8-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" aria-label="Main Navigation">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          NAVIG<span class="accent-8">8</span><span class="domain-tag">.tech</span>
+        </a>
+
+        <!-- Mobile hamburger toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navig8MainMenu"
+          aria-controls="navig8MainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navig8MainMenu">
+          <ul class="nav nav-pills navig8-pills mx-auto my-3 my-lg-0 flex-column flex-lg-row gap-1">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tracks.html">Tracks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="roadmap.html">Roadmap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blogs.html">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="profile.html">Profile</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center justify-content-lg-end gap-2 pb-2 pb-lg-0">
+            <span id="navUserChip" class="badge rounded-pill badge-free d-none py-2 px-3"></span>
+            <a id="navAuthBtn" href="auth.html" class="btn btn-outline-navig8 w-100 w-lg-auto text-center">Sign Up / Log
+              In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container py-4 py-md-5 flex-grow-1">
+
+    <!-- Bootstrap Alert -->
+    <div id="guestAlertBanner"
+      class="alert navig8-alert alert-dismissible fade show d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4"
+      role="alert">
+      <div>
+        <span class="eyebrow text-gold mb-0">Unregistered Session</span>
+        <span class="small text-muted-custom">You have not signed up or logged in yet. Create your account to set up
+          your learner profile, save roadmap progress, and store your certificates.</span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <a href="auth.html" class="btn btn-gold btn-sm text-nowrap">Sign Up / Log In &rarr;</a>
+        <button type="button" class="btn-close btn-close-white position-static" data-bs-dismiss="alert"
+          aria-label="Close"></button>
+      </div>
+    </div>
+
+    <!-- Profile Header -->
+    <section class="card win-card mb-3">
+      <div class="card-body p-4 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-circle" id="profileAvatarCircle">?</div>
+          <div>
+            <h1 class="h4 fw-bold mb-1" id="profileFullName">No Profile Created Yet</h1>
+            <p class="font-monospace small text-muted-custom mb-2" id="profileMetaLine">Not signed in &middot; Sign up
+              to create your learner profile</p>
+            <span class="badge rounded-pill badge-outline" id="profileVisibilityBadge">Unregistered</span>
+          </div>
+        </div>
+
+        <!-- Bootstrap Collapse Button: Edit Profile -->
+        <button id="editProfileToggleBtn" class="btn btn-outline-navig8 align-self-start align-self-sm-center d-none"
+          type="button" data-bs-toggle="collapse" data-bs-target="#editProfileCollapse" aria-expanded="false"
+          aria-controls="editProfileCollapse">
+          Edit Profile
+        </button>
+      </div>
+    </section>
+
+    <!-- Bootstrap Collapse: Edit Profile Form -->
+    <div class="collapse mb-4" id="editProfileCollapse">
+      <div class="card win-card">
+        <div class="card-header d-flex align-items-center gap-2">
+          <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+          <span class="font-monospace small text-muted-custom ms-2">~/profile/edit</span>
+        </div>
+        <div class="card-body p-4">
+          <form id="editProfileForm" class="row g-3">
+            <div class="col-12 col-md-6">
+              <label for="epName" class="form-label font-monospace small text-uppercase text-muted-custom">Full
+                Name</label>
+              <input type="text" id="epName" class="form-control form-control-navig8" placeholder="Enter your full name"
+                required>
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="epSchool" class="form-label font-monospace small text-uppercase text-muted-custom">School /
+                Organization (Optional)</label>
+              <input type="text" id="epSchool" class="form-control form-control-navig8"
+                placeholder="Enter school, company, or Self-Taught">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="epBackground" class="form-label font-monospace small text-uppercase text-muted-custom">Course
+                / Degree Program (Optional)</label>
+              <input type="text" id="epBackground" class="form-control form-control-navig8"
+                placeholder="Enter your course or degree program (optional)">
+              <div class="small text-muted-custom mt-1">Optional. Leave blank or enter your degree program (e.g. 2nd
+                Year BSIT).</div>
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-end">
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="epPublic" checked>
+                <label class="form-check-label small text-light" for="epPublic">
+                  Make my portfolio public to employers
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-gold">Save Profile Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learner Metric Cards -->
+    <section class="row g-3 mb-4" aria-label="Learner Statistics">
+      <div class="col-12 col-md-4">
+        <div class="card track-card text-center p-3" style="cursor: default;">
+          <span class="display-6 fw-bold text-gold" id="statActiveTrack">0</span>
+          <span class="font-monospace small text-uppercase text-muted-custom" id="statActiveTrackLabel">Active
+            Track</span>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card track-card text-center p-3" style="cursor: default;">
+          <span class="display-6 fw-bold text-gold" id="statEarnedBadges">0</span>
+          <span class="font-monospace small text-uppercase text-muted-custom">Track Badges Earned</span>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card track-card text-center p-3" style="cursor: default;">
+          <span class="display-6 fw-bold text-gold" id="statStepsDone">0</span>
+          <span class="font-monospace small text-uppercase text-muted-custom">Roadmap Steps Done</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Track Badges -->
+    <section class="card win-card mb-4">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+        <span class="font-monospace small text-muted-custom ms-2">~/profile/earned-badges</span>
+      </div>
+      <div class="card-body p-4">
+        <span class="eyebrow">Auto-Generated Specialization Badges</span>
+        <h2 class="h6 fw-bold mb-2">Completed Career Milestones</h2>
+        <div id="earnedBadgesContainer">
+          <p class="small text-muted-custom mb-0">
+            No badges earned yet. Choose a pathway on <a href="tracks.html" class="text-gold">Tracks</a> and complete
+            all modules on <a href="roadmap.html" class="text-gold">Roadmap</a> to automatically generate your official
+            specialization badge.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificate Upload Form -->
+    <section class="card win-card mb-4">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+        <nav aria-label="breadcrumb" class="ms-2">
+          <ol class="breadcrumb terminal-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">~</a></li>
+            <li class="breadcrumb-item">profile</li>
+            <li class="breadcrumb-item active" aria-current="page">upload-certificate</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="card-body p-4">
+        <span class="eyebrow">Expand Your Portfolio</span>
+        <h2 class="h5 fw-bold mb-1">Add Outside Certification</h2>
+        <p class="small text-muted-custom mb-3">
+          Upload credentials earned from external training providers or online learning platforms.
+        </p>
+
+        <div id="certUploadSuccessAlert" class="alert navig8-alert d-none small mb-3" role="alert"></div>
+
+        <form id="certUploadForm" class="row g-3">
+          <div class="col-12 col-md-6">
+            <label for="certTitle" class="form-label font-monospace small text-uppercase text-muted-custom">Certificate
+              Title</label>
+            <input type="text" id="certTitle" class="form-control form-control-navig8"
+              placeholder="Enter certificate title" required>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="certIssuer" class="form-label font-monospace small text-uppercase text-muted-custom">Issuing
+              Organization</label>
+            <input type="text" id="certIssuer" class="form-control form-control-navig8"
+              placeholder="Enter issuing organization" required>
+          </div>
+
+          <div class="col-12">
+            <label for="certFile" class="form-label font-monospace small text-uppercase text-muted-custom">Upload
+              Certificate File (PNG, JPG, or PDF)</label>
+            <input type="file" id="certFile" class="form-control form-control-navig8" accept=".png,.jpg,.jpeg,.pdf">
+          </div>
+
+          <div class="col-12">
+            <label for="certLink" class="form-label font-monospace small text-uppercase text-muted-custom">Credential
+              Verification Link (Optional)</label>
+            <input type="url" id="certLink" class="form-control form-control-navig8"
+              placeholder="Enter verification URL (optional)">
+          </div>
+
+          <div class="col-12 d-flex flex-wrap gap-2 pt-1">
+            <button type="submit" class="btn btn-gold">
+              Add Certificate to Portfolio
+            </button>
+            <button type="reset" class="btn btn-outline-navig8">Clear Form</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Bootstrap List Group: Certificate Portfolio -->
+    <section class="card win-card mb-5">
+      <div class="card-header d-flex align-items-center gap-2">
+        <span class="cdot green"></span><span class="cdot gold"></span><span class="cdot red"></span>
+        <span class="font-monospace small text-muted-custom ms-2">~/profile/portfolio-list</span>
+      </div>
+      <div class="card-body p-4">
+        <div class="font-monospace small text-muted-custom mb-3">$ ls -l ~/portfolio</div>
+        <div id="portfolioListContainer">
+          <p class="small text-muted-custom mb-0">
+            Your portfolio is currently empty. Complete a roadmap step on <a href="roadmap.html"
+              class="text-gold">Roadmap</a> or upload an outside certificate above to populate this list.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bootstrap Accordion -->
+    <section aria-label="Profile Frequently Asked Questions">
+      <span class="eyebrow">Frequently Asked Questions</span>
+      <h2 class="h4 fw-bold mb-3">Questions about your profile &amp; portfolio</h2>
+
+      <div class="accordion navig8-accordion" id="profileFaqAccordion">
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="pFaq1">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#pFaqCollapse1" aria-expanded="false" aria-controls="pFaqCollapse1">
+              Who can see my profile and portfolio?
+            </button>
+          </h3>
+          <div id="pFaqCollapse1" class="accordion-collapse collapse" aria-labelledby="pFaq1"
+            data-bs-parent="#profileFaqAccordion">
+            <div class="accordion-body">
+              Anyone, if you set your profile to public. Otherwise it stays private to you.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="pFaq2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#pFaqCollapse2" aria-expanded="false" aria-controls="pFaqCollapse2">
+              How is my track completion badge created?
+            </button>
+          </h3>
+          <div id="pFaqCollapse2" class="accordion-collapse collapse" aria-labelledby="pFaq2"
+            data-bs-parent="#profileFaqAccordion">
+            <div class="accordion-body">
+              As soon as you finish 100% of the steps in your active track, Navig8 automatically generates a verifiable
+              vector badge containing your name, username, and specialization title.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="pFaq3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#pFaqCollapse3" aria-expanded="false" aria-controls="pFaqCollapse3">
+              Can I add certifications I earned outside Navig8?
+            </button>
+          </h3>
+          <div id="pFaqCollapse3" class="accordion-collapse collapse" aria-labelledby="pFaq3"
+            data-bs-parent="#profileFaqAccordion">
+            <div class="accordion-body">
+              Yes, simply upload your certificate file and verification link in the form above, and it will appear in
+              your portfolio list immediately.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="pFaq4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#pFaqCollapse4" aria-expanded="false" aria-controls="pFaqCollapse4">
+              What happens to my progress if I switch tracks?
+            </button>
+          </h3>
+          <div id="pFaqCollapse4" class="accordion-collapse collapse" aria-labelledby="pFaq4"
+            data-bs-parent="#profileFaqAccordion">
+            <div class="accordion-body">
+              It stays saved; switching tracks does not erase any steps or badges you have already completed.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bootstrap Modal: Certificate Preview -->
+  <div class="modal fade navig8-modal" id="certPreviewModal" tabindex="-1" aria-labelledby="certPreviewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow text-emerald mb-0">Verified Portfolio Credential</span>
+            <h2 class="modal-title h5 fw-bold" id="certPreviewModalLabel">Certificate Preview</h2>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center p-3 p-md-4" id="certPreviewModalBody">
+          <img src="DUMMY CERTIFICATE.png" alt="Certificate Preview"
+            class="img-fluid rounded-3 border border-secondary shadow-sm">
+        </div>
+        <div class="modal-footer justify-content-between">
+          <span class="font-monospace small text-muted-custom" id="certPreviewModalMeta">Uploaded Credential</span>
+          <button type="button" class="btn btn-gold" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Modal: Delete Certificate -->
+  <div class="modal fade navig8-modal" id="deleteCertModal" tabindex="-1" aria-labelledby="deleteCertModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-danger border-opacity-50">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow text-danger mb-0">Delete Credential</span>
+            <h2 class="modal-title h5 fw-bold" id="deleteCertModalLabel">Delete Certificate?</h2>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted-custom mb-3">
+            Are you sure you want to remove this certificate from your portfolio? This action cannot be undone.
+          </p>
+          <div class="card p-3 bg-dark border-secondary">
+            <span class="font-monospace small fw-bold text-gold" id="deleteCertItemTitle">certificate.cert</span>
+            <span class="small text-muted-custom" id="deleteCertItemIssuer">Issuer</span>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-navig8" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger btn-sm px-3" onclick="confirmDeleteCertificate()">Delete
+            Certificate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Modal: Upload Success Notification -->
+  <div class="modal fade navig8-modal" id="certUploadSuccessModal" tabindex="-1"
+    aria-labelledby="certUploadSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-success border-opacity-50">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow text-emerald mb-0">Success Notification</span>
+            <h2 class="modal-title h5 fw-bold text-emerald" id="certUploadSuccessModalLabel">Certificate Uploaded</h2>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-light mb-2" id="certUploadSuccessModalMsg">
+            Your certificate has been successfully added to your portfolio list below.
+          </p>
+          <p class="small text-muted-custom mb-0">
+            You can preview, verify, or delete it anytime from your portfolio list.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gold" data-bs-dismiss="modal" onclick="scrollToPortfolio()">View in
+            Portfolio &darr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top border-secondary border-opacity-25 py-4 text-center mt-auto">
+    <div class="container small text-muted-custom">
+      <p class="mb-1 fw-bold text-light">Navig8.tech</p>
+      <p class="mb-0">Rhona-Mae P. Prudenciado | Asia Pacific College</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Profile and portfolio script -->
+  <script>
+    const STATE_KEY = "navig8_webprog_v2";
+    const TRACK_TOTAL_STEPS = {
+      "Cybersecurity": 4, "Cloud Computing": 4, "Networking": 4, "Software & Web Development": 4,
+      "Data Science": 4, "Data Engineering": 4, "Machine Learning & AI": 4, "Database Administration": 4,
+      "DevOps": 4, "Mobile App Development": 4, "Game Development": 4, "UI/UX Design": 4,
+      "QA & Software Testing": 4, "IT Support & Systems Administration": 4,
+      "Python": 3, "Networking Basics": 3, "Cloud Fundamentals": 3, "Web Development": 3, "SQL": 3, "Linux": 3
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return Object.assign({
+          user: null,
+          registeredUsers: {},
+          selectedTrack: null,
+          startedTracks: {},
+          completedSteps: {},
+          completedDates: {},
+          externalCerts: []
+        }, parsed);
+      } catch (e) {
+        return {
+          user: null,
+          registeredUsers: {},
+          selectedTrack: null,
+          startedTracks: {},
+          completedSteps: {},
+          completedDates: {},
+          externalCerts: []
+        };
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
+
+    function slugify(str) {
+      return String(str || "").toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    }
+
+    function escapeHtml(str) {
+      return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function buildBadgeSvg(trackName, learnerName, username, dateStr, totalSteps) {
+      const displayUser = username ? " (@" + username + ")" : "";
+      return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="315" viewBox="0 0 600 315" class="img-fluid rounded-3 border border-secondary">' +
+        '<rect width="600" height="315" rx="16" fill="#161925"/>' +
+        '<rect x="10" y="10" width="580" height="295" rx="12" fill="#1c2436" stroke="#EFCD68" stroke-width="2"/>' +
+        '<text x="300" y="55" text-anchor="middle" font-family="monospace" font-size="13" letter-spacing="3" fill="#EFCD68">NAVIG8.TECH · VERIFIED TRACK BADGE</text>' +
+        '<circle cx="300" cy="95" r="16" fill="#03C988"/>' +
+        '<path d="M292 95 l5 5 l11 -11" stroke="#161925" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+        '<text x="300" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#F3F4F6">' + escapeHtml(trackName) + '</text>' +
+        '<text x="300" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#99A3B6">' + totalSteps + ' of ' + totalSteps + ' Sequenced Modules Completed (100%)</text>' +
+        '<line x1="150" y1="204" x2="450" y2="204" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>' +
+        '<text x="300" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#EFCD68">Awarded to: ' + escapeHtml(learnerName + displayUser) + '</text>' +
+        '<text x="300" y="266" text-anchor="middle" font-family="monospace" font-size="12" fill="#03C988">Issued on ' + escapeHtml(dateStr) + ' · Job-Ready Milestone</text>' +
+        '</svg>'
+      );
+    }
+
+    function previewCertificate(idx) {
+      const state = loadState();
+      const cert = state.externalCerts[idx];
+      if (!cert) return;
+
+      document.getElementById("certPreviewModalLabel").textContent = cert.title + " (" + cert.issuer + ")";
+      document.getElementById("certPreviewModalMeta").textContent = "Uploaded on " + cert.date + (cert.fileName ? " · " + cert.fileName : "");
+
+      const bodyEl = document.getElementById("certPreviewModalBody");
+      const srcUrl = cert.fileData || "DUMMY CERTIFICATE.png";
+      if (cert.fileType === "application/pdf" && cert.fileData) {
+        bodyEl.innerHTML = '<iframe src="' + srcUrl + '" style="width:100%; height:60vh; border:none; border-radius:8px; background:#fff;"></iframe>';
+      } else {
+        bodyEl.innerHTML = '<img src="' + srcUrl + '" alt="' + escapeHtml(cert.title) + '" class="img-fluid rounded-3 border border-secondary shadow-sm">';
+      }
+
+      const modal = new bootstrap.Modal(document.getElementById("certPreviewModal"));
+      modal.show();
+    }
+
+    function renderProfilePage() {
+      const state = loadState();
+      const guestBanner = document.getElementById("guestAlertBanner");
+      const avatarEl = document.getElementById("profileAvatarCircle");
+      const nameEl = document.getElementById("profileFullName");
+      const metaEl = document.getElementById("profileMetaLine");
+      const visBadge = document.getElementById("profileVisibilityBadge");
+      const editBtn = document.getElementById("editProfileToggleBtn");
+
+      if (state.user && state.user.name) {
+        if (guestBanner) guestBanner.classList.add("d-none");
+        avatarEl.textContent = state.user.name.trim()[0].toUpperCase();
+        nameEl.textContent = state.user.name;
+
+        // Check user background
+        let cleanBackground = (state.user.background || "").trim();
+        if (cleanBackground.toLowerCase().startsWith("college student")) {
+          cleanBackground = "";
+          state.user.background = "";
+          saveState(state);
+        }
+
+        const userHandle = state.user.username ? "@" + state.user.username : "";
+        const parts = [];
+        if (userHandle) parts.push(userHandle);
+        if (cleanBackground) parts.push(cleanBackground);
+        if (state.user.school && state.user.school.trim()) parts.push(state.user.school.trim());
+        metaEl.textContent = parts.join(" · ");
+
+        visBadge.textContent = state.user.isPublic !== false ? "Portfolio: Public" : "Portfolio: Private";
+        visBadge.className = "badge rounded-pill " + (state.user.isPublic !== false ? "badge-free" : "badge-paid");
+        editBtn.classList.remove("d-none");
+
+        document.getElementById("epName").value = state.user.name || "";
+        document.getElementById("epSchool").value = state.user.school || "";
+        document.getElementById("epBackground").value = cleanBackground;
+        document.getElementById("epPublic").checked = state.user.isPublic !== false;
+      } else {
+        if (guestBanner) guestBanner.classList.remove("d-none");
+        avatarEl.textContent = "?";
+        nameEl.textContent = "No Profile Created Yet";
+        metaEl.textContent = "Not signed in · Sign up or log in to create your learner profile";
+        visBadge.textContent = "Unregistered";
+        visBadge.className = "badge rounded-pill badge-outline";
+        editBtn.classList.add("d-none");
+      }
+
+      const activeTrack = state.selectedTrack;
+      document.getElementById("statActiveTrack").textContent = activeTrack ? "1" : "0";
+      document.getElementById("statActiveTrackLabel").textContent = activeTrack ? "Active Track (" + activeTrack + ")" : "Active Track";
+
+      let totalStepsDone = 0;
+      const completedTracks = [];
+      Object.keys(state.completedSteps || {}).forEach(function (tName) {
+        const doneArr = state.completedSteps[tName] || [];
+        totalStepsDone += doneArr.length;
+        const reqSteps = TRACK_TOTAL_STEPS[tName] || 4;
+        if (doneArr.length >= reqSteps) {
+          completedTracks.push(tName);
+        }
+      });
+
+      document.getElementById("statEarnedBadges").textContent = completedTracks.length;
+      document.getElementById("statStepsDone").textContent = totalStepsDone;
+
+      const badgesContainer = document.getElementById("earnedBadgesContainer");
+      const learnerName = (state.user && state.user.name) ? state.user.name : "Navig8 Learner";
+      const username = (state.user && state.user.username) ? state.user.username : "";
+
+      if (completedTracks.length === 0) {
+        badgesContainer.innerHTML =
+          '<p class="small text-muted-custom mb-0">' +
+          'No badges earned yet. Choose a pathway on <a href="tracks.html" class="text-gold">Tracks</a> and complete all modules on <a href="roadmap.html" class="text-gold">Roadmap</a> to automatically generate your official specialization badge.' +
+          '</p>';
+      } else {
+        badgesContainer.innerHTML = completedTracks.map(function (tName) {
+          const total = TRACK_TOTAL_STEPS[tName] || 4;
+          const dateStr = (state.completedDates && state.completedDates[tName]) || new Date().toISOString().slice(0, 10);
+          const svg = buildBadgeSvg(tName, learnerName, username, dateStr, total);
+          return (
+            '<div class="row align-items-center g-4 mb-3 pb-3 border-bottom border-secondary border-opacity-25">' +
+            '<div class="col-12 col-lg-5 text-center">' + svg + '</div>' +
+            '<div class="col-12 col-lg-7">' +
+            '<span class="eyebrow text-emerald">100% Track Completed</span>' +
+            '<h3 class="h5 fw-bold text-gold mb-1">' + escapeHtml(tName) + ' Specialist Badge</h3>' +
+            '<p class="small text-muted-custom mb-0">Automatically generated for <strong class="text-light">' + escapeHtml(learnerName) + '</strong> on ' + escapeHtml(dateStr) + '.</p>' +
+            '</div>' +
+            '</div>'
+          );
+        }).join("");
+      }
+
+      const portfolioContainer = document.getElementById("portfolioListContainer");
+      let itemsHtml = "";
+
+      Object.keys(state.completedSteps || {}).forEach(function (tName) {
+        const doneArr = state.completedSteps[tName] || [];
+        doneArr.forEach(function (stepIdx) {
+          itemsHtml +=
+            '<div class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">' +
+            '<div>' +
+            '<span class="font-monospace fw-bold text-emerald">' + escapeHtml(slugify(tName)) + '-step-' + (stepIdx + 1) + '.step</span>' +
+            '<span class="small text-muted-custom ms-2">&middot; ' + escapeHtml(tName) + ' Roadmap</span>' +
+            '</div>' +
+            '<span class="badge rounded-pill badge-free">Completed Step ' + (stepIdx + 1) + '</span>' +
+            '</div>';
+        });
+      });
+
+      (state.externalCerts || []).forEach(function (cert, idx) {
+        const linkBtn = cert.link
+          ? '<a href="' + escapeHtml(cert.link) + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-navig8 btn-sm">Verify Link ↗</a>'
+          : '';
+        itemsHtml +=
+          '<div class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">' +
+          '<div>' +
+          '<span class="font-monospace fw-bold text-gold">' + escapeHtml(slugify(cert.title)) + '.cert</span>' +
+          '<span class="small text-muted-custom ms-2">&middot; ' + escapeHtml(cert.issuer) + ' (Uploaded ' + escapeHtml(cert.date) + ')</span>' +
+          '</div>' +
+          '<div class="d-flex flex-wrap gap-2">' +
+          '<button type="button" class="btn btn-outline-navig8 btn-sm" onclick="previewCertificate(' + idx + ')">Preview Certificate</button>' +
+          linkBtn +
+          '<button type="button" class="btn btn-outline-danger btn-sm" onclick="promptDeleteCertificate(' + idx + ')">Delete</button>' +
+          '</div>' +
+          '</div>';
+      });
+
+      if (itemsHtml) {
+        portfolioContainer.innerHTML = '<div class="list-group navig8-list-group">' + itemsHtml + '</div>';
+      } else {
+        portfolioContainer.innerHTML =
+          '<p class="small text-muted-custom mb-0">' +
+          'Your portfolio is currently empty. Complete a roadmap step on <a href="roadmap.html" class="text-gold">Roadmap</a> or upload an outside certificate above to populate this list.' +
+          '</p>';
+      }
+    }
+
+    let certIndexToDelete = null;
+    let deleteModalInstance = null;
+    let uploadSuccessModalInstance = null;
+
+    function promptDeleteCertificate(idx) {
+      const state = loadState();
+      const cert = (state.externalCerts || [])[idx];
+      if (!cert) return;
+      certIndexToDelete = idx;
+      document.getElementById("deleteCertItemTitle").textContent = slugify(cert.title) + ".cert";
+      document.getElementById("deleteCertItemIssuer").textContent = "Issued by: " + cert.issuer + " (Uploaded " + cert.date + ")";
+      if (!deleteModalInstance) {
+        deleteModalInstance = new bootstrap.Modal(document.getElementById("deleteCertModal"));
+      }
+      deleteModalInstance.show();
+    }
+
+    function confirmDeleteCertificate() {
+      if (certIndexToDelete === null) return;
+      const state = loadState();
+      if (state.externalCerts && state.externalCerts[certIndexToDelete]) {
+        state.externalCerts.splice(certIndexToDelete, 1);
+        saveState(state);
+      }
+      certIndexToDelete = null;
+      if (deleteModalInstance) deleteModalInstance.hide();
+      renderProfilePage();
+    }
+
+    function scrollToPortfolio() {
+      const el = document.getElementById("portfolioListContainer");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const state = loadState();
+      const chip = document.getElementById("navUserChip");
+      const authBtn = document.getElementById("navAuthBtn");
+
+      if (state.user && state.user.username) {
+        chip.textContent = "@" + state.user.username;
+        chip.classList.remove("d-none");
+        authBtn.textContent = "Log Out";
+        authBtn.href = "#";
+        authBtn.onclick = function (e) {
+          e.preventDefault();
+          const current = loadState();
+          current.user = null;
+          saveState(current);
+          window.location.reload();
+        };
+      }
+
+      document.getElementById("editProfileForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const current = loadState();
+        if (!current.user) return;
+        current.user.name = document.getElementById("epName").value.trim() || current.user.name;
+        current.user.school = document.getElementById("epSchool").value.trim();
+        current.user.background = document.getElementById("epBackground").value.trim();
+        current.user.isPublic = document.getElementById("epPublic").checked;
+        if (current.user.username && current.registeredUsers[current.user.username.toLowerCase()]) {
+          current.registeredUsers[current.user.username.toLowerCase()] = current.user;
+        }
+        saveState(current);
+        const collapseEl = document.getElementById("editProfileCollapse");
+        const bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
+        if (bsCollapse) bsCollapse.hide();
+        renderProfilePage();
+      });
+
+      document.getElementById("certUploadForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const title = document.getElementById("certTitle").value.trim();
+        const issuer = document.getElementById("certIssuer").value.trim();
+        const link = document.getElementById("certLink").value.trim();
+        const file = document.getElementById("certFile").files[0];
+        if (!title || !issuer) return;
+
+        const current = loadState();
+        current.externalCerts = current.externalCerts || [];
+
+        // Prevent duplicate certificates
+        const isDuplicate = current.externalCerts.some(function (c) {
+          return c.title.trim().toLowerCase() === title.toLowerCase() && c.issuer.trim().toLowerCase() === issuer.toLowerCase();
+        });
+        if (isDuplicate) {
+          const alertEl = document.getElementById("certUploadSuccessAlert");
+          alertEl.className = "alert alert-warning small mb-3";
+          alertEl.innerHTML = 'A certificate titled "<strong>' + escapeHtml(title) + '</strong>" from "<strong>' + escapeHtml(issuer) + '</strong>" already exists in your portfolio.';
+          alertEl.classList.remove("d-none");
+          return;
+        }
+
+        const saveCert = function (fileData, fileName, fileType) {
+          const freshState = loadState();
+          freshState.externalCerts = freshState.externalCerts || [];
+          freshState.externalCerts.push({
+            title: title,
+            issuer: issuer,
+            link: link,
+            fileData: fileData || null,
+            fileName: fileName || null,
+            fileType: fileType || null,
+            date: new Date().toISOString().slice(0, 10)
+          });
+          saveState(freshState);
+          document.getElementById("certUploadForm").reset();
+
+          const alertEl = document.getElementById("certUploadSuccessAlert");
+          alertEl.className = "alert navig8-alert small mb-3";
+          alertEl.innerHTML = 'Certificate "<strong>' + escapeHtml(title) + '</strong>" added to your portfolio below.';
+          alertEl.classList.remove("d-none");
+
+          renderProfilePage();
+
+          document.getElementById("certUploadSuccessModalMsg").innerHTML = 'Certificate "<strong>' + escapeHtml(title) + '</strong>" from <strong>' + escapeHtml(issuer) + '</strong> has been added to your portfolio.';
+          if (!uploadSuccessModalInstance) {
+            uploadSuccessModalInstance = new bootstrap.Modal(document.getElementById("certUploadSuccessModal"));
+          }
+          uploadSuccessModalInstance.show();
+        };
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function () {
+            saveCert(reader.result, file.name, file.type);
+          };
+          reader.readAsDataURL(file);
+        } else {
+          saveCert(null, null, null);
+        }
+      });
+
+      renderProfilePage();
+    });
+  </script>
+</body>
+
+</html>

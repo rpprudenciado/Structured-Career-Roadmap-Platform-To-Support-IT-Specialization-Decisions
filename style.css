@@ -1,0 +1,636 @@
+/*
+PROGRAM NAME: style.css
+DESCRIPTION: Custom dark theme styles, floating cards, and scrollbar overrides for Bootstrap 5
+AUTHOR: Prudenciado, Rhona-Mae
+DATE COMPILED: November 11, 2026
+*/
+
+/* Dark theme color variables */
+:root {
+  --shadow-grey: #161925;
+  --alabaster: #EAEAEA;
+  --twilight: #233950;
+  --surface-soft: #1c2436;
+  --surface-card: #1f2b3e;
+
+  --gold: #EFCD68;
+  --emerald: #03C988;
+  --ochre: #DE2100;
+
+  --text-main: #F3F4F6;
+  --text-muted: #99A3B6;
+  --border-light: rgba(255, 255, 255, 0.09);
+  --border-medium: rgba(255, 255, 255, 0.18);
+
+  --free-bg: #08312B;
+  --free-text: #03C988;
+  --paid-bg: #3A1409;
+  --paid-text: #F0806B;
+  --gold-bg: #3A331B;
+  --gold-text: #EFCD68;
+}
+
+/* Scrollbar for web and mobile */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--twilight) var(--shadow-grey);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--shadow-grey);
+  border-left: 1px solid var(--border-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--twilight);
+  border-radius: 999px;
+  border: 2px solid var(--shadow-grey);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+.scroll-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Base typography and body layout */
+body {
+  background-color: var(--shadow-grey);
+  color: var(--text-main);
+  font-family: 'Karla', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand-font {
+  font-family: 'Sora', sans-serif;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.font-monospace {
+  font-family: 'IBM Plex Mono', monospace !important;
+  letter-spacing: 0.03em;
+}
+
+.text-gold {
+  color: var(--gold) !important;
+}
+
+.text-emerald {
+  color: var(--emerald) !important;
+}
+
+.text-muted-custom {
+  color: var(--text-muted) !important;
+}
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+/* Bootstrap Navbar and mobile hamburger */
+.navig8-navbar {
+  background-color: rgba(22, 25, 37, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.navbar-brand {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text-main) !important;
+}
+
+.navbar-brand .accent-8 {
+  color: var(--gold);
+}
+
+.navbar-brand .domain-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.navbar-toggler {
+  border: 1px solid var(--border-medium) !important;
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navbar-toggler:hover,
+.navbar-toggler:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 0.15rem rgba(239, 205, 104, 0.25) !important;
+}
+
+/* Bootstrap Nav Pills */
+.navig8-pills {
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  padding: 0.25rem;
+}
+
+.navig8-pills .nav-link {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.navig8-pills .nav-link:hover {
+  color: var(--text-main);
+}
+
+.navig8-pills .nav-link.active {
+  background-color: var(--twilight) !important;
+  color: var(--text-main) !important;
+  box-shadow: 0 0 0 1px var(--border-medium);
+}
+
+/* Bootstrap Cards and Breadcrumbs */
+.win-card {
+  background-color: var(--surface-soft) !important;
+  border: 1px solid var(--border-medium) !important;
+  border-radius: 10px !important;
+  color: var(--text-main);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+}
+
+.win-card .card-header {
+  background-color: rgba(22, 25, 37, 0.55);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0.6rem 1rem;
+}
+
+.cdot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cdot.green {
+  background-color: var(--emerald);
+}
+
+.cdot.gold {
+  background-color: var(--gold);
+}
+
+.cdot.red {
+  background-color: var(--ochre);
+}
+
+.terminal-breadcrumb {
+  margin-bottom: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.terminal-breadcrumb .breadcrumb-item,
+.terminal-breadcrumb .breadcrumb-item a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.terminal-breadcrumb .breadcrumb-item.active {
+  color: var(--gold);
+}
+
+.terminal-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
+  color: var(--text-muted);
+  content: "/";
+}
+
+/* Floating hero card with blur and back shadow */
+.floating-win-card {
+  background-color: rgba(28, 36, 54, 0.56) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-top: 1px solid rgba(239, 205, 104, 0.42) !important;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.72), 0 10px 24px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-4px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.floating-win-card:hover {
+  background-color: rgba(28, 36, 54, 0.68) !important;
+  border-color: rgba(239, 205, 104, 0.55) !important;
+  transform: translateY(-8px);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.82), 0 0 26px rgba(239, 205, 104, 0.14) !important;
+}
+
+/* Glowing status pills */
+.status-pill-ready {
+  background-color: rgba(8, 49, 43, 0.88) !important;
+  color: #03C988 !important;
+  border: 1px solid rgba(3, 201, 136, 0.7) !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 18px rgba(3, 201, 136, 0.55), 0 0 6px rgba(3, 201, 136, 0.35), inset 0 0 8px rgba(3, 201, 136, 0.2);
+  text-shadow: 0 0 8px rgba(3, 201, 136, 0.55);
+}
+
+.status-pill-progress {
+  background-color: rgba(68, 32, 6, 0.88) !important;
+  color: #FF9F43 !important;
+  border: 1px solid rgba(255, 159, 67, 0.75) !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 18px rgba(255, 159, 67, 0.55), 0 0 6px rgba(255, 159, 67, 0.35), inset 0 0 8px rgba(255, 159, 67, 0.2);
+  text-shadow: 0 0 8px rgba(255, 159, 67, 0.55);
+}
+
+.status-pill-completed {
+  background-color: rgba(12, 38, 78, 0.88) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.75) !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.6), 0 0 6px rgba(56, 189, 248, 0.35), inset 0 0 8px rgba(56, 189, 248, 0.2);
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.55);
+}
+
+/* Floating value cards with deep shadow */
+.floating-card {
+  background-color: rgba(35, 57, 80, 0.45) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-top: 1px solid rgba(239, 205, 104, 0.35) !important;
+  border-radius: 12px !important;
+  color: var(--text-main);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.65), 0 8px 18px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-4px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.floating-card:hover {
+  background-color: rgba(35, 57, 80, 0.62) !important;
+  border-color: var(--gold) !important;
+  transform: translateY(-9px);
+  box-shadow: 0 28px 54px rgba(0, 0, 0, 0.78), 0 0 22px rgba(239, 205, 104, 0.14) !important;
+}
+
+/* Track and article cards */
+.track-card {
+  background-color: var(--twilight) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 10px !important;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.track-card:hover {
+  border-color: var(--gold) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.track-card.selected-track {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 1.5px var(--gold) inset, 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+.check-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: transparent;
+  transition: all 0.2s ease;
+}
+
+.track-card.selected-track .check-indicator {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: #20180A;
+}
+
+.bracket-tl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  border-top-left-radius: 6px;
+  pointer-events: none;
+}
+
+.bracket-br {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-bottom: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+  border-bottom-right-radius: 6px;
+  pointer-events: none;
+}
+
+/* Bootstrap Accordion */
+.navig8-accordion .accordion-item {
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+}
+
+.navig8-accordion .accordion-button {
+  background-color: var(--surface-soft);
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.92rem;
+  box-shadow: none !important;
+}
+
+.navig8-accordion .accordion-button:not(.collapsed) {
+  background-color: var(--twilight);
+  color: var(--gold);
+}
+
+.navig8-accordion .accordion-button::after {
+  filter: invert(0.85);
+}
+
+.navig8-accordion .accordion-body {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  background-color: var(--surface-soft);
+}
+
+/* Bootstrap Progress Bar and Badges */
+.navig8-progress {
+  background-color: var(--surface-soft) !important;
+  border: 1px solid var(--border-medium);
+  height: 12px !important;
+  border-radius: 999px !important;
+  overflow: hidden;
+}
+
+.navig8-progress .progress-bar {
+  background-color: var(--emerald) !important;
+  transition: width 0.35s ease;
+}
+
+.badge-free {
+  background-color: var(--free-bg) !important;
+  color: var(--free-text) !important;
+  border: 1px solid rgba(3, 201, 136, 0.25);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+}
+
+.badge-paid {
+  background-color: var(--paid-bg) !important;
+  color: var(--paid-text) !important;
+  border: 1px solid rgba(240, 128, 107, 0.25);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+}
+
+.badge-gold {
+  background-color: var(--gold-bg) !important;
+  color: var(--gold-text) !important;
+  border: 1px solid rgba(239, 205, 104, 0.3);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+}
+
+.badge-outline {
+  background-color: transparent !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-medium);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+}
+
+/* Bootstrap Alerts, Modals, List Group, and Buttons */
+.navig8-alert {
+  background-color: var(--surface-soft) !important;
+  border: 1px solid var(--gold) !important;
+  color: var(--text-main) !important;
+  border-radius: 10px;
+}
+
+.navig8-modal .modal-content {
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border-medium);
+  color: var(--text-main);
+  border-radius: 10px;
+}
+
+.navig8-modal .modal-header,
+.navig8-modal .modal-footer {
+  border-color: var(--border-light);
+}
+
+.navig8-list-group .list-group-item {
+  background-color: var(--twilight);
+  border-color: var(--border-light);
+  color: var(--text-main);
+  padding: 0.85rem 1.1rem;
+}
+
+.btn-gold {
+  background-color: var(--gold) !important;
+  color: #20180A !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none !important;
+  padding: 0.65rem 1.35rem;
+  border-radius: 6px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn-gold:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-gold:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-outline-navig8 {
+  background-color: var(--surface-soft) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-medium) !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-outline-navig8:hover {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+
+.btn-outline-danger {
+  background-color: rgba(222, 33, 0, 0.08) !important;
+  color: #ff6b6b !important;
+  border: 1px solid rgba(222, 33, 0, 0.45) !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--ochre) !important;
+  color: #ffffff !important;
+  border-color: var(--ochre) !important;
+}
+
+/* Form controls and quiz inputs */
+.form-control-navig8,
+.form-select-navig8 {
+  background-color: var(--twilight) !important;
+  border: 1px solid var(--border-medium) !important;
+  color: var(--text-main) !important;
+  font-size: 0.88rem;
+}
+
+.form-control-navig8::placeholder {
+  color: var(--text-muted);
+}
+
+.form-control-navig8:focus,
+.form-select-navig8:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 0.15rem rgba(239, 205, 104, 0.2) !important;
+}
+
+.quiz-option-card {
+  background-color: var(--twilight);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.quiz-option-card:hover {
+  border-color: var(--gold);
+}
+
+.quiz-option-card .form-check-input:checked {
+  background-color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* Roadmap step nodes and user avatar */
+.node-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.node-done {
+  background-color: var(--emerald);
+  box-shadow: 0 0 8px rgba(3, 201, 136, 0.45);
+}
+
+.node-current {
+  border: 3px solid var(--gold);
+  background-color: var(--shadow-grey);
+  box-shadow: 0 0 8px rgba(239, 205, 104, 0.4);
+}
+
+.node-locked {
+  border: 2px dashed var(--border-medium);
+  background-color: transparent;
+}
+
+.trail-line {
+  width: 2px;
+  flex-grow: 1;
+  background-color: var(--border-medium);
+  margin: 4px 0;
+}
+
+.avatar-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: var(--twilight);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 991.98px) {
+  .navig8-pills {
+    border-radius: 10px;
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .navig8-pills .nav-link {
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+  }
+}

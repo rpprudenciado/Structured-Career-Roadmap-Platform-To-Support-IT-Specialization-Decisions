@@ -10,7 +10,7 @@ DATE COMPILED: November 11, 2026
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navig8.tech | Sign Up &amp; Log In</title>
+  <title>Navig8 | Sign Up</title>
 
   <!-- Google Fonts: Sora, Karla, IBM Plex Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -277,6 +277,28 @@ DATE COMPILED: November 11, 2026
 
       const params = new URLSearchParams(window.location.search);
       const redirectParam = params.get("redirect");
+
+      const signupTab = document.getElementById("signup-tab");
+      const loginTab = document.getElementById("login-tab");
+
+      if (signupTab) {
+        signupTab.addEventListener("shown.bs.tab", function () {
+          document.title = "Navig8 | Sign Up";
+        });
+      }
+
+      if (loginTab) {
+        loginTab.addEventListener("shown.bs.tab", function () {
+          document.title = "Navig8 | Log In";
+        });
+      }
+
+      if (params.get("mode") === "login" || params.get("tab") === "login") {
+        if (loginTab) {
+          bootstrap.Tab.getOrCreateInstance(loginTab).show();
+          document.title = "Navig8 | Log In";
+        }
+      }
 
       // Sign up submission and username validation
       document.getElementById("signupForm").addEventListener("submit", function (e) {
